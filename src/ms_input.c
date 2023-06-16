@@ -15,7 +15,7 @@
 char	**ms_prepare_input(char *line)
 {
 	char	*cmd = ms_prepare_cmd(line);
-	// char	*params = ms_prepare_params(line);
+	//char	*params = ms_prepare_params(line);
 	printf("cmd = %s\n", cmd);
 	return (0);
 }
@@ -24,10 +24,18 @@ char	*ms_prepare_cmd(char *s)
 {
 	char	*cmd;
 
-	if (ft_strchr(s, ' '))
+	if (*s)
 	{
-		cmd = malloc(sizeof(char) * (ft_strchr(s, ' ') - s + 2));
-		ft_strlcpy(cmd, s, ft_strchr(s,' ') - s + 1);
+		if(ft_strchr(s, ' '))
+		{
+			cmd = malloc(sizeof(char) * (ft_strchr(s, ' ') - s + 2));
+			ft_strlcpy(cmd, s, ft_strchr(s,' ') - s + 1);
+		}
+		else
+		{
+			cmd = malloc(sizeof(char) * (ft_strchr(s, '\0') - s + 2));
+			ft_strlcpy(cmd, s, ft_strchr(s,'\0') - s + 1);
+		}
 	}
 	else
 		cmd = NULL;

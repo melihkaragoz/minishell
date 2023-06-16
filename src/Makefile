@@ -14,7 +14,7 @@ RM				=	rm -rf
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS)
+$(NAME):		$(OBJS) $(LIBFT)
 				$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 $(LIBFT):

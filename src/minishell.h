@@ -19,12 +19,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 
-struct g_vars
-{
-	char	*prompt;
-	struct	s_line **lines;
-	int		lc;
-};
+struct g_vars{};
 
 typedef struct s_line
 {
