@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/06/08 16:29:26 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:57:28 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ typedef struct s_line
 {
 	char	*cmd;
 	char	**params;
+	char	*line;
 } t_line;
 
 
 int		ms_strlen(char *s);
-char	**ms_prepare_input(char *line);
-char	*ms_prepare_cmd(char *s);
-char	*ms_prepare_params(char *s);
+void	ms_prepare_input(t_line *tl);
+char	*ms_prepare_cmd(t_line *tl);
+char	**ms_prepare_params(t_line *tl);
+int		ms_exec(t_line *tl);
 #endif

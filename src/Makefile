@@ -1,4 +1,4 @@
-SRCS			= minishell.c utils.c ms_input.c
+SRCS			= minishell.c minish_utils.c minish_input.c minish_exec.c
 
 OBJS			=	$(SRCS:.c=.o)
 

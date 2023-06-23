@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_input.c                                         :+:      :+:    :+:   */
+/*   minish_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/06/08 16:45:44 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:16:49 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ms_prepare_input(char *line)
+void	ms_prepare_input(t_line *tl)
 {
-	char	*cmd = ms_prepare_cmd(line);
-	//char	*params = ms_prepare_params(line);
-	printf("cmd = %s\n", cmd);
-	return (0);
+	tl->cmd		= ms_prepare_cmd(tl);
+	//tl->params	= ms_prepare_params(tl);
+	printf("cmd = %s\n", tl->cmd);
 }
 
-char	*ms_prepare_cmd(char *s)
+char	*ms_prepare_cmd(t_line *tl)
 {
 	char	*cmd;
 
+	char *s = tl->line;
 	if (*s)
 	{
 		if(ft_strchr(s, ' '))
@@ -42,4 +42,4 @@ char	*ms_prepare_cmd(char *s)
 	return (cmd);
 }
 
-char	*ms_prepare_params(char *s);
+char	**ms_prepare_params(t_line *tl);
