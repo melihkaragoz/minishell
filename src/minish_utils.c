@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 23:51:16 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/08 01:56:30 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*ms_test_path(char *cmd)
 	char	*test_path;
 
 	i = -1;
+	if (!access(cmd, 0))
+		return (cmd);
 	while(g_vars.paths[++i])
 	{
 		new = ft_strjoin(g_vars.paths[i], "/");
