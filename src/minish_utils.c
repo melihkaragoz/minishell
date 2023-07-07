@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 22:42:23 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:46:29 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,19 @@ int	ms_set_path(char **env)
 	return(0);
 }
 
-int	ms_test_path()
+char	*ms_test_path(char *cmd)
+{
+	int		i;
+	char	*new;
+	char	*test_path;
+
+	i = -1;
+	while(g_vars.paths[++i])
+	{
+		new = ft_strjoin(g_vars.paths[i], "/");
+		test_path = ft_strjoin(new, cmd);
+		if(!access(test_path, 0))
+			return (test_path);
+	}
+	return (NULL);
+}

@@ -6,21 +6,21 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/06/23 15:19:08 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:46:43 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_exec(t_line *tl)
+int	ms_exec(void)
 {
-	// path value'su alınıp ':'e göre splitlenecek ve döngü içinde indexler tek tek access'ten geçerli bir return value alınana kadar çalıştırılacak.
 	int ev = -1;
-	int rv = access(tl->cmd, F_OK);
+	int	pid;
 	char *prm[] = {"" ,NULL};
-	printf("%d\n",rv);
-	if(!rv)
-		ev = execv(tl->cmd, prm);
+
+	pid = fork();
+	if (pid == 0)
+		execve(g_vars.v_path, prm, g_vars.paths);
 	return (ev);
 }
 

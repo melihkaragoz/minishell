@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 22:39:36 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:38:43 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 struct s_vars
 {
+	char	*line;
+	char	*cmd;
 	char	**paths;
+	char	*v_path;
 } g_vars;
 
 typedef struct s_line
@@ -33,10 +36,10 @@ typedef struct s_line
 
 
 int		ms_strlen(char *s);
-void	ms_prepare_input(t_line *tl);
-char	*ms_prepare_cmd(t_line *tl);
-char	**ms_prepare_params(t_line *tl);
-int		ms_exec(t_line *tl);
+char	*ms_get_cmd(void);
+int		ms_exec(void);
 int		ms_print_env(char **env);
 int		ms_set_path(char **env);
+char	*ms_test_path(char *cmd);
+
 #endif
