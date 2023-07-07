@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 23:38:43 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:51:21 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int		ms_exec(void);
 int		ms_print_env(char **env);
 int		ms_set_path(char **env);
 char	*ms_test_path(char *cmd);
-
+void	ms_free_struct(void);
 #endif

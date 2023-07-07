@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 23:46:29 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:51:16 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,17 @@ char	*ms_test_path(char *cmd)
 			return (test_path);
 	}
 	return (NULL);
+}
+
+void	ms_free_struct(void)
+{
+	int	i;
+
+	i = -1;
+
+	free(g_vars.cmd);
+	free(g_vars.line);
+	free(g_vars.v_path);
+	while (g_vars.paths[++i])
+		free(g_vars.paths[i]);
 }
