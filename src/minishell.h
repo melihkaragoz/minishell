@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/08 01:36:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/08/13 23:16:04 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct s_vars
 {
 	char	*line;
 	char	*cmd;
+	char	*left;
 	char	**paths;
 	char	*v_path;
 } g_vars;
