@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/08 01:56:30 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/08/31 00:33:54 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,12 @@ char	*ms_test_path(char *cmd)
 	return (NULL);
 }
 
-void	ms_free_struct(void)
+void	ms_free_tokens(void)
 {
-	int	i;
-
-	i = -1;
-
-	free(g_vars.cmd);
+	free(g_vars.tokens);
+	free(g_vars.f_token);
 	free(g_vars.line);
-	free(g_vars.v_path);
-	while (g_vars.paths[++i])
-		free(g_vars.paths[i]);
+	g_vars.i = 0;
+	while (g_vars.paths[++(g_vars.i)])
+		free(g_vars.paths[g_vars.i]);
 }
