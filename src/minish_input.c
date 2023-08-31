@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/08/31 00:40:50 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/01 01:39:39 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int ms_check_schars(int j)
 	return (0);
 }
 
-void ms_init_token(void)
+void ms_init_token(void) // DONE
 {
 	// if (g_vars.tokens)
 	// 	ms_free_tokens();
@@ -33,7 +33,7 @@ void ms_init_token(void)
 	g_vars.f_token = g_vars.tokens;
 }
 
-t_token *ms_new_token(void)
+t_token *ms_new_token(void) // DONE
 {
 	t_token *n_token;
 
@@ -48,11 +48,11 @@ void ms_set_tokens(void)
 	int f;
 	char *new_content;
 
-	ms_init_token();
+	ms_init_token();	// DONE
 	g_vars.i = 0;
 	while (g_vars.line && g_vars.line[g_vars.i])
 	{
-		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32) // bosluklari gec
+		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32) // bosluklari gec 	DONE
 			(g_vars.i)++;
 		f = g_vars.i; 												 // bosluk olmayan ilk karakterin indexi
 		while (!ms_check_schars(g_vars.i))							 // ozel karakter kontrolu yap
@@ -69,19 +69,17 @@ void ms_set_tokens(void)
 			printf("\nimlec: %i-[%c]\n",g_vars.line[g_vars.i],g_vars.line[g_vars.i]);
 			ms_print_tokens();
 		}
+		g_vars.i++;
 	}
 }
 
 void ms_print_tokens(void)
 {
-	int i;
-
-	i = 0;
 	t_token *t1;
 	t1 = g_vars.f_token;
 	while (t1)
 	{
-		printf("address:\t%p | content:\t%s\t| next:\t%p\n", t1, t1->content, t1->next);
+		printf("address: %p\t|\tcontent: %s\t|\tnext: %p\n", t1, t1->content, t1->next);
 		t1 = t1->next;
 	}
 }
