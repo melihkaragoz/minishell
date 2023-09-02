@@ -15,7 +15,7 @@ RM				=	rm -rf
 all:			$(NAME)
 
 $(NAME):		$(OBJS) $(LIBFT)
-				$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+				$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline -g
 
 $(LIBFT):
 			make bonus -C ../libft

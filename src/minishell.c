@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/08/31 00:26:16 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 02:18:36 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ int main(int ac, char **av, char **env)
 		g_vars.line = readline("minishell$ ");
 		add_history(g_vars.line);
 		ms_set_tokens();
-		// ms_print_tokens();
-		// ms_exec();
-		// printf("command not found: %s\n", g_vars.cmd);
 	}
 
 	return (0);
