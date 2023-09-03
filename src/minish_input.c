@@ -6,23 +6,22 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 05:49:19 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 06:32:01 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_check_seperators(char *s)
+int ms_check_seperators(char *s)
 {
 	char **seperators;
-	int	j;
+	int j;
 
-	seperators = malloc(sizeof(char *) * 5);
+	seperators = malloc(sizeof(char *) * 4);
 	seperators[0] = "|";
 	seperators[1] = "<";
 	seperators[2] = ">";
 	seperators[3] = 0;
-	seperators[4] = 0;
 	j = -1;
 	while (seperators[++j])
 		if (!ft_strncmp(s, seperators[j], 1))
@@ -30,48 +29,41 @@ int	ms_check_seperators(char *s)
 	return (0);
 }
 
+void ms_set_arg_false(int i)
+{
+	if(i == 1 || i == 2)
+		g_vars.i++;
+	if (i == 1 || i == 0)
+		g_vars.p_tools->arg_mode = false;
+	else if (i == 2)
+		g_vars.p_tools->quote_mode = 0;
+}
+
 int ms_check_schars(void)
 {
-	if (g_vars.p_tools->arg_mode == false)
-		return (1);
+	if (ms_check_seperators(&g_vars.line[g_vars.i]))
+		return (ms_set_arg_false(1), 1);
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
 	{
 		if (g_vars.line[g_vars.i] != g_vars.p_tools->quote_mode)
 			g_vars.i++;
 		else if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
 		{
-			if (g_vars.line[g_vars.i + 1] && ms_check_seperators(&g_vars.line[g_vars.i + 1]))
+			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' '))
 				g_vars.p_tools->arg_mode = false;
-			g_vars.p_tools->quote_mode = 0;
-			printf("[!] quote mode deactive.\n");
-			g_vars.i++;
-			return (1);
+			return (ms_set_arg_false(2),1);
 		}
-		printf("qm: %d, ch: %c\n", g_vars.p_tools->quote_mode, g_vars.line[g_vars.i]);
 	}
 	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
 	{
-		if (g_vars.line[g_vars.i] && ms_check_seperators(&g_vars.line[g_vars.i]))
-		{
-			g_vars.i++;
-			g_vars.p_tools->arg_mode = false;
-			return (1);
-		}
-		else if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1)) // || ms_cmp(g_vars.line[g_vars.i], '<<') || ms_cmp(g_vars.line[g_vars.i], '>>') || ms_cmp(g_vars.line[g_vars.i], '|') || ms_cmp(g_vars.line[g_vars.i], '<') || ms_cmp(g_vars.line[g_vars.i], '>') || ms_cmp(g_vars.line[g_vars.i], '\'') || ms_cmp(g_vars.line[g_vars.i], '\"') eklenecek.
-		{
-			g_vars.p_tools->arg_mode = false;
-			return (1);
-		}
+		if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1))
+			return (ms_set_arg_false(0),1);
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1))
-		{
 			g_vars.p_tools->quote_mode = '\'';
-			printf("[!] quote mode active.\n");
-		}
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
-		{
 			g_vars.p_tools->quote_mode = '\"';
-			printf("[!] quote mode active.\n");
-		}
+		else if (g_vars.line[g_vars.i + 1] && ms_check_seperators(&g_vars.line[g_vars.i + 1]))
+			return (ms_set_arg_false(1),1);
 	}
 	return (0);
 }
@@ -119,7 +111,7 @@ void ms_set_tokens(void)
 			printf("ch: %c\n", g_vars.line[g_vars.i]);
 			(g_vars.i)++;
 		}
-		printf("----%c----\n",g_vars.line[g_vars.i]);
+		printf("----%c----\n", g_vars.line[g_vars.i]);
 		new_content = ft_substr(g_vars.line, f, g_vars.i - f);
 		g_vars.p_tools->arg_mode = true;
 		if (*new_content)
