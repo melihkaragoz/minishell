@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 03:55:43 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 05:21:39 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
+# include <stdbool.h>
 
 
 typedef struct s_token
@@ -37,6 +38,7 @@ typedef struct s_token
 typedef struct s_tools
 {
 	int	quote_mode;
+	bool arg_mode;
 } t_tools;
 
 struct s_vars
