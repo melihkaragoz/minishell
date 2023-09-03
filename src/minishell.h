@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 09:48:24 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/03 11:06:24 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_tools
 {
 	int	quote_mode;
 	bool arg_mode;
+	bool double_redirection;
 } t_tools;
 
 struct s_vars

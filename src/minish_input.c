@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 10:51:37 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/03 11:32:30 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int ms_check_seperators(char *s)
 		if (!ft_strncmp(s, seperators[j], 1))
 		{
 			if (!ft_strncmp(s + 1, seperators[j], 1))
-				g_vars.i++;
+				g_vars.p_tools->double_redirection = true;
 			return (1);
 		}
 	return (0);
@@ -35,9 +35,16 @@ int ms_check_seperators(char *s)
 
 void	ms_set_arg_false(int i)
 {
-	if(i == 1 || i == 2)
+	if(i == 1 || i == 2 || i == 4)
+	{
 		g_vars.i++;
-	if (i == 1 || i == 0)
+		if (g_vars.p_tools->double_redirection == true && i == 4)
+		{
+			g_vars.i++;
+			g_vars.p_tools->double_redirection = false;
+		}
+	}
+	if (i == 1 || i == 0 || i == 4)
 		g_vars.p_tools->arg_mode = false;
 	else if (i == 2 || i == 3)
 		g_vars.p_tools->quote_mode = 0;
@@ -45,34 +52,25 @@ void	ms_set_arg_false(int i)
 
 int ms_check_schars(void)
 {
-	printf("bismilah: --%d--%c--\n", g_vars.i, g_vars.line[g_vars.i]);
 	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode)
-		return (ms_set_arg_false(1), 1);
+		return (ms_set_arg_false(4), 1);
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
 	{
-		printf("bu da while: --%d--%c--\n", g_vars.i, g_vars.line[g_vars.i]);
 		if (g_vars.line[g_vars.i] != g_vars.p_tools->quote_mode)
 			g_vars.i++;
 		else if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
 		{
 			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' '))
-			{
-				printf("deneme: --%d--%c--\n", g_vars.i, g_vars.line[g_vars.i]);
 				g_vars.p_tools->arg_mode = false;
-			}
-			printf("A\n");
-			if (g_vars.line[g_vars.i + 1] && g_vars.line[g_vars.i + 1] != '\'' && g_vars.line[g_vars.i + 1] != '\"')
-				return (ms_set_arg_false(2),1);
-			return (ms_set_arg_false(3),1);
+			if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == '\'' || g_vars.line[g_vars.i + 1] == '\"'))
+				return (ms_set_arg_false(3),1);
+			return (ms_set_arg_false(2),1);
 		}
 	}
 	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
 	{
 		if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1))
-		{
-			printf("deneme2: --%d--%c--\n", g_vars.i, g_vars.line[g_vars.i]);
 			return (ms_set_arg_false(0),1);
-		}
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1))
 			g_vars.p_tools->quote_mode = '\'';
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
@@ -96,6 +94,7 @@ void ms_init_tools(void)
 	g_vars.p_tools = malloc(sizeof(t_tools));
 	g_vars.p_tools->quote_mode = 0;
 	g_vars.p_tools->arg_mode = true;
+	g_vars.p_tools->arg_mode = false;
 }
 
 t_token *ms_new_token(void)
@@ -121,12 +120,8 @@ void ms_set_tokens(void)
 		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32) // bosluklari gec
 			(g_vars.i)++;
 		f = g_vars.i;
-			printf("ch: %c\n", g_vars.line[g_vars.i]);
 		while (g_vars.line[g_vars.i] && (!ms_check_schars() || g_vars.p_tools->arg_mode)) // ozel karakterleri gec
-		{
 			(g_vars.i)++;
-		}
-		printf("--%d--%c--\n", g_vars.i, g_vars.line[g_vars.i]);
 		new_content = ft_substr(g_vars.line, f, g_vars.i - f);
 		g_vars.p_tools->arg_mode = true;
 		if (*new_content)
