@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 06:32:01 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 06:54:21 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void ms_set_arg_false(int i)
 
 int ms_check_schars(void)
 {
-	if (ms_check_seperators(&g_vars.line[g_vars.i]))
+	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode)
 		return (ms_set_arg_false(1), 1);
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
 	{
