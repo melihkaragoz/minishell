@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/08/30 23:40:44 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 03:55:43 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ typedef struct s_token
 // 	t_exec	*next;
 // }				t_exec;
 
+typedef struct s_tools
+{
+	int	quote_mode;
+} t_tools;
+
 struct s_vars
 {
 	int		i;
@@ -44,7 +49,9 @@ struct s_vars
 	char	**paths;
 	char	*v_path;
 	char	**env;
+	t_tools	*p_tools;
 } g_vars;
+
 
 
 typedef struct s_line
@@ -60,11 +67,12 @@ void	ms_init_token(void);
 t_token	*ms_new_token(void);
 void	ms_set_tokens(void);
 void	ms_print_tokens(void);
-int		ms_check_schars(int	j);
+int		ms_check_schars(void);
 int		ms_cmp(int i, char c);
 int		ms_exec(void);
 int		ms_print_env(char **env);
 int		ms_set_path(char **env);
 char	*ms_test_path(char *cmd);
 void	ms_free_tokens(void);
+void	ms_init_tools(void);
 #endif

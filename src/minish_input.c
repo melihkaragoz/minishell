@@ -6,22 +6,45 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 02:20:21 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/03 04:11:16 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ms_cmp(int i, char c)
+int ms_check_schars(void)
 {
-	return (g_vars.line[i] == c);
-}
-
-int ms_check_schars(int j)
-{
-	if (g_vars.line[j])
-		if (ms_cmp(j, ' ')) // || ms_cmp(j, '<<') || ms_cmp(j, '>>') || ms_cmp(j, '|') || ms_cmp(j, '<') || ms_cmp(j, '>') || ms_cmp(j, '\'') || ms_cmp(j, '\"') eklenecek.
+	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
+	{
+		if (g_vars.line[g_vars.i] != g_vars.p_tools->quote_mode)
+		{
+			g_vars.i++;
+		}
+		else if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
+		{
+			g_vars.p_tools->quote_mode = 0;
+			printf("[!] quote mode deactive.\n");
 			return (1);
+		}
+		printf("qm: %d, ch: %c\n", g_vars.p_tools->quote_mode, g_vars.line[g_vars.i]);
+	}
+	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
+	{
+		if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1)) // || ms_cmp(g_vars.line[g_vars.i], '<<') || ms_cmp(g_vars.line[g_vars.i], '>>') || ms_cmp(g_vars.line[g_vars.i], '|') || ms_cmp(g_vars.line[g_vars.i], '<') || ms_cmp(g_vars.line[g_vars.i], '>') || ms_cmp(g_vars.line[g_vars.i], '\'') || ms_cmp(g_vars.line[g_vars.i], '\"') eklenecek.
+		{
+			return (1);
+		}
+		else if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1))
+		{
+			g_vars.p_tools->quote_mode = '\'';
+			printf("[!] quote mode active.\n");
+		}
+		else if (!ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
+		{
+			g_vars.p_tools->quote_mode = '\"';
+			printf("[!] quote mode active.\n");
+		}
+	}
 	return (0);
 }
 
@@ -31,6 +54,12 @@ void ms_init_token(void)
 	// 	ms_free_tokens();
 	g_vars.tokens = ms_new_token();
 	g_vars.f_token = g_vars.tokens;
+}
+
+void ms_init_tools(void)
+{
+	g_vars.p_tools = malloc(sizeof(t_tools));
+	g_vars.p_tools->quote_mode = 0;
 }
 
 t_token *ms_new_token(void)
@@ -49,24 +78,24 @@ void ms_set_tokens(void)
 	char *new_content;
 
 	ms_init_token();
+	ms_init_tools();
 	g_vars.i = 0;
 	while (g_vars.line && g_vars.line[g_vars.i])
 	{
 		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32) // bosluklari gec
 			(g_vars.i)++;
-		f = g_vars.i;					   // bosluk olmayan ilk karakterin indexi
-		while (!ms_check_schars(g_vars.i)) // ozel karakter kontrolu yap
+		f = g_vars.i;
+		while (g_vars.line[g_vars.i] && !ms_check_schars()) // ozel karakterleri gec
+		{
+			printf("ch: %c\n", g_vars.line[g_vars.i]);
 			(g_vars.i)++;
-		new_content = ft_substr(g_vars.line, f, g_vars.i - f); // keywordu token olarak al
+		}
+		new_content = ft_substr(g_vars.line, f, g_vars.i - f);
 		if (*new_content)
 		{
-			// int k = 0;
-			// while(new_content[k])
-			// 	printf("-%i",new_content[k++]);
 			g_vars.tokens->content = new_content;
 			g_vars.tokens->next = ms_new_token();
 			g_vars.tokens = g_vars.tokens->next;
-			// printf("\nimlec: %i-[%c]\n",g_vars.line[g_vars.i],g_vars.line[g_vars.i]);
 		}
 		else
 			break;
