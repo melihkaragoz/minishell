@@ -6,7 +6,7 @@ NAME			=	minishell
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -g
 
 LIBFT		=		libft/libft.a
 
@@ -15,7 +15,7 @@ RM				=	rm -rf
 all:			$(NAME)
 
 $(NAME):		$(OBJS) $(LIBFT)
-				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline -g
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
 
 $(LIBFT):
 				@make bonus -C libft
