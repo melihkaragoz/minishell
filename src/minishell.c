@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/04 21:15:08 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 00:58:41 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,4 @@ int main(int ac, char **av, char **env)
 //   "a""b"|
 
 
+// echo "asd|"A| patlıyor.

@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/04 21:19:00 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 00:51:09 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,60 +44,48 @@ void	ms_set_arg_false(int i)
 			g_vars.p_tools->double_redirection = false;
 		}
 	}
+	if (i == 3)
+		g_vars.p_tools->quote_mode = g_vars.line[g_vars.i + 1];
 	if (i == 1 || i == 0 || i == 4)
 		g_vars.p_tools->arg_mode = false;
 	else if (i == 2)
 		g_vars.p_tools->quote_mode = 0;
 }
 
+void	ms_set_quote_mode(int set)
+{
+	g_vars.p_tools->quote_mode = set;
+	g_vars.p_tools->arg_mode = 1;
+}
+
 int ms_check_schars(void)
 {
-	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode)
-	{
-		// printf("char: [%c] 44444\n", g_vars.line[g_vars.i]);
+	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode) // << >> || geldiyse burda geçiyor
 		return (ms_set_arg_false(4), 1);
-	}
-	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
+	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tırnak açıldıysa
 	{
-		if (g_vars.line[g_vars.i] != g_vars.p_tools->quote_mode)
-			g_vars.i++;
-		else if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
+		if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
 		{
-			// printf("biten tırnak tirnak bulundu. in: %d\n", g_vars.i);
 			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' '))
 				g_vars.p_tools->arg_mode = false;
 			if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == 39 || g_vars.line[g_vars.i + 1] == 34))
-			{
-				// printf("tırnak kapanışından bir karakter sonra tırnak varsa in: %d\n", g_vars.i);
-				g_vars.p_tools->quote_mode = g_vars.line[g_vars.i + 1];
 				return (ms_set_arg_false(3),1);
-			}	
-			// printf("tırnaklar normal bir şekilde kapandı in: %d\n", g_vars.i);
 			return (ms_set_arg_false(2),1);	
 		}
+		g_vars.i++;
 	}
-	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
+	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode) // tırnak yoksa algılanıyor
 	{
-		if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1))
-		{
-			// printf("ilk tek tirnak bulundu. in: %d\n", g_vars.i);
-			g_vars.p_tools->quote_mode = 39;
-			g_vars.p_tools->arg_mode = 1;
-		}
-		else if (!ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
-		{
-			// printf("ilk cift tirnak bulundu. in: %d\n", g_vars.i);
-			g_vars.p_tools->quote_mode = 34;
-			g_vars.p_tools->arg_mode = 1;
-		}
+		if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1) || !ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
+			ms_set_quote_mode(g_vars.line[g_vars.i]);
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1))
 		{
-			// printf("cift tirnak icinde degil ve bosluk geldi in: %d\n", g_vars.i);
+			printf("gırdım1\n");
 			return (ms_set_arg_false(0),1);
 		}
 		else if (g_vars.line[g_vars.i + 1] && ms_check_seperators(&g_vars.line[g_vars.i + 1]))
 		{
-			// printf("cift tirnak yok ve ayirici ozellik    in: %d\n", g_vars.i);
+			printf("GIRDIM 2\n");
 			return (ms_set_arg_false(1),1);
 		}
 	}
@@ -143,11 +131,7 @@ void ms_set_tokens(void)
 			(g_vars.i)++;
 		f = g_vars.i;
 		while (g_vars.line[g_vars.i] && (!ms_check_schars() || g_vars.p_tools->arg_mode)) // ozel karakterleri gec
-		{
-			printf("dış fonksiyondan bir kere döndü in: %d\n", g_vars.i);
 			(g_vars.i)++;
-		}
-		printf("şimdi biten bir kelime bulundu ve atama yapılacak in:%d\n", g_vars.p_tools->arg_mode);
 		new_content = ft_substr(g_vars.line, f, g_vars.i - f);
 		g_vars.p_tools->arg_mode = true;
 		if (*new_content)
