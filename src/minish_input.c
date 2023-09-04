@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/04 14:21:50 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:08:09 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,24 @@ void	ms_set_arg_false(int i)
 	}
 	if (i == 1 || i == 0 || i == 4)
 		g_vars.p_tools->arg_mode = false;
-	else if (i == 2 || i == 3)
+	else if (i == 2)
 		g_vars.p_tools->quote_mode = 0;
 }
 
 int ms_check_schars(void)
 {
 	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode)
+	{
+		printf("char: [%c] 44444\n", g_vars.line[g_vars.i]);
 		return (ms_set_arg_false(4), 1);
+	}
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tirnak ariyorsak
 	{
 		if (g_vars.line[g_vars.i] != g_vars.p_tools->quote_mode)
 			g_vars.i++;
 		else if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode)
 		{
+			printf("ZORT: %d\n", g_vars.i);
 			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' '))
 				g_vars.p_tools->arg_mode = false;
 			if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == '\'' || g_vars.line[g_vars.i + 1] == '\"'))
@@ -67,20 +71,33 @@ int ms_check_schars(void)
 				printf("char: [%c] 3333\n", g_vars.line[g_vars.i]);
 				return (ms_set_arg_false(3),1);
 			}	
-			printf("char: [%c] 2\n", g_vars.line[g_vars.i]);
+			printf("char: [%c] 222222\n", g_vars.line[g_vars.i]);
 			return (ms_set_arg_false(2),1);	
 		}
 	}
 	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
 	{
-		if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1))
-			return (ms_set_arg_false(0),1);
-		else if (!ft_strncmp(&g_vars.line[g_vars.i], "'", 1))
+		if (!ft_strncmp(&g_vars.line[g_vars.i], "\'", 1))
+		{
 			g_vars.p_tools->quote_mode = '\'';
+			g_vars.p_tools->arg_mode = 1;
+		}
 		else if (!ft_strncmp(&g_vars.line[g_vars.i], "\"", 1))
+		{
+			printf("asdf\n");
 			g_vars.p_tools->quote_mode = '\"';
+			g_vars.p_tools->arg_mode = 1;
+		}
+		else if (!ft_strncmp(&g_vars.line[g_vars.i], " ", 1))
+		{
+			printf("char: [%c] 00000\n", g_vars.line[g_vars.i]);
+			return (ms_set_arg_false(0),1);
+		}
 		else if (g_vars.line[g_vars.i + 1] && ms_check_seperators(&g_vars.line[g_vars.i + 1]))
+		{
+			printf("char: [%c] 111111\n", g_vars.line[g_vars.i]);
 			return (ms_set_arg_false(1),1);
+		}
 	}
 	return (0);
 }
@@ -98,7 +115,6 @@ void ms_init_tools(void)
 	g_vars.p_tools = malloc(sizeof(t_tools));
 	g_vars.p_tools->quote_mode = 0;
 	g_vars.p_tools->arg_mode = true;
-	g_vars.p_tools->arg_mode = false;
 }
 
 t_token *ms_new_token(void)
