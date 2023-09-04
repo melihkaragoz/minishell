@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 11:32:30 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/04 14:21:50 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int ms_check_seperators(char *s)
 
 void	ms_set_arg_false(int i)
 {
-	if(i == 1 || i == 2 || i == 4)
+	if(i == 1 || i == 2 || i == 4 || i == 3)
 	{
 		g_vars.i++;
 		if (g_vars.p_tools->double_redirection == true && i == 4)
@@ -63,8 +63,12 @@ int ms_check_schars(void)
 			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' '))
 				g_vars.p_tools->arg_mode = false;
 			if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == '\'' || g_vars.line[g_vars.i + 1] == '\"'))
+			{
+				printf("char: [%c] 3333\n", g_vars.line[g_vars.i]);
 				return (ms_set_arg_false(3),1);
-			return (ms_set_arg_false(2),1);
+			}	
+			printf("char: [%c] 2\n", g_vars.line[g_vars.i]);
+			return (ms_set_arg_false(2),1);	
 		}
 	}
 	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode)
@@ -122,6 +126,7 @@ void ms_set_tokens(void)
 		f = g_vars.i;
 		while (g_vars.line[g_vars.i] && (!ms_check_schars() || g_vars.p_tools->arg_mode)) // ozel karakterleri gec
 			(g_vars.i)++;
+		printf("atama\n         argmode: %d\n", g_vars.p_tools->arg_mode);
 		new_content = ft_substr(g_vars.line, f, g_vars.i - f);
 		g_vars.p_tools->arg_mode = true;
 		if (*new_content)
