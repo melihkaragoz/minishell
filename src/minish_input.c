@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/05 07:20:16 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 22:22:54 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	ms_set_arg_false(int i)
 
 int ms_check_schars(void)
 {
-	printf("ccc: %c\n", g_vars.line[g_vars.i]);
 	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode) // << >> || geldiyse burda geçiyor
 		return (ms_set_arg_false(4), 1);
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tırnak açıldıysa
@@ -139,7 +138,7 @@ void ms_set_tokens(void)
 			break;
 	}
 	ms_print_tokens();
-	free(g_vars.line);
+	// free(g_vars.line);
 }
 
 void ms_print_tokens(void)

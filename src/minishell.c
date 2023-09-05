@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/05 06:50:49 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 22:18:56 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	ms_set_path(env);
 	g_vars.env = env;
-	// char *str = malloc(sizeof(char) * 20);
-	// str = "\"a\"\'a\'|";
 	while (42)
 	{
+		// "echo \"deneme $PWD\"";
 		g_vars.line = readline("minishell$ ");
+		if (!g_vars.line && !(g_vars.line[0]))
+			continue;
 		add_history(g_vars.line);
 		ms_set_tokens();
+		while (g_vars.f_token)
+		{
+			ms_put_env(g_vars.f_token);
+			printf("new: %s\n", g_vars.f_token->content);
+			g_vars.f_token = g_vars.f_token->next;
+		}
 	}
 	return (0);
 }
-
-//   "a"'b'|
-//   "a""b"|
-
-
-// echo "asd|"A| patlıyor.
-// biyerde pipe ayırırken boşluk atıyor. BULAMADIK
