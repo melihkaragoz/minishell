@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/03 11:06:24 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 15:47:55 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ char	*ms_test_path(char *cmd);
 void	ms_free_tokens(void);
 void	ms_init_tools(void);
 void	ms_set_arg_false(int i);
+void	ms_put_env(t_token *token);
 #endif
