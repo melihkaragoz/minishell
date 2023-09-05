@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:23:29 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/05 07:12:35 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/05 07:20:16 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 int ms_check_seperators(char *s)
 {
-	char **seperators;
+	char seperators[4];
 	int j;
 
-	seperators = malloc(sizeof(char *) * 4);
-	seperators[0] = "|";
-	seperators[1] = "<";
-	seperators[2] = ">";
+	seperators[0] = '|';
+	seperators[1] = '<';
+	seperators[2] = '>';
 	seperators[3] = 0;
 	j = -1;
 	while (seperators[++j])
-		if (!ft_strncmp(s, seperators[j], 1))
+		if (!ft_strncmp(s, &seperators[j], 1))
 		{
-			if (!ft_strncmp(s + 1, seperators[j], 1))
+			if (!ft_strncmp(s + 1, &seperators[j], 1))
 				g_vars.p_tools->double_redirection = true;
 			return (1);
 		}
@@ -41,27 +40,14 @@ void	ms_set_quote_mode(int set)
 
 void	ms_set_arg_false(int i)
 {
-	printf("char: %c i:%d error: %d\n", g_vars.line[g_vars.i], g_vars.i, i);
-	if (i == 4 || i == 1)
-	{
+	if (i == 4 || i == 1 || i == 5 || i == 3)
 		g_vars.i++;
+	if (i == 4 || i == 1 || i == 5 || i == 0)
 		g_vars.p_tools->arg_mode = false;
-	}	
-	if (i == 7)
+	if (i == 7 || i == 5)
 		g_vars.p_tools->quote_mode = 0;
-	if (i == 5)
-	{
-		g_vars.p_tools->quote_mode = 0;
-		g_vars.p_tools->arg_mode = false;
-		g_vars.i++;
-	}
 	if (i == 3)
-	{
-		g_vars.i++;
 		ms_set_quote_mode(g_vars.line[g_vars.i]);
-	}
-	if (i == 0)
-		g_vars.p_tools->arg_mode = false;
 	if (g_vars.p_tools->double_redirection == true && (i == 4))
 	{
 		g_vars.i++;
