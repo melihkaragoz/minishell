@@ -1,4 +1,6 @@
-SRCS			= src/minishell.c src/minish_utils.c src/minish_input.c src/minish_exec.c
+SRCS			=	src/minishell.c src/minish_utils.c src/minish_input.c src/minish_exec.c \
+					src/minish_set_nodes.c src/minish_token_utils.c src/minish_token_seperator.c \
+					src/minish_token.c
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -6,7 +8,7 @@ NAME			=	minishell
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	 -g
 
 LIBFT		=		libft/libft.a
 

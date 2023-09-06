@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/05 22:20:39 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/06 02:03:15 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ms_put_env(t_token *token)
+void ms_put_env(t_token *org_token)
 {
+	t_token *token;
 	char *adr;
 	char *tmp;
 	char *t_tmp;
@@ -25,6 +26,7 @@ void ms_put_env(t_token *token)
 	int i;
 
 	// printf("[!] the node's content is: %s\n", token->content);
+	token = org_token;
 	i = -1;
 	quote = 0;
 	quote_end = 0;

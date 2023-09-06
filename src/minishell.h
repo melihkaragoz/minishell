@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/05 15:47:55 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/06 10:40:27 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ struct s_vars
 {
 	int		i;
 	int		j;
+	t_token *tmp_token;
 	t_token	*f_token;
 	t_token	*tokens;
 	char	*line;
@@ -65,12 +66,16 @@ typedef struct s_line
 } t_line;
 
 
+void	ms_set_nodes(void);
 int		ms_strlen(char *s);
 void	ms_init_token(void);
-t_token	*ms_new_token(void);
+void	ms_make_nodes(void);
 void	ms_set_tokens(void);
 void	ms_print_tokens(void);
-int		ms_check_schars(void);
+t_token	*ms_new_token(void);
+int		ms_end_of_word(void);
+void	ms_set_quote_mode(int set);
+int		ms_check_seperators(char *s);
 int		ms_cmp(int i, char c);
 int		ms_exec(void);
 int		ms_print_env(char **env);
