@@ -8,7 +8,7 @@ NAME			=	minishell
 
 LIBFT			=	libft/libft.a
 
-CC				=	gcc
+CC				=	gcc -g
 
 CFLAGS			=	-Wall -Wextra -Werror
 
@@ -19,7 +19,7 @@ RM				=	rm -rf
 all:			$(NAME)
 
 $(NAME):		$(OBJS) $(LIBFT)
-				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 				@echo "\033[0;32mCompiled successfully\033[0m"
 
 %.o : %.c

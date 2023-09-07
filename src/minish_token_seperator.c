@@ -30,7 +30,7 @@ int ms_end_of_word(void)
 {
 	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode) // << >> || geldiyse burda geçiyor
 		return (ms_set_arg_false(4), 1);
-	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i]) // tırnak açıldıysa
+	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i] && g_vars.i++) // tırnak açıldıysa
 	{
 		if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode) // tırnak kapandıysa
 		{
@@ -43,7 +43,6 @@ int ms_end_of_word(void)
 		}
 		else if (g_vars.line[g_vars.i + 1] == '\0')
 			ms_add_quotes_to_last();
-		g_vars.i++;
 	}
 	if (g_vars.line[g_vars.i] && !g_vars.p_tools->quote_mode) // tırnak açık değilse
 	{

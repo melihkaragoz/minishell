@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/06 10:44:10 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/07 23:58:18 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int ac, char **av, char **env)
 		g_vars.tmp_token = g_vars.f_token;
 		while (g_vars.f_token)
 		{
-			ms_put_env(g_vars.f_token);
+			ms_check_env(g_vars.f_token);
 			printf("new: %s\n", g_vars.f_token->content);
 			g_vars.f_token = g_vars.f_token->next;
 		}
