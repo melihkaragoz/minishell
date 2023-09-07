@@ -6,11 +6,13 @@ OBJS			=	$(SRCS:.c=.o)
 
 NAME			=	minishell
 
+LIBFT			=	libft/libft.a
+
 CC				=	gcc
 
-CFLAGS			=	 -g
+CFLAGS			=	-Wall -Wextra -Werror
 
-LIBFT		=		libft/libft.a
+LIBFT			=	libft/libft.a
 
 RM				=	rm -rf
 
@@ -18,6 +20,10 @@ all:			$(NAME)
 
 $(NAME):		$(OBJS) $(LIBFT)
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
+				@echo "\033[0;32mCompiled successfully\033[0m"
+
+%.o : %.c
+				@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 				@make bonus -C libft
@@ -28,6 +34,7 @@ clean:
 
 fclean:			clean
 				@$(RM) $(NAME)
+				@make fclean -C libft
 
 re:				fclean $(NAME)
 

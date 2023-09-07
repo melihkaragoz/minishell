@@ -7,13 +7,15 @@ void	ms_node_remove_char(t_token *tmp, int i)		// birinci parametre olarak veril
 	int len;
 
 	if (tmp->content && *tmp->content)
-	len = ft_strlen(tmp->content);
-	tmp_str = ft_substr(tmp->content, 0, i);
-	tmp_str_extra = ft_substr(tmp->content, i + 1, len - i);
-	free(tmp->content);
-	tmp->content = ft_strjoin(tmp_str, tmp_str_extra);
-	free(tmp_str);
-	free(tmp_str_extra);
+	{
+		len = ft_strlen(tmp->content);
+		tmp_str = ft_substr(tmp->content, 0, i);
+		tmp_str_extra = ft_substr(tmp->content, i + 1, len - i);
+		free(tmp->content);
+		tmp->content = ft_strjoin(tmp_str, tmp_str_extra);
+		free(tmp_str);
+		free(tmp_str_extra);
+	}
 }
 
 void	ms_remove_quotes(t_token *tmp)
