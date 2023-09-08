@@ -32,6 +32,7 @@ void	ms_remove_quotes(t_token *tmp)
 			quo = 0;
 			ms_node_remove_char(tmp, start_pos_quo);
 			ms_node_remove_char(tmp, g_vars.i - 1);
+			g_vars.i -= 2;
 		}
 		else if (!quo && (tmp->content[g_vars.i] == '\'' || tmp->content[g_vars.i] == '\"'))
 		{
@@ -88,13 +89,16 @@ void	ms_set_nodes(void)
 {
 	while (g_vars.tmp_token->content)		// node'ları tek tek gezen döngü
 	{
-		g_vars.tmp_token->type = 0;
-		if (ms_node_check_redirection(g_vars.tmp_token->content))
+		g_vars.tmp_token->type = 0;												// undefined
+		if (ms_node_check_redirection(g_vars.tmp_token->content))				// redirection
 			g_vars.tmp_token->type = 3;
-		else if (!ft_strncmp("|", g_vars.tmp_token->content, 1))
+		else if (!ft_strncmp("|", g_vars.tmp_token->content, 1))				// pipe
+		{
 			g_vars.tmp_token->type = 2;
+			g_vars.exec->pipe_count++;					// pipe sayısı
+		}
 		ms_remove_quotes(g_vars.tmp_token);
-		if (ms_node_check_builtin(g_vars.tmp_token->content))
+		if (ms_node_check_builtin(g_vars.tmp_token->content))					// built-in
 			g_vars.tmp_token->type = 1;
 		printf("content: .%s. - type: %d\n", g_vars.tmp_token->content, g_vars.tmp_token->type);
 		g_vars.tmp_token = g_vars.tmp_token->next;

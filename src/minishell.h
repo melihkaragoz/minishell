@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/07 23:26:56 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:37:25 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ typedef struct s_token
 // 	t_exec	*next;
 // }				t_exec;
 
+typedef struct s_exec
+{
+	// int		*pipe_idx;
+	char	**av;
+	int		pipe_count;
+}		t_exec;
+
 typedef struct s_tools
 {
 	int quote_mode;
@@ -45,8 +52,10 @@ struct s_vars
 {
 	int i;
 	int j;
+	t_exec *exec;
 	t_token *tmp_token;
 	t_token *f_token;
+	t_token *head;
 	t_token *tokens;
 	char *line;
 	char **paths;
@@ -62,9 +71,10 @@ typedef struct s_line
 	char *line;
 } t_line;
 
+int	ms_exec(void);
 void ms_set_nodes(void);
 int ms_strlen(char *s);
-void ms_init_token(void);
+void ms_init(void);
 void ms_make_nodes(void);
 void ms_set_tokens(void);
 void ms_print_tokens(void);
@@ -78,7 +88,6 @@ int ms_print_env(char **env);
 int ms_set_path(char **env);
 char *ms_test_path(char *cmd);
 void ms_free_tokens(void);
-void ms_init_tools(void);
 void ms_set_arg_false(int i);
 void ms_check_env(t_token *org_token);
 void ms_put_env(t_token *token, int *i);

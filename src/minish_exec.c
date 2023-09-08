@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/07 23:58:14 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:37:31 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void ms_check_env(t_token *org_token)
 {
 	t_token *token;
 	int quote;
-	int quote_end;
 	int dl_sign;
 	int i;
 
@@ -24,7 +23,6 @@ void ms_check_env(t_token *org_token)
 	token = org_token;
 	i = -1;
 	quote = 0;
-	quote_end = 0;
 	dl_sign = 0;
 	// printf("char: %c, quote: %d, end: %d, dollar: %d", token->content[i], quote, quote_end, dl_sign);
 	while ((token->content) && *(token->content) && token->content[++i])
@@ -39,7 +37,6 @@ void ms_check_env(t_token *org_token)
 		{
 			if (quote == 1)
 			{
-				quote_end = 1;
 				quote = 0;
 			}
 			else if (quote == 0)
@@ -49,7 +46,6 @@ void ms_check_env(t_token *org_token)
 		{
 			if (quote == 2)
 			{
-				quote_end = 1;
 				quote = 0;
 			}
 			else if (quote == 0)
@@ -94,18 +90,18 @@ void ms_put_env(t_token *token, int *i)
 	free(tmp);
 }
 
-int ms_exec(void)
-{
-	int ev = -1;
-	int pid;
-	char *prm[] = {"", NULL};
+// int ms_exec(void)
+// {
+// 	int ev = -1;
+// 	int pid;
+// 	char *prm[] = {"", NULL};
 
-	pid = fork();
-	if (pid == 0)
-	{
-		execve(g_vars.v_path, prm, g_vars.paths);
-		exit(127);
-	}
-	waitpid(pid, NULL, 0);
-	return (ev);
-}
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		execve(g_vars.v_path, prm, g_vars.paths);
+// 		exit(127);
+// 	}
+// 	waitpid(pid, NULL, 0);
+// 	return (ev);
+// }

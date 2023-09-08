@@ -17,13 +17,18 @@ void	ms_set_arg_false(int i)
 	}
 }
 
-void	ms_add_quotes_to_last(void)
+void	ms_add_quotes_to_last()
 {
 	char *tmp;
 
-	tmp = g_vars.line;
+	tmp = ft_strdup(g_vars.line);
 	free(g_vars.line);
-	g_vars.line = ft_strjoin(tmp, "\"");
+	if (g_vars.p_tools->quote_mode == 34)
+		g_vars.line = ft_strjoin(tmp, "\"");
+	else
+		g_vars.line = ft_strjoin(tmp, "\'");
+	free(tmp);
+	ms_set_arg_false(5);
 }
 
 int ms_end_of_word(void)
@@ -39,7 +44,7 @@ int ms_end_of_word(void)
 			else if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == 39 || g_vars.line[g_vars.i + 1] == 34)) // tırnak kapandıysa --- bir sonraki karakter tırnaksa
 				ms_set_arg_false(3);
 			else
-				return(ms_set_arg_false(7), 1); 		// tırnak kapandıysa --- bir sonraki karakter karakter ise
+				return(ms_set_arg_false(7), 0); 		// tırnak kapandıysa --- bir sonraki karakter karakter ise
 		}
 		else if (g_vars.line[g_vars.i + 1] == '\0')
 			ms_add_quotes_to_last();
