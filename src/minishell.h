@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/09 17:30:08 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/09 20:19:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_token
 typedef struct s_exec
 {
 	// int		*pipe_idx;
-	char	**av;
+	char	***av;
 	int		pipe_count;
 	bool builtin;
 }		t_exec;

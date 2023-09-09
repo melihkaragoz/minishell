@@ -13,85 +13,129 @@ void    free_string_array(char **str)
     free(str);
 }
 
-void    ms_set_execve_av(void)
+void    ms_set_execve_av2(void)
 {
-    int i;
-    int j;
+    t_token *tmp;
+    t_token *tmp2;
+    int     sentence;
+    int     i;
 
-    printf("set_av\n");
-    g_vars.tmp_token = g_vars.head;
     i = 0;
-    while (g_vars.tmp_token)
+    sentence = 0;
+    tmp = g_vars.head;
+    tmp2 = g_vars.head;
+    g_vars.exec->av = malloc(sizeof(char **) * (g_vars.exec->pipe_count + 1));
+    g_vars.exec->av[g_vars.exec->pipe_count] = NULL;
+    g_vars.i = 0;
+    while (tmp)
     {
-        // if (g_vars.tmp_token->type == 1)
-        //     g_vars.tmp_token->;
-        if (g_vars.tmp_token->type == 2 || g_vars.tmp_token->next == NULL)
-            break ;
-        i++;
-        g_vars.tmp_token = g_vars.tmp_token->next;
+        printf("content: %s in:%d\n", tmp->content, tmp->type);
+        if (tmp->type == 2 || !(tmp->content) || tmp->type == 3)                  // herhangi bir biten cümle'yi farket
+        {
+            printf("g_vars.i z: %d\n", g_vars.i);
+            g_vars.exec->av[sentence] = malloc(sizeof(char *) * (g_vars.i + 1));
+            g_vars.exec->av[sentence][g_vars.i] = NULL;
+            i = -1;
+            while (++i < g_vars.i)
+            {
+                g_vars.exec->av[sentence][i] = ft_strdup(tmp2->content);
+                tmp2 = tmp2->next;
+            }
+            for (size_t i = 0; g_vars.exec->av[i]; i++)
+            {
+                int j;
+                for (j = 0; g_vars.exec->av[i][j]; j++)
+                    printf(" %s -", g_vars.exec->av[i][j]);
+                printf(" %s\n", g_vars.exec->av[i][j]);
+            }
+            if (tmp2 && tmp2->type == 2)
+            {
+                tmp2 = tmp2->next;
+                tmp = tmp->next;
+                g_vars.i = 0;
+                continue ;
+            }
+            else if (tmp->content == NULL)
+                break ;
+            g_vars.exec->pipe_count--;
+            sentence++;
+        }
+        g_vars.i++;
+        tmp = tmp->next;
     }
-    g_vars.exec->av = malloc(sizeof(char *) * (i + 1));
-    g_vars.exec->av[i] = NULL;
-    j = 0;
-    g_vars.tmp_token = g_vars.head;
-    printf("i : %d\n", i);
-    while (j < i)
-    {
-        g_vars.exec->av[j] = ft_strdup(g_vars.tmp_token->content);
-        printf("asdasdasd: %s\n", g_vars.exec->av[j]);
-        g_vars.tmp_token = g_vars.tmp_token->next;
-        j++;
-    }
-    printf("asdasdasd: %s\n", g_vars.exec->av[j]);
+    
 }
+
+// void    ms_set_execve_av(void)
+// {
+//     int i;
+//     int j;
+
+//     printf("set_av\n");
+//     g_vars.tmp_token = g_vars.head;
+//     i = 0;
+//     while (g_vars.tmp_token)
+//     {
+//         // if (g_vars.tmp_token->type == 1)
+//         //     g_vars.tmp_token->;
+//         if (g_vars.tmp_token->type == 2 || g_vars.tmp_token->next == NULL)
+//             break ;
+//         i++;
+//         g_vars.tmp_token = g_vars.tmp_token->next;
+//     }
+//     g_vars.exec->av = malloc(sizeof(char *) * (i + 1));
+//     g_vars.exec->av[i] = NULL;
+//     j = 0;
+//     g_vars.tmp_token = g_vars.head;
+//     printf("i : %d\n", i);
+//     while (j < i)
+//     {
+//         g_vars.exec->av[j] = ft_strdup(g_vars.tmp_token->content);
+//         printf("asdasdasd: %s\n", g_vars.exec->av[j]);
+//         g_vars.tmp_token = g_vars.tmp_token->next;
+//         j++;
+//     }
+//     printf("asdasdasd: %s\n", g_vars.exec->av[j]);
+// }
 
 int ms_exec(void)
 {
-    int has_pipe;
-    int pipe_fd[2];
-    pid_t child;
-    int status;
+    // int has_pipe;
+    // int pipe_fd[2];
+    // pid_t child;
+    // int status;             // child process return code
 
 
-    has_pipe = 0;
-    status = 0;
-    ms_set_execve_av(); // g_vars.exec->av oluşturulur.
-    if (g_vars.exec->pipe_count > 0)
-    {
-        if (g_vars.exec->pipe_count > 0)
-            has_pipe = 1;
-        g_vars.exec->pipe_count--;
-    }
-    if (has_pipe && pipe(pipe_fd) == -1)
-        return (0);
-    child = fork();
-    if (!child)
-    {
-        if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
-        {
-            exit (31);
-        }
+    // has_pipe = 0;
+    // status = 0;
+    ms_set_execve_av2(); // g_vars.exec->av oluşturulur.
+    // printf("PIPE COUNT: %d\n", g_vars.exec->pipe_count);
 
 
         // av kontrol  area
-        int i;
-        for (i = 0; g_vars.exec->av[i]; i++)
-            printf("\"%s\"\n", g_vars.exec->av[i]);
-        printf("\"%s\"\n", g_vars.exec->av[i]);
+        // int i;
+        // for (i = 0; g_vars.exec->av[i]; i++)
+        //     printf("\"%s\"\n", g_vars.exec->av[i]);
+        // printf("\"%s\"\n", g_vars.exec->av[i]);
         // av kontrol area
-        // if ()
+    
 
-        // printf("cikti deneme\n");
-        execve(*g_vars.exec->av, g_vars.exec->av, g_vars.env);
-        perror("bash: ");
-        exit(1);
-    }
-    // printf("waitpid öncesi\n");
-    waitpid(child, &status, 0);
-    if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
-    {
-        printf("ZORRRRT\n");
-    }
-    // return (0);
+    // if (has_pipe && pipe(pipe_fd) == -1)
+    //     return (0);
+    // child = fork();
+    // if (!child)
+    // {
+    //     if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
+    //         exit (31);
+    //     execve(*g_vars.exec->av, g_vars.exec->av, g_vars.env);
+    //     perror("bash: ");
+    //     exit(1);
+    // }
+    // // printf("waitpid öncesi\n");
+    // waitpid(child, &status, 0);
+    // if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
+    // {
+    //     printf("ZORRRRT\n");
+    // }
     return WIFEXITED(status) && WEXITSTATUS(status);
 }

@@ -41,6 +41,6 @@ void ms_set_tokens(void)
 {
 	ms_init();
 	ms_make_nodes();
-	ms_print_tokens();
+	// ms_print_tokens();
 	// free(g_vars.line);
 }

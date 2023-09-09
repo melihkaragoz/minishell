@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/09 17:51:07 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/09 18:47:24 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 	while (42)
 	{
 		// "echo \"deneme $PWD\"";
-		g_vars.line = readline("minishell$ ");
+		g_vars.line = "/bin/ls -l | /usr/bin/wc -l";//readline("minishell$ ");
 		if (!g_vars.line && !(g_vars.line[0]))
 			continue;
 		add_history(g_vars.line);
@@ -36,7 +36,7 @@ int main(int ac, char **av, char **env)
 		ms_set_nodes();  // parse part 2
 		ms_exec();
 		printf("\n\nASD\n\n");
-		getchar();
+		exit(1);
 	}
 	return (0);
 }

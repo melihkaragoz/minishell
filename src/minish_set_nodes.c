@@ -100,7 +100,7 @@ void	ms_set_nodes(void)
 		ms_remove_quotes(g_vars.tmp_token);
 		if (ms_node_check_builtin(g_vars.tmp_token->content))					// built-in
 			g_vars.tmp_token->type = 1;
-		printf("content: .%s. - type: %d\n", g_vars.tmp_token->content, g_vars.tmp_token->type);
+		// printf("content: .%s. - type: %d\n", g_vars.tmp_token->content, g_vars.tmp_token->type);
 		g_vars.tmp_token = g_vars.tmp_token->next;
 	}
 }

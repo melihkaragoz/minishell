@@ -34,13 +34,17 @@ void	ms_set_quote_mode(int set)
 {
 	g_vars.p_tools->quote_mode = set;
 	g_vars.p_tools->arg_mode = 1;
+	if (g_vars.line[g_vars.i + 1] == set)
+	{
+		g_vars.i++;
+		g_vars.p_tools->quote_mode = 0;
+	}	
 }
 
 void ms_init(void)
 {
 	g_vars.exec = malloc(sizeof(t_exec));
 	g_vars.exec->pipe_count = 0;
-	// g_vars.exec->;
 	g_vars.tokens = ms_new_token();
 	g_vars.f_token = g_vars.tokens;
 	g_vars.head = g_vars.tokens;
