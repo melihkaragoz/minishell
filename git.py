@@ -1,6 +1,8 @@
-import os
-import sys
-a = sys.argv[1]
-os.system("git add -A")
-os.system(f"git commit -m {a}")
+import os, sys
+a = ""
+try:
+	a = sys.argv[1]
+except:
+	a = input (">> ")
+os.system(f"git commit -am {a}")
 os.system("git push")

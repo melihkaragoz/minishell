@@ -38,4 +38,7 @@ fclean:			clean
 
 re:				fclean $(NAME)
 
-.PHONY:			all clean fclean re
+git:			fclean
+				@python3 git.py
+
+.PHONY:			all clean fclean re git
