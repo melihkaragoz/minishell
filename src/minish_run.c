@@ -15,35 +15,32 @@ void    free_string_array(char **str)
 
 void    ms_set_execve_av(void)
 {
-    t_token *tmp;
     int i;
     int j;
 
-    printf("saf\n");
-    if (g_vars.exec->av && *g_vars.exec->av)
-        free_string_array(g_vars.exec->av);
-    tmp = g_vars.head;
+    printf("set_av\n");
+    g_vars.tmp_token = g_vars.head;
     i = 0;
-    while (tmp)
+    while (g_vars.tmp_token)
     {
-        if (tmp->type == 2 || tmp->next == NULL)
+        if (g_vars.tmp_token->type == 2 || g_vars.tmp_token->next == NULL)
             break ;
         i++;
-        tmp = tmp->next;
+        g_vars.tmp_token = g_vars.tmp_token->next;
     }
     g_vars.exec->av = malloc(sizeof(char *) * (i + 1));
     g_vars.exec->av[i] = NULL;
     j = 0;
-    tmp = g_vars.head;
+    g_vars.tmp_token = g_vars.head;
     printf("i : %d\n", i);
     while (j < i)
     {
-        printf("asdasdasd: %s\n", tmp->content);
-        g_vars.exec->av[j] = ft_strdup(tmp->content);
-        tmp = tmp->next;
+        g_vars.exec->av[j] = ft_strdup(g_vars.tmp_token->content);
+        printf("asdasdasd: %s\n", g_vars.exec->av[j]);
+        g_vars.tmp_token = g_vars.tmp_token->next;
         j++;
     }
-    getchar();
+    printf("asdasdasd: %s\n", g_vars.exec->av[j]);
 }
 
 int ms_exec(void)
@@ -55,10 +52,11 @@ int ms_exec(void)
 
     has_pipe = 0;
     status = 0;
-    if (g_vars.exec->pipe_count >= 0)
+    ms_set_execve_av();
+    if (g_vars.exec->pipe_count > 0)
     {
-        ms_set_execve_av();
-        has_pipe = 1;
+        if (g_vars.exec->pipe_count > 0)
+            has_pipe = 1;
         g_vars.exec->pipe_count--;
     }
     if (has_pipe && pipe(pipe_fd) == -1)
@@ -66,19 +64,25 @@ int ms_exec(void)
     child = fork();
     if (!child)
     {
+        int i;
+        for (i = 0; g_vars.exec->av[i]; i++)
+            printf("\"%s\" pipe'a atildi\n", g_vars.exec->av[i]);
+        printf("\"%s\" pipe'a atildi\n", g_vars.exec->av[i]);
         if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
         {
             exit (31);
         }
+        // printf("cikti deneme\n");
         execve(*g_vars.exec->av, g_vars.exec->av, g_vars.env);
-        return (0);
+        printf("execve duzgun calismadi\n");
+        // return (0);
     }
-    printf("ZORT\n");
+    // printf("waitpid öncesi\n");
     waitpid(child, &status, 0);
     if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
     {
-        exit (32);
-        printf("ZORT\n");
+        printf("ZORRRRT\n");
     }
+    // return (0);
     return WIFEXITED(status) && WEXITSTATUS(status);
 }
