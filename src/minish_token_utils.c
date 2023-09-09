@@ -40,6 +40,7 @@ void ms_init(void)
 {
 	g_vars.exec = malloc(sizeof(t_exec));
 	g_vars.exec->pipe_count = 0;
+	// g_vars.exec->;
 	g_vars.tokens = ms_new_token();
 	g_vars.f_token = g_vars.tokens;
 	g_vars.head = g_vars.tokens;

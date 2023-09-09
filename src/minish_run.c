@@ -23,6 +23,8 @@ void    ms_set_execve_av(void)
     i = 0;
     while (g_vars.tmp_token)
     {
+        // if (g_vars.tmp_token->type == 1)
+        //     g_vars.tmp_token->;
         if (g_vars.tmp_token->type == 2 || g_vars.tmp_token->next == NULL)
             break ;
         i++;
@@ -50,9 +52,10 @@ int ms_exec(void)
     pid_t child;
     int status;
 
+
     has_pipe = 0;
     status = 0;
-    ms_set_execve_av();
+    ms_set_execve_av(); // g_vars.exec->av oluşturulur.
     if (g_vars.exec->pipe_count > 0)
     {
         if (g_vars.exec->pipe_count > 0)
@@ -64,18 +67,24 @@ int ms_exec(void)
     child = fork();
     if (!child)
     {
-        int i;
-        for (i = 0; g_vars.exec->av[i]; i++)
-            printf("\"%s\" pipe'a atildi\n", g_vars.exec->av[i]);
-        printf("\"%s\" pipe'a atildi\n", g_vars.exec->av[i]);
         if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
         {
             exit (31);
         }
+
+
+        // av kontrol  area
+        int i;
+        for (i = 0; g_vars.exec->av[i]; i++)
+            printf("\"%s\"\n", g_vars.exec->av[i]);
+        printf("\"%s\"\n", g_vars.exec->av[i]);
+        // av kontrol area
+        // if ()
+
         // printf("cikti deneme\n");
         execve(*g_vars.exec->av, g_vars.exec->av, g_vars.env);
-        printf("execve duzgun calismadi\n");
-        // return (0);
+        perror("bash: ");
+        exit(1);
     }
     // printf("waitpid öncesi\n");
     waitpid(child, &status, 0);

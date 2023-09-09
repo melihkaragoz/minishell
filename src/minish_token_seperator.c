@@ -31,6 +31,7 @@ void	ms_add_quotes_to_last()
 	ms_set_arg_false(5);
 }
 
+// ""|"" echo "$asddsa"
 int ms_end_of_word(void)
 {
 	if (ms_check_seperators(&g_vars.line[g_vars.i]) && !g_vars.p_tools->quote_mode) // << >> || geldiyse burda geçiyor

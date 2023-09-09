@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/09 13:00:20 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/09 17:51:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int ac, char **av, char **env)
 		while (g_vars.f_token)
 		{
 			ms_check_env(g_vars.f_token);
-			printf("new: %s\n", g_vars.f_token->content);
+			// printf("new: %s\n", g_vars.f_token->content);
 			g_vars.f_token = g_vars.f_token->next;
 		}
 		ms_set_nodes();  // parse part 2
