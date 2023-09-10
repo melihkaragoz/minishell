@@ -73,9 +73,6 @@ void ms_set_execve_av2(void)
             // }
             if (tmp2 && tmp2->type == 2)
             {
-                g_vars.exec->pipe_count--;
-                if (has_pipe == true && g_vars.exec->pipe_count == -1)
-                    break;
                 tmp2 = tmp2->next;
                 tmp = tmp->next;
                 g_vars.i = 0;
@@ -89,41 +86,39 @@ void ms_set_execve_av2(void)
     }
 }
 
-int ms_exec(void)
+int ms_exec(int sentence)
 {
-    // int has_pipe;
-    // int pipe_fd[2];
-    // pid_t child;
-    // int status;             // child process return code
-    // has_pipe = 0;
-    // status = 0;
-    ms_set_execve_av2(); // g_vars.exec->av oluşturulur.
-    // printf("PIPE COUNT: %d\n", g_vars.exec->pipe_count);
+    int has_pipe;
+    int pipe_fd[2];
+    pid_t child;
+    int status;             // child process return code
 
-    // av kontrol  area
-    // int i;
-    // for (i = 0; g_vars.exec->av[i]; i++)
-    //     printf("\"%s\"\n", g_vars.exec->av[i]);
-    // printf("\"%s\"\n", g_vars.exec->av[i]);
-    // av kontrol area
-
-    // if (has_pipe && pipe(pipe_fd) == -1)
-    //     return (0);
-    // child = fork();
-    // if (!child)
-    // {
-    //     if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
-    //         exit (31);
-    //     execve(*g_vars.exec->av, g_vars.exec->av, g_vars.env);
-    //     perror("bash: ");
-    //     exit(1);
-    // }
-    // // printf("waitpid öncesi\n");
-    // waitpid(child, &status, 0);
-    // if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
-    // {
-    //     printf("ZORRRRT\n");
-    // }
-    // return WIFEXITED(status) && WEXITSTATUS(status);
-    return (0);
+    status = 0;
+    has_pipe = 0;
+    if (g_vars.exec->pipe_count > 0)
+    {
+        has_pipe = 1;
+        g_vars.exec->pipe_count--;
+    }
+    // printf("has_pipe: %d\n", has_pipe);
+    if (has_pipe && pipe(pipe_fd) == -1)
+        return (0);
+    // printf("%d\n", has_pipe);
+    child = fork();
+    if (!child)
+    {
+        if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
+            exit (31);
+        // printf();
+        execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
+        perror("bash: ");
+        exit(1);
+    }
+    // printf("waitpid öncesi\n");
+    waitpid(child, &status, 0);
+    if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
+    {
+        printf("ZORRRRT\n");
+    }
+    return WIFEXITED(status) && WEXITSTATUS(status);
 }

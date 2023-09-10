@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 04:01:14 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 11:51:19 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_tools
 
 struct s_vars
 {
+	int stdo;
+	int stdi;
 	int i;
 	int j;
 	t_exec *exec;
@@ -74,24 +76,24 @@ typedef struct s_line
 	char *line;
 } t_line;
 
-int	ms_exec(void);
-void ms_set_nodes(void);
-int ms_strlen(char *s);
-void ms_init(void);
-void ms_make_nodes(void);
-void ms_set_tokens(void);
-void ms_print_tokens(void);
-t_token *ms_new_token(void);
-int ms_end_of_word(void);
-void ms_set_quote_mode(int set);
-int ms_check_seperators(char *s);
-int ms_cmp(int i, char c);
-int ms_exec(void);
-int ms_print_env(char **env);
-int ms_set_path(char **env);
-char *ms_test_path(char *cmd);
-void ms_free_tokens(void);
-void ms_set_arg_false(int i);
-void ms_check_env(t_token *org_token);
-void ms_put_env(t_token *token, int *i);
+void	ms_set_execve_av2(void);
+void	ms_set_nodes(void);
+int		ms_strlen(char *s);
+void	ms_init(void);
+void	ms_make_nodes(void);
+void	ms_set_tokens(void);
+void	ms_print_tokens(void);
+t_token	*ms_new_token(void);
+int		ms_end_of_word(void);
+void	ms_set_quote_mode(int set);
+int		ms_check_seperators(char *s);
+int		ms_cmp(int i, char c);
+int		ms_exec(int sentence);
+int		ms_print_env(char **env);
+int 	ms_set_path(char **env);
+char 	*ms_test_path(char *cmd);
+void 	ms_free_tokens(void);
+void 	ms_set_arg_false(int i);
+void 	ms_check_env(t_token *org_token);
+void 	ms_put_env(t_token *token, int *i);
 #endif

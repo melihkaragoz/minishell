@@ -43,6 +43,8 @@ void	ms_set_quote_mode(int set)
 
 void ms_init(void)
 {
+	g_vars.stdo = dup(1);
+	g_vars.stdi = dup(0);;
 	g_vars.exec = malloc(sizeof(t_exec));
 	g_vars.exec->pipe_count = 0;
 	g_vars.tokens = ms_new_token();
