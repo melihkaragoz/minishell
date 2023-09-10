@@ -39,10 +39,8 @@ int ms_end_of_word(void)
 		return (ms_set_arg_false(4), 1);
 	while (g_vars.p_tools->quote_mode && g_vars.line[g_vars.i] && g_vars.i++) // tırnak açıldıysa
 	{
-		printf("\n anlik: .%c. in:%d quote_mode: %d\n", g_vars.line[g_vars.i], g_vars.i, g_vars.p_tools->quote_mode);
 		if (g_vars.line[g_vars.i] == g_vars.p_tools->quote_mode) // tırnak kapandıysa
 		{
-			printf("\n tırnak kapandıysa anlik: .%c. in:%d\n", g_vars.line[g_vars.i], g_vars.i);
 			if (g_vars.line[g_vars.i + 1] && (ms_check_seperators(&g_vars.line[g_vars.i + 1]) || g_vars.line[g_vars.i + 1] == ' ')) // tırnak kapandıysa --- bir sonraki karakter seperator ise
 				return (ms_set_arg_false(5), 1);
 			else if (g_vars.line[g_vars.i + 1] && (g_vars.line[g_vars.i + 1] == 39 || g_vars.line[g_vars.i + 1] == 34)) // tırnak kapandıysa --- bir sonraki karakter tırnaksa

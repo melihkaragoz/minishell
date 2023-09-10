@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/08 19:37:31 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 02:34:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void ms_put_env(t_token *token, int *i)
 	token->content = t_tmp;
 	free(t_first);
 	free(t_last);
-	*i += ft_strlen(getenv(tmp)) + ft_strlen(tmp);
+	if (getenv(tmp))
+		*i += ft_strlen(getenv(tmp)) + ft_strlen(tmp);
 	free(tmp);
 }
 
