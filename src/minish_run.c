@@ -111,7 +111,8 @@ int ms_exec(int sentence)
             exit (31);
         // printf();
         execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
-        perror("bash: ");
+        const char *errmsg = ft_strjoin("bash: ",*g_vars.exec->av[sentence]);
+        perror(errmsg);
         exit(1);
     }
     // printf("waitpid öncesi\n");
