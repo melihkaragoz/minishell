@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 11:53:51 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 11:58:01 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 	while (42)
 	{
 		g_vars.line =  readline("minishell$ ");//"ls -l | grep \"py\""; //
-		if (!g_vars.line && !(g_vars.line[0]))
+		if (!(g_vars.line) || !(*(g_vars.line)))
 			continue;
 		add_history(g_vars.line);
 		ms_set_tokens(); // parse part 1
