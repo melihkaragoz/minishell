@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 04:21:05 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 10:17:28 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int ac, char **av, char **env)
 	g_vars.env = env;
 	while (42)
 	{
-		g_vars.line = readline("minishell$ "); // "/bin/ls -l | /usr/bin/wc -l";
+		g_vars.line = readline("minishell$ "); // "ls -l | wc -l | touch";
 		if (!g_vars.line && !(g_vars.line[0]))
 			continue;
 		add_history(g_vars.line);
@@ -33,14 +33,20 @@ int main(int ac, char **av, char **env)
 		}
 		ms_set_nodes();  // parse part 2
 		ms_exec();
-		int i = -1;
+		
+		int i = 0;
 		int j;
-		while (g_vars.exec->av[++i])
+		while (i < 3)
 		{
-			j = -1;
-			while (g_vars.exec->av[i][++j])
-				printf("%s ", g_vars.exec->av[i][j]);
+			printf("%d\n", i);
+			j = 0;
+			while (g_vars.exec->av[i][j])
+			{
+				printf("%s \n", g_vars.exec->av[i][j]);
+				j++;
+			}
 			printf("\n");
+			i++;
 		}
 	}
 	return (0);
