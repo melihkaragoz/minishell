@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 15:57:49 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 16:21:16 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_exec
 {
 	// int		*pipe_idx;
 	int	set_path;
+	int	is_builtin;
 	char	***av;
 	int 	**av_token;
 	int		pipe_count;
-	bool builtin;
 }		t_exec;
 
 typedef struct s_tools
@@ -96,4 +96,6 @@ void 	ms_free_tokens(void);
 void 	ms_set_arg_false(int i);
 void 	ms_check_env(t_token *org_token);
 void 	ms_put_env(t_token *token, int *i);
+int	ms_node_check_redirection(char *content);
+int	ms_node_check_builtin(char *content);
 #endif

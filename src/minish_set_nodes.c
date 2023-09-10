@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void	ms_node_remove_char(t_token *tmp, int i)		// birinci parametre olarak verilen stringden ikinci parametre indexindeki karakteri siler.
+void ms_node_remove_char(t_token *tmp, int i) // birinci parametre olarak verilen stringden ikinci parametre indexindeki karakteri siler.
 {
-	char	*tmp_str;
-	char	*tmp_str_extra;
+	char *tmp_str;
+	char *tmp_str_extra;
 	int len;
 
 	if (tmp->content && *tmp->content)
@@ -18,9 +18,9 @@ void	ms_node_remove_char(t_token *tmp, int i)		// birinci parametre olarak veril
 	}
 }
 
-void	ms_remove_quotes(t_token *tmp)
+void ms_remove_quotes(t_token *tmp)
 {
-	int	quo;
+	int quo;
 	int start_pos_quo;
 
 	g_vars.i = 0;
@@ -43,9 +43,10 @@ void	ms_remove_quotes(t_token *tmp)
 	}
 }
 
-
-int	ms_node_check_builtin(char *content)
+int ms_node_check_builtin(char *content)
 {
+	if (!content)
+		return (0);
 	if (!ft_strncmp("echo", content, 4))
 		return (1);
 	else if (!ft_strncmp("pwd", content, 3))
@@ -57,7 +58,7 @@ int	ms_node_check_builtin(char *content)
 	else if (!ft_strncmp("env", content, 3))
 		return (1);
 	else if (!ft_strncmp("exit", content, 4))
-		return (1);
+		exit (1);
 	return (0);
 }
 
@@ -68,7 +69,7 @@ int	ms_node_check_builtin(char *content)
 ◦env with no options or arguments
 ◦exit */
 
-int	ms_node_check_redirection(char *content)
+int ms_node_check_redirection(char *content)
 {
 	if (!ft_strncmp("<<", content, 2))
 		return (1);
@@ -85,20 +86,20 @@ int	ms_node_check_redirection(char *content)
 	return (0);
 }
 
-void	ms_set_nodes(void)
+void ms_set_nodes(void)
 {
-	while (g_vars.tmp_token->content)		// node'ları tek tek gezen döngü
+	while (g_vars.tmp_token->content) // node'ları tek tek gezen döngü
 	{
-		g_vars.tmp_token->type = 0;												// undefined
-		if (ms_node_check_redirection(g_vars.tmp_token->content))				// redirection
+		g_vars.tmp_token->type = 0;								  // undefined
+		if (ms_node_check_redirection(g_vars.tmp_token->content)) // redirection
 			g_vars.tmp_token->type = 3;
-		else if (!ft_strncmp("|", g_vars.tmp_token->content, 1))				// pipe
+		else if (!ft_strncmp("|", g_vars.tmp_token->content, 1)) // pipe
 		{
 			g_vars.tmp_token->type = 2;
-			g_vars.exec->pipe_count++;					// pipe sayısı
+			g_vars.exec->pipe_count++; // pipe sayısı
 		}
 		ms_remove_quotes(g_vars.tmp_token);
-		if (ms_node_check_builtin(g_vars.tmp_token->content))					// built-in
+		if (ms_node_check_builtin(g_vars.tmp_token->content)) // built-in
 			g_vars.tmp_token->type = 1;
 		// printf("content: .%s. - type: %d\n", g_vars.tmp_token->content, g_vars.tmp_token->type);
 		g_vars.tmp_token = g_vars.tmp_token->next;

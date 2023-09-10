@@ -51,26 +51,14 @@ void ms_set_execve_av2(void)
                 g_vars.exec->av_token[sentence][i] = tmp2->type;
                 if (!(tmp2->type) && !(g_vars.exec->set_path))
                 {
-                    if(ms_test_path(tmp2->content))
+                    if (ms_test_path(tmp2->content))
                     {
-                        // printf("freeeeeeeeeee\n");
-                        // free(g_vars.exec->av[sentence][i]);
                         g_vars.exec->av[sentence][i] = ms_test_path(tmp2->content);
                         g_vars.exec->set_path = 1;
                     }
                 }
                 tmp2 = tmp2->next;
             }
-            // for (size_t i = 0; g_vars.exec->av[i]; i++)
-            // {
-            //     int j;
-            //     for (j = 0; g_vars.exec->av[i][j]; j++)
-            //     {
-            //         // printf(" %s -", g_vars.exec->av[i][j]);
-            //         // printf(" %d -", g_vars.exec->av_token[i][j]);
-            //     }
-            //     // printf(" %s\n", g_vars.exec->av[i][j]);
-            // }
             if (tmp2 && tmp2->type == 2)
             {
                 tmp2 = tmp2->next;
@@ -86,12 +74,40 @@ void ms_set_execve_av2(void)
     }
 }
 
+void    ms_run_echo(char **sentence)                //geçici
+{
+    bool n;
+
+    n = false;
+    for (size_t i = 1; sentence[i]; i++)
+    {
+        if (!ft_strncmp("-n", sentence[1], 2))
+        {
+            n = true;
+            continue;
+        } 
+        ft_putstr_fd(sentence[i], 1);
+        if (sentence[i + 1])
+            ft_putstr_fd(" ", 1);
+    }
+    if (n == false)
+        ft_putstr_fd("\n", 1);
+}
+
+void    ms_exec_builtin(char **sentence)
+{
+    if (!ft_strncmp(sentence[0], "echo", 4))
+        ms_run_echo(sentence);
+    exit(1);
+    // printf("built-in geldi zort: %s\n", sentence[0]);
+}
+
 int ms_exec(int sentence)
 {
     int has_pipe;
     int pipe_fd[2];
+    int status; // child process return code
     pid_t child;
-    int status;             // child process return code
 
     status = 0;
     has_pipe = 0;
@@ -100,26 +116,28 @@ int ms_exec(int sentence)
         has_pipe = 1;
         g_vars.exec->pipe_count--;
     }
-    // printf("has_pipe: %d\n", has_pipe);
     if (has_pipe && pipe(pipe_fd) == -1)
         return (0);
-    // printf("%d\n", has_pipe);
     child = fork();
     if (!child)
     {
         if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
-            exit (31);
-        // printf();
+            exit(31);
+        if (g_vars.exec->av_token[sentence][0] == 1)
+        {        
+            ms_exec_builtin(g_vars.exec->av[sentence]);
+            exit(2);
+        }
         execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
-        const char *errmsg = ft_strjoin("bash: ",*g_vars.exec->av[sentence]);
+        const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
         perror(errmsg);
         exit(1);
     }
-    // printf("waitpid öncesi\n");
     waitpid(child, &status, 0);
     if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
     {
-        printf("ZORRRRT\n");
+        printf("[!!] dup calismadi\n");
+        exit(31);
     }
     return WIFEXITED(status) && WEXITSTATUS(status);
 }

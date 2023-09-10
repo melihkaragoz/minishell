@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 15:54:19 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/10 16:06:40 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ int main(int ac, char **av, char **env)
 			ms_exec(g_vars.i);
 		dup2(g_vars.stdo, 1);
 		dup2(g_vars.stdi, 0);
-		// int i = 0;
-		// int j;
-		// while (i < 3)
-		// {
-		// 	printf("%d\n", i);
-		// 	j = 0;
-		// 	while (g_vars.exec->av[i][j])
-		// 	{
-		// 		printf("%s \n", g_vars.exec->av[i][j]);
-		// 		j++;
-		// 	}
-		// 	printf("\n");
-		// 	i++;
-		// }
-		// exit(31);
 	}
 	return (0);
 }
