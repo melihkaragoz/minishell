@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/10 02:34:07 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/12 04:06:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void ms_put_env(t_token *token, int *i)
 	// printf("[!] first part of content: %s\n", t_first);
 	// printf("[!] last part of content: %s\n", t_last);
 	if (getenv(tmp))
+	{
 		t_tmp = ft_strjoin(t_first, getenv(tmp));
+		printf("getenv: %s\n",getenv(str));	
+	}
 	else
 		t_tmp = ft_strjoin(t_first, "");
 	t_tmp = ft_strjoin(t_tmp, t_last);

@@ -74,31 +74,56 @@ void ms_set_execve_av2(void)
     }
 }
 
-void    ms_run_echo(char **sentence)                //geçici
+void    ms_run_pwd(void)
+{
+    char buff[40]; // asd
+
+    getcwd(buff, sizeof(buff));
+    printf("%s\n", buff);
+}
+
+void    ms_run_echo(char **sentence)               //geçici
 {
     bool n;
+    int i;
 
+    i = 1;
     n = false;
-    for (size_t i = 1; sentence[i]; i++)
+    // char str[2] = "-n";
+    while (sentence[i])
     {
-        if (!ft_strncmp("-n", sentence[1], 2))
+        if (i == 1 && !ft_strncmp("-n", sentence[i], 2))
         {
             n = true;
-            continue;
+            i++;
+            continue ;
         } 
         ft_putstr_fd(sentence[i], 1);
         if (sentence[i + 1])
             ft_putstr_fd(" ", 1);
+        i++;
     }
     if (n == false)
         ft_putstr_fd("\n", 1);
+}
+
+void    ms_run_cd(char **sentence)
+{
+    printf("sent: %s\n", sentence[0]);
+    printf("sent: %s\n", sentence[1]);
+    if (sentence[1])
+        chdir(sentence[1]);
 }
 
 void    ms_exec_builtin(char **sentence)
 {
     if (!ft_strncmp(sentence[0], "echo", 4))
         ms_run_echo(sentence);
-    exit(1);
+    else if (!ft_strncmp(sentence[0], "pwd", 3))
+        ms_run_pwd();
+    else if (!ft_strncmp(sentence[0], "cd", 2))
+        ms_run_cd(sentence);
+    exit(12);
     // printf("built-in geldi zort: %s\n", sentence[0]);
 }
 
@@ -119,12 +144,18 @@ int ms_exec(int sentence)
     if (has_pipe && pipe(pipe_fd) == -1)
         return (0);
     child = fork();
+    if (!ft_strncmp(g_vars.exec->av[0][0], "cd", 2) && g_vars.exec->av[0][1])
+        if (chdir(g_vars.exec->av[0][1]) == -1)
+        {
+            printf("zooooooort\n");
+            exit(37);
+        }
     if (!child)
     {
         if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
             exit(31);
         if (g_vars.exec->av_token[sentence][0] == 1)
-        {        
+        {
             ms_exec_builtin(g_vars.exec->av[sentence]);
             exit(2);
         }

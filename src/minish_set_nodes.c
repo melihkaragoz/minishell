@@ -59,6 +59,8 @@ int ms_node_check_builtin(char *content)
 		return (1);
 	else if (!ft_strncmp("exit", content, 4))
 		exit (1);
+	else if (!ft_strncmp("cd", content, 2))
+		return (1);
 	return (0);
 }
 
