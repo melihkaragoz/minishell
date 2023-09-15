@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/12 04:06:07 by anargul          ###   ########.fr       */
+/*   Updated: 2023/09/15 00:10:31 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void ms_put_env(t_token *token, int *i)
 	if (getenv(tmp))
 	{
 		t_tmp = ft_strjoin(t_first, getenv(tmp));
-		printf("getenv: %s\n",getenv(str));	
+		printf("getenv: %s\n",getenv(tmp));
 	}
 	else
 		t_tmp = ft_strjoin(t_first, "");

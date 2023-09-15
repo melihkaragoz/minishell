@@ -8,7 +8,7 @@ void ms_make_nodes(void)
 	g_vars.i = 0;
 	while (g_vars.line && g_vars.line[g_vars.i])
 	{
-		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32) // bosluklari gec
+		while (g_vars.line[g_vars.i] && g_vars.line[g_vars.i] <= 32 && g_vars.line[g_vars.i] >= 0) // bosluklari gec
 			(g_vars.i)++;
 		f = g_vars.i;
 		while (g_vars.line[g_vars.i] && (!ms_end_of_word() || g_vars.p_tools->arg_mode)) // ozel karakterleri gec
@@ -29,7 +29,7 @@ void ms_make_nodes(void)
 void ms_print_tokens(void)
 {
 	t_token *t1;
-	t1 = g_vars.f_token;
+	t1 = g_vars.head;
 	while (t1)
 	{
 		printf("address:\t%p | content:\t%s.\t| next:\t%p\n", t1, t1->content, t1->next);

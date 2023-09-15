@@ -10,6 +10,16 @@ t_token *ms_new_token(void)
 	return (n_token);
 }
 
+t_env *ms_new_env(char *content)
+{
+	t_env *n_env;
+
+	n_env = malloc(sizeof(t_env));
+	n_env->content = content;
+	n_env->next = NULL;
+	return (n_env);
+}
+
 int ms_check_seperators(char *s)
 {
 	char seperators[4];
@@ -38,7 +48,7 @@ void	ms_set_quote_mode(int set)
 	{
 		g_vars.i++;
 		g_vars.p_tools->quote_mode = 0;
-	}	
+	}
 }
 
 void ms_init(void)
