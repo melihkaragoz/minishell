@@ -10,12 +10,12 @@ t_token *ms_new_token(void)
 	return (n_token);
 }
 
-t_env *ms_new_env(char *content)
+t_env *ms_new_env(void)
 {
 	t_env *n_env;
 
 	n_env = malloc(sizeof(t_env));
-	n_env->content = content;
+	n_env->content = NULL;
 	n_env->next = NULL;
 	return (n_env);
 }

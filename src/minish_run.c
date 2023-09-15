@@ -120,7 +120,7 @@ void ms_run_env(void)
 
 	lst = g_vars.env_head;
 	i = -1;
-	while (lst)
+	while (lst->content)
 	{
 		printf("%s\n", lst->content);
 		lst = lst->next;
@@ -135,25 +135,24 @@ void ms_run_export(char *s)
 
 void ms_run_unset(char *s)
 {
-	t_env *tmp;
 	t_env *prev;
 
 	char	*split;
-	tmp = g_vars.env_head->next;
-	prev = tmp;
-	while (tmp)
+	prev = g_vars.env_list->next;
+	if (*s)
 	{
-		split = ft_split(tmp->content, '=')[0];
-		if (!ft_strncmp(split, s, ft_strlen(s + 1)))
+		while (g_vars.env_list)
 		{
-			printf("prev-> -%s-  ve tmp->next-> %s--\n", prev->content, tmp->next->content);
-			prev->next = tmp->next;
-			free(tmp);
-			printf("prev-> -%s-  ve prev->next-> %s--\n", prev->content, prev->next->content);
-			return ;
+			split = ft_split(g_vars.env_list->content, '=')[0];
+			if (!ft_strncmp(split, s, ft_strlen(s + 1)))
+			{
+				prev->next = g_vars.env_list->next;
+				free(g_vars.env_list);
+				return ;
+			}
+			prev = g_vars.env_list;
+			g_vars.env_list = g_vars.env_list->next;
 		}
-		prev = tmp;
-		tmp = tmp->next;
 	}
 	printf("bulamadi\n");
 }
@@ -213,22 +212,23 @@ int ms_exec(int sentence)
 	}
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
-	child = fork();
 	if (!ft_strncmp(g_vars.exec->av[0][0], "cd", 2) && g_vars.exec->av[0][1])
 		if (chdir(g_vars.exec->av[0][1]) == -1)
 		{
 			printf("zooooooort\n");
 			exit(37);
 		}
-	if (!child)
+	bool as = false;
+	if (g_vars.exec->av_token[sentence][0] == 1)
+		{
+			ms_exec_builtin(g_vars.exec->av[sentence]);
+			as = true;
+		}
+	child = fork();
+	if (!child && as == false)
 	{
 		if (has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 			exit(31);
-		if (g_vars.exec->av_token[sentence][0] == 1)
-		{
-			ms_exec_builtin(g_vars.exec->av[sentence]);
-			exit(2);
-		}
 		execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 		const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 		perror(errmsg);

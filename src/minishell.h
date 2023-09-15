@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/15 18:26:32 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:40:56 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void ms_put_env(t_token *token, int *i);
 int ms_node_check_redirection(char *content);
 int ms_node_check_builtin(char *content);
 char *ms_get_env(char *s);
-t_env *ms_new_env(char *content);
+t_env *ms_new_env(void);
 void ms_set_envlist(char **env);
 void ms_run_export(char *s);
 

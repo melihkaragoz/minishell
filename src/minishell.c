@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/15 19:07:15 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:43:28 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int main(int ac, char **av, char **env)
 		sentence_it = g_vars.exec->pipe_count + 1;
 		while (++g_vars.i < sentence_it)
 			ms_exec(g_vars.i);
+		// ms_run_env();
 		dup2(g_vars.stdo, 1);
 		dup2(g_vars.stdi, 0);
 	}
@@ -51,11 +52,12 @@ void ms_set_envlist(char **env)
 	int i;
 
 	i = -1;
-	g_vars.env_list = ms_new_env("");
+	g_vars.env_list = ms_new_env();
 	g_vars.env_head = g_vars.env_list;
 	while (env[++i])
 	{
-		g_vars.env_list->next = ms_new_env(env[i]);
+		g_vars.env_list->content = env[i];
+		g_vars.env_list->next = ms_new_env();
 		g_vars.env_list = g_vars.env_list->next;
 	}
 	g_vars.env_tail = g_vars.env_list;
