@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void ms_set_envlist(char **env)
+{
+	int i;
+
+	i = -1;
+	g_vars.env_list = ms_new_env();
+	g_vars.env_head = g_vars.env_list;
+	while (env[++i])
+	{
+		g_vars.env_list->content = env[i];
+		g_vars.env_list->next = ms_new_env();
+		g_vars.env_list = g_vars.env_list->next;
+	}
+	g_vars.env_tail = g_vars.env_list;
+}
+
 void ms_node_remove_char(t_token *tmp, int i) // birinci parametre olarak verilen stringden ikinci parametre indexindeki karakteri siler.
 {
 	char *tmp_str;

@@ -1,15 +1,12 @@
 #include "minishell.h"
 
-void free_string_array(char **str)
+void ms_free_string_array(char **str)
 {
 	int i;
 
-	i = 0;
-	while (str[i])
-	{
+	i = -1;
+	while (str[++i])
 		free(str[i]);
-		i++;
-	}
 	free(str);
 }
 
@@ -140,39 +137,21 @@ void ms_run_unset(char *s)
 	char *split;
 	g_vars.env_list = g_vars.env_head;
 	prev = g_vars.env_head;
-	if (*s)
+	while (s && g_vars.env_list && g_vars.env_list->content)
 	{
-		while (g_vars.env_list && g_vars.env_list->content)
+		split = ft_split(g_vars.env_list->content, '=')[0];
+		if (ft_strlen(split) == ft_strlen(s))
 		{
-			split = ft_split(g_vars.env_list->content, '=')[0];
-			if (*ft_strchr(split, '=') == split[ft_strlen(split)-1])  // eger esittirden sonra deger yoksa
-				return ;
-			else if (ft_strlen(s) == 1 && split[0] == s[0]) // silinmek istenen degisken tek harfli ise
+			if(!ft_strncmp(s, split, ft_strlen(split)))
 			{
-				printf("tek geldi\n");
-				if (!g_vars.env_list->next)
-					prev->next = NULL;
-				else
-					prev->next = g_vars.env_list->next;
-				ms_run_env();
+				prev->next = g_vars.env_list->next;
+				free(g_vars.env_list);
 				return;
 			}
-			else if (!ft_strncmp(split, s, ft_strlen(s))) // // silinmek istenen degisken cok harfli ise
-			{
-				printf("coklu geldi\n");
-				if (!g_vars.env_list->next)
-					prev->next = NULL;
-				else
-					prev->next = g_vars.env_list->next;
-				// free(g_vars.env_list);
-				ms_run_env();
-				return;
-			}
-			prev = g_vars.env_list;
-			g_vars.env_list = g_vars.env_list->next;
 		}
+		prev = g_vars.env_list;
+		g_vars.env_list = g_vars.env_list->next;
 	}
-	printf("bulamadi\n");
 }
 
 char *ms_get_env(char *s)
