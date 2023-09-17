@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/17 14:56:58 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/17 16:17:29 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ void ms_check_env(t_token *org_token)
 	dl_sign = 0;
 	while ((token->content) && token->content[++i])
 	{
-		if ((quote == 2 || quote == 0) && token->content[i] == '$' && ft_isalnum(token->content[i + 1]) && ++dl_sign)
+		if ((quote == 2 || quote == 0) && token->content[i] == '$' && (ft_isalnum(token->content[i + 1]) || token->content[i + 1] == '$') && ++dl_sign)
 		{
-			ms_put_env(token, &i);
+			if (token->content[i + 1] == '$')
+				ms_put_dollar(token, &i);
+			else
+				ms_put_env(token, &i);
 			dl_sign = 0;
 			continue;
 		}
@@ -81,6 +84,16 @@ void ms_put_env(t_token *token, int *i)
 	if (getenv(tmp))
 		*i += ft_strlen(getenv(tmp)) - ft_strlen(tmp);
 	free(tmp);
+}
+
+void ms_put_dollar(t_token *token, int *i)
+{
+	int pid;
+
+	pid = getpid();
+	free(token->content);
+	token->content = ft_strdup(ft_itoa(pid));
+	*i += ft_strlen(token->content) - 2;
 }
 
 // int ms_exec(void)

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/16 16:15:20 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/17 17:51:33 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ struct s_vars
 	t_env	*env_list;
 	t_env	*env_head;
 	t_env	*env_tail;
+	t_env	*export_list;
+	t_env	*export_head;
+	t_env	*export_tail;
 	int stdo;
 	int stdi;
 	int i;
@@ -113,5 +116,6 @@ char *ms_get_env(char *s);
 t_env *ms_new_env(void);
 void ms_set_envlist(char **env);
 void ms_run_export(char *s);
-
+void ms_put_dollar(t_token *token, int *i);
+void	ms_copy_struct(struct *dst, struct *src);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/17 03:29:32 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/17 16:00:00 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int ac, char **av, char **env)
 		add_history(g_vars.line);
 		ms_set_tokens(); // parse part 1
 		g_vars.tmp_token = g_vars.f_token;
-		while (g_vars.f_token)
+		while (g_vars.f_token->content)
 		{
 			ms_check_env(g_vars.f_token);
 			g_vars.f_token = g_vars.f_token->next;
