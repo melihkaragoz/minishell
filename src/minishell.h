@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/17 21:40:32 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/22 00:11:07 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,8 @@ void ms_run_export(char *s);
 void ms_put_dollar(t_token *token, int *i);
 void	ms_copy_struct(t_env *s);
 void ms_exec_builtin(char **sentence, char *str);
+void ms_print_export(void);
+t_env	*ms_lstchr(char *s);
+void	ms_update_env_tail(void);
+int	ms_strncmp(char *a ,char *b, char c);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/17 20:04:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/21 23:48:25 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int main(int ac, char **av, char **env)
 		g_vars.i = -1;
 		sentence_it = g_vars.exec->pipe_count + 1;
 		while (++g_vars.i < sentence_it)
-			ms_exec(g_vars.i);
+			if(ms_exec(g_vars.i))
+				break;
 		// ms_run_env();
 		dup2(g_vars.stdo, 1);
 		dup2(g_vars.stdi, 0);

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 02:33:15 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/15 17:00:11 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/22 00:08:15 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 char	*ft_strchr(const char *s, int c);
+int	ft_nstrchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);

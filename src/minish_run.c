@@ -28,19 +28,27 @@ void ms_copy_struct(t_env *src)
 	}
 }
 
-void ms_add_env_list(char *s, int mod) // listelerin taillerini bul
+void ms_add_env_list(char *s, int mod) // listelerin taillerini bul, leak var
 {
-	if (g_vars.export_tail)
-	{
-		g_vars.export_tail->next = ms_new_env();
-		g_vars.export_tail->content = ft_strdup(s);
-		g_vars.export_tail = g_vars.export_tail->next;
-	}
+	printf("[FN] add\n");
+	(void)s;
 	if (mod)
 	{
+		// ms_print_export();
+		printf("[!!] tail content: %s\n", g_vars.env_tail->content);
+		if (ms_lstchr(s))
+		{
+			printf("\t[!!] lstchr girdi\n");
+			// free(ms_lstchr(s)->content);
+			ms_lstchr(s)->content = s;
+			return ;
+		}
 		g_vars.env_tail->next = ms_new_env();
 		g_vars.env_tail->next->content = ft_strdup(s);
 		g_vars.env_tail = g_vars.env_tail->next;
+		g_vars.env_tail->next = NULL;
+		printf("[!!] new node: %s\n", g_vars.env_tail->content);
+		printf("[FN] add/1\n");
 	}
 }
 
@@ -51,7 +59,7 @@ void ms_print_export(void) // leak var
 	char **s;
 	i = -1;
 	t = g_vars.env_head;
-	while (t->content)
+	while (t && t->content)
 	{
 		s = ft_split(t->content, '=');
 		if (!s[1])
@@ -59,7 +67,6 @@ void ms_print_export(void) // leak var
 		printf("declare -x %s=\"%s\"\n", s[0], s[1]);
 		t = t->next;
 	}
-	t = g_vars.env_head;
 }
 
 char *ms_getenv(char *s)
@@ -70,7 +77,7 @@ char *ms_getenv(char *s)
 	i = -1;
 
 	t = g_vars.env_head;
-	while (t->content)
+	while (t && t->content)
 	{
 		sp = ft_split(t->content, '=');
 		if ((ft_strlen(sp[0]) == ft_strlen(s)) && !ft_strncmp(s, sp[0], ft_strlen(s)))
@@ -181,6 +188,31 @@ void ms_run_cd(char **sentence)
 		chdir(sentence[1]);
 }
 
+t_env	*ms_lstchr(char *s)
+{
+	int i;
+	t_env *lst;
+
+	lst = g_vars.env_head;
+	i = -1;
+	while (lst && lst->content)
+	{
+
+		if (printf("\t[!!]karsilastirilan: %s, %s\n", s, lst->content) && ms_strncmp(s, lst->content, '='))
+		{
+			printf("[!!] buldum: %s\n", lst->content);
+			return (lst);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
+int	ms_strncmp(char *a ,char *b, char c)
+{
+	return (ft_nstrchr(a, c) == ft_nstrchr(b, c) && !ft_strncmp(a, b, ft_nstrchr(a, c)));
+}
+
 void ms_run_env(void)
 {
 	int i;
@@ -213,10 +245,10 @@ void ms_run_export(char *s)
 			ms_add_env_list(s, 1); // hem g_vars.env_list'ye hem g_vars.export'a ekle
 		else
 			ms_add_env_list(s, 0); // sadece exporta ekle
-		free(*sp);
-		if (sp + (100 / 100 % 42))
-			free(sp + ((1042 * 1 / 512) - 1));
-		free(sp + (5454143429 / 5458240031));
+		// free(*sp);
+		// if (sp + (100 / 100 % 42))
+		// 	free(sp + ((1042 * 1 / 512) - 1));
+		// free(sp + (5454143429 / 5458240031));
 	}
 }
 
@@ -236,12 +268,21 @@ void ms_run_unset(char *s)
 			{
 				prev->next = g_vars.env_list->next;
 				free(g_vars.env_list);
+				ms_update_env_tail();
 				return;
 			}
 		}
 		prev = g_vars.env_list;
 		g_vars.env_list = g_vars.env_list->next;
 	}
+}
+
+void	ms_update_env_tail(void)
+{
+	g_vars.env_tail = g_vars.env_head;
+	while (g_vars.env_tail->next)
+		g_vars.env_tail = g_vars.env_tail->next;
+	printf("\t[!!] find tail: %s\n", g_vars.env_tail->content);
 }
 
 char *ms_get_env(char *s)
@@ -315,7 +356,7 @@ int ms_exec(int sentence)
 			else
 			{
 				ms_run_export(g_vars.exec->av[sentence][1]);
-				as = false;
+				return (0);
 			}
 		}
 		else if (!ft_strncmp(g_vars.exec->av[sentence][0], "cd", 3)) // pipe yoksa her türlü cd geldi.
@@ -330,9 +371,10 @@ int ms_exec(int sentence)
 		}
 		else if (!ft_strncmp(g_vars.exec->av[sentence][0], "unset", 6))
 		{
+			if (g_vars.exec->pipe_count > 0)
+				return (1);
 			ms_run_unset(g_vars.exec->av[sentence][1]);
-			ms_run_env();
-			as = false;
+			return (0);
 		}
 	}
 	child = fork();
