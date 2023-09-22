@@ -30,25 +30,17 @@ void ms_copy_struct(t_env *src)
 
 void ms_add_env_list(char *s, int mod) // listelerin taillerini bul, leak var
 {
-	printf("[FN] add\n");
-	(void)s;
 	if (mod)
 	{
-		// ms_print_export();
-		printf("[!!] tail content: %s\n", g_vars.env_tail->content);
 		if (ms_lstchr(s))
 		{
-			printf("\t[!!] lstchr girdi\n");
-			// free(ms_lstchr(s)->content);
 			ms_lstchr(s)->content = s;
-			return ;
+			return;
 		}
 		g_vars.env_tail->next = ms_new_env();
 		g_vars.env_tail->next->content = ft_strdup(s);
 		g_vars.env_tail = g_vars.env_tail->next;
 		g_vars.env_tail->next = NULL;
-		printf("[!!] new node: %s\n", g_vars.env_tail->content);
-		printf("[FN] add/1\n");
 	}
 }
 
@@ -69,7 +61,7 @@ void ms_print_export(void) // leak var
 	}
 }
 
-char *ms_getenv(char *s)
+char *ms_getenv(char *s) // bagli listeden cekiyor
 {
 	int i;
 	t_env *t;
@@ -83,6 +75,20 @@ char *ms_getenv(char *s)
 		if ((ft_strlen(sp[0]) == ft_strlen(s)) && !ft_strncmp(s, sp[0], ft_strlen(s)))
 			return (sp[1]);
 		t = t->next;
+	}
+	return (NULL);
+}
+
+char *ms_get_env(char *s) // bastaki env arrayinden cekiyor
+{
+	int i;
+	char **tmp;
+	i = -1;
+	while (g_vars.env[++i])
+	{
+		tmp = ft_split(g_vars.env[i], '=');
+		if (*tmp && !ft_strncmp(tmp[0], s, ft_strlen(s)))
+			return (tmp[1]);
 	}
 	return (NULL);
 }
@@ -184,11 +190,27 @@ void ms_run_echo(char **sentence)
 
 void ms_run_cd(char **sentence)
 {
-	if (sentence[1])
+	char *pwd;
+	char *opwd;
+	pwd = ft_strdup(ms_get_env("PWD"));
+	getcwd(pwd, ft_strlen(pwd));
+	if (!ft_strncmp(sentence[1], "-", 1))
+		chdir(ms_getenv("OLDPWD"));
+	else if (sentence[1])
 		chdir(sentence[1]);
+	else
+		return;
+	opwd = ft_strjoin("OLDPWD=", pwd);
+	if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
+		ms_add_env_list(opwd, 1);
+	free(pwd);
+	pwd = ft_strdup(ms_get_env("PWD"));
+	getcwd(pwd, ft_strlen(pwd));
+	free(pwd);
+	ms_add_env_list(ft_strjoin("PWD=", pwd), 1);
 }
 
-t_env	*ms_lstchr(char *s)
+t_env *ms_lstchr(char *s)
 {
 	int i;
 	t_env *lst;
@@ -197,18 +219,14 @@ t_env	*ms_lstchr(char *s)
 	i = -1;
 	while (lst && lst->content)
 	{
-
-		if (printf("\t[!!]karsilastirilan: %s, %s\n", s, lst->content) && ms_strncmp(s, lst->content, '='))
-		{
-			printf("[!!] buldum: %s\n", lst->content);
+		if (ms_strncmp(s, lst->content, '='))
 			return (lst);
-		}
 		lst = lst->next;
 	}
 	return (0);
 }
 
-int	ms_strncmp(char *a ,char *b, char c)
+int ms_strncmp(char *a, char *b, char c)
 {
 	return (ft_nstrchr(a, c) == ft_nstrchr(b, c) && !ft_strncmp(a, b, ft_nstrchr(a, c)));
 }
@@ -245,10 +263,10 @@ void ms_run_export(char *s)
 			ms_add_env_list(s, 1); // hem g_vars.env_list'ye hem g_vars.export'a ekle
 		else
 			ms_add_env_list(s, 0); // sadece exporta ekle
-		// free(*sp);
-		// if (sp + (100 / 100 % 42))
-		// 	free(sp + ((1042 * 1 / 512) - 1));
-		// free(sp + (5454143429 / 5458240031));
+								   // free(*sp);
+								   // if (sp + (100 / 100 % 42))
+								   // 	free(sp + ((1042 * 1 / 512) - 1));
+								   // free(sp + (5454143429 / 5458240031));
 	}
 }
 
@@ -277,26 +295,12 @@ void ms_run_unset(char *s)
 	}
 }
 
-void	ms_update_env_tail(void)
+void ms_update_env_tail(void)
 {
 	g_vars.env_tail = g_vars.env_head;
 	while (g_vars.env_tail->next)
 		g_vars.env_tail = g_vars.env_tail->next;
 	printf("\t[!!] find tail: %s\n", g_vars.env_tail->content);
-}
-
-char *ms_get_env(char *s)
-{
-	int i;
-	char **tmp;
-	i = -1;
-	while (g_vars.env[++i])
-	{
-		tmp = ft_split(g_vars.env[i], '=');
-		if (*tmp && !ft_strncmp(tmp[0], s, ft_strlen(s)))
-			return (tmp[1]);
-	}
-	return (NULL);
 }
 
 void ms_exec_builtin(char **sentence, char *str)
