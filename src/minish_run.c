@@ -192,26 +192,32 @@ void ms_run_cd(char **sentence)
 {
 	char *pwd;
 	char *opwd;
+	int res;
+
+	res = 0;
 	pwd = ft_strdup(ms_get_env("PWD"));
 	getcwd(pwd, ft_strlen(pwd));
-	if (!ft_strncmp(sentence[1], "-", 1))
-		{
-			chdir(ms_getenv("OLDPWD")); // oldpwd yoksa kontrolu eklenecek.
-			printf("%s\n", ms_getenv("OLDPWD"));
-		}
+	if (sentence[1] && !ft_strncmp(sentence[1], "-", 1))
+	{
+		res = chdir(ms_getenv("OLDPWD")); // oldpwd yoksa kontrolu eklenecek.
+		printf("%s\n", ms_getenv("OLDPWD"));
+	}
 	else if (sentence[1])
-		chdir(sentence[1]);
+		res = chdir(sentence[1]);
 	else if (!sentence[1])
 		chdir(ms_getenv("HOME"));
 	else
 		return;
-	opwd = ft_strjoin("OLDPWD=", pwd);
-	if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
-		ms_add_env_list(opwd, 1);
-	free(pwd);
-	pwd = ft_strdup(ms_get_env("PWD"));
-	getcwd(pwd, ft_strlen(pwd));
-	ms_add_env_list(ft_strjoin("PWD=", pwd), 1);
+	if (res != -1)
+	{
+		opwd = ft_strjoin("OLDPWD=", pwd);
+		if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
+			ms_add_env_list(opwd, 1);
+		free(pwd);
+		pwd = ft_strdup(ms_get_env("PWD"));
+		getcwd(pwd, ft_strlen(pwd));
+		ms_add_env_list(ft_strjoin("PWD=", pwd), 1);
+	}
 }
 
 t_env *ms_lstchr(char *s)
@@ -393,6 +399,7 @@ int ms_exec(int sentence)
 			exit(31);
 		if (as == true) // burdan built-in'e gidiyor
 		{
+			printf("in child\n");
 			ms_exec_builtin(g_vars.exec->av[sentence], str);
 			exit(1);
 		}

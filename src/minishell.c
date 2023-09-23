@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/21 23:48:25 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/23 18:08:18 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int ac, char **av, char **env)
 	ms_set_envlist(env);
 	while (42)
 	{
-		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m"); //"ls -l | grep \"py\""; //
+		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m");// "cd";
 		if ((!(g_vars.line) || !(*(g_vars.line))) && printf("\a"))
 			continue;
 		add_history(g_vars.line);
