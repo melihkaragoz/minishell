@@ -195,9 +195,14 @@ void ms_run_cd(char **sentence)
 	pwd = ft_strdup(ms_get_env("PWD"));
 	getcwd(pwd, ft_strlen(pwd));
 	if (!ft_strncmp(sentence[1], "-", 1))
-		chdir(ms_getenv("OLDPWD"));
+		{
+			chdir(ms_getenv("OLDPWD")); // oldpwd yoksa kontrolu eklenecek.
+			printf("%s\n", ms_getenv("OLDPWD"));
+		}
 	else if (sentence[1])
 		chdir(sentence[1]);
+	else if (!sentence[1])
+		chdir(ms_getenv("HOME"));
 	else
 		return;
 	opwd = ft_strjoin("OLDPWD=", pwd);
@@ -206,7 +211,6 @@ void ms_run_cd(char **sentence)
 	free(pwd);
 	pwd = ft_strdup(ms_get_env("PWD"));
 	getcwd(pwd, ft_strlen(pwd));
-	free(pwd);
 	ms_add_env_list(ft_strjoin("PWD=", pwd), 1);
 }
 
@@ -370,7 +374,8 @@ int ms_exec(int sentence)
 			else
 			{
 				ms_run_cd(g_vars.exec->av[sentence]);
-				as = false;
+				// as = false;
+				return (1);
 			}
 		}
 		else if (!ft_strncmp(g_vars.exec->av[sentence][0], "unset", 6))
