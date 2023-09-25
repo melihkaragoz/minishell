@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 18:11:47 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:33:46 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,6 @@ void ms_print_export(void);
 t_env	*ms_lstchr(char *s);
 void	ms_update_env_tail(void);
 int	ms_strncmp(char *a ,char *b, char c);
+void ms_run_unset(char *s);
+
 #endif
