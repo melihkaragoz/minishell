@@ -1,6 +1,6 @@
 SRCS			=	src/main/minishell.c src/main/minish_utils.c src/exec/minish_exec.c \
 					src/parse/minish_set_nodes.c src/parse/minish_token_utils.c src/parse/minish_token_seperator.c \
-					src/parse/minish_token.c src/exec/minish_run.c
+					src/parse/minish_token.c src/exec/minish_run.c src/exec/minish_signal.c
 
 OBJS			=	$(SRCS:.c=.o)
 

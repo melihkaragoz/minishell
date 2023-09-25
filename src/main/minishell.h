@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 18:33:46 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:00:10 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <stdbool.h>
+#include <signal.h>
 
 typedef struct s_token
 {
@@ -124,5 +125,5 @@ t_env	*ms_lstchr(char *s);
 void	ms_update_env_tail(void);
 int	ms_strncmp(char *a ,char *b, char c);
 void ms_run_unset(char *s);
-
+void ms_toggle_signal(int get);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 18:11:41 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:17:33 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int main(int ac, char **av, char **env)
 	ms_set_envlist(env);
 	while (42)
 	{
-		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m");// "cd";
+		// signal(SIGQUIT, ms_toggle_signal);
+		// signal(SIGINT, ms_toggle_signal);
+		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m"); // "cd";
 		if ((!(g_vars.line) || !(*(g_vars.line))) && printf("\a"))
 			continue;
 		add_history(g_vars.line);
@@ -35,7 +37,7 @@ int main(int ac, char **av, char **env)
 		}
 		ms_set_nodes();		 // parse part 2
 		ms_set_execve_arg(); // g_vars.exec->av oluşturulur.
-		//ms_print_tokens();
+		// ms_print_tokens();
 		g_vars.i = -1;
 		sentence_it = g_vars.exec->pipe_count + 1;
 		while (++g_vars.i < sentence_it)
