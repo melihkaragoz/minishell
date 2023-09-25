@@ -77,6 +77,8 @@ int ms_node_check_builtin(char *content)
 		exit (1);
 	else if (!ft_strncmp("cd", content, 2))
 		return (1);
+	else if (!ft_strncmp("π", content, 3))
+		return (1);
 	return (0);
 }
 
