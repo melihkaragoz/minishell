@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 22:23:01 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 02:01:19 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@ int main(int ac, char **av, char **env)
 	int sentence_it;
 	g_vars.env = env;
 	ms_set_envlist(env);
+	signal(SIGQUIT, ms_toggle_signal);
+	signal(SIGINT, ms_toggle_signal);
 	while (42)
 	{
-		// signal(SIGQUIT, ms_toggle_signal);
-		// signal(SIGINT, ms_toggle_signal);
-		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m"); // "cd";
-		if ((!(g_vars.line) || !(*(g_vars.line))) && printf("\a"))
+		g_vars.rm = 0;
+		g_vars.line = readline("\x1b[38;5;129mminishell$ \x1b[0m");
+		if (!(g_vars.line) && printf("\a"))
+			ms_exit("", 1);
+		if (!(*(g_vars.line)) || g_vars.rm)
 			continue;
-		if(ft_strchr(g_vars.line, EOF))
-			printf("CTRL-D handled\n");
 		add_history(g_vars.line);
 		ms_set_tokens(); // parse part 1
 		g_vars.tmp_token = g_vars.f_token;

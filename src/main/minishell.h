@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 22:00:10 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 01:50:09 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ struct s_vars
 	char *v_path;
 	char **env;
 	t_tools *p_tools;
+	int	rm;
 } g_vars;
 
 typedef struct s_line
@@ -126,4 +127,5 @@ void	ms_update_env_tail(void);
 int	ms_strncmp(char *a ,char *b, char c);
 void ms_run_unset(char *s);
 void ms_toggle_signal(int get);
+void	ms_exit(char *msg, int stat);
 #endif

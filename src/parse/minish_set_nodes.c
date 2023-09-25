@@ -74,7 +74,7 @@ int ms_node_check_builtin(char *content)
 	else if (!ft_strncmp("env", content, 3))
 		return (1);
 	else if (!ft_strncmp("exit", content, 4))
-		exit (1);
+		ms_exit ("exit",0);
 	else if (!ft_strncmp("cd", content, 2))
 		return (1);
 	else if (!ft_strncmp("π", content, 3))
