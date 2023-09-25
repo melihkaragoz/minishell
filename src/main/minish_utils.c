@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 18:27:21 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 02:33:57 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,27 @@ char	*ms_test_path(char *cmd)
 	int		i;
 	char	*new;
 	char	*test_path;
+	char	*path;
+	char	**pt;
 
 	i = -1;
+	path = ms_getenv("PATH");
+	if (!path)
+		return (0);
+	pt = ft_split(path, ':');
 	if (!access(cmd, 0))
 		return (cmd);
-	while(g_vars.paths[++i])
+	while(pt[++i])
 	{
-		new = ft_strjoin(g_vars.paths[i], "/");
+		new = ft_strjoin(pt[i], "/");
 		test_path = ft_strjoin(new, cmd);
-		if(!access(test_path, 0))
+		if(!access(test_path, 0) && ms_free_db_array(pt) && ms_free(new) && ms_free(path))
 			return (test_path);
+		ms_free(new);
+		ms_free(test_path);
 	}
+	ms_free_db_array(pt);
+	ms_free(path);
 	return (NULL);
 }
 
@@ -69,4 +79,20 @@ void	ms_free_tokens(void)
 	g_vars.i = 0;
 	while (g_vars.paths[++(g_vars.i)])
 		free(g_vars.paths[g_vars.i]);
+}
+
+int	ms_free_db_array(char **db)
+{
+	int	i;
+
+	i = -1;
+	while(db[++i])
+		free(db[i]);
+	return (1);
+}
+
+int	ms_free(char *s)
+{
+	free(s);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 01:50:09 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 02:29:14 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ struct s_vars
 	char **env;
 	t_tools *p_tools;
 	int	rm;
+	char *prompt;
 } g_vars;
 
 typedef struct s_line
@@ -114,7 +115,8 @@ void ms_check_env(t_token *org_token);
 void ms_put_env(t_token *token, int *i);
 int ms_node_check_redirection(char *content);
 int ms_node_check_builtin(char *content);
-char *ms_get_env(char *s);
+char *ms_getenv(char *s); // bagli listeden cekiyor
+// char *ms_get_env(char *s);
 t_env *ms_new_env(void);
 void ms_set_envlist(char **env);
 void ms_run_export(char *s);
@@ -128,4 +130,6 @@ int	ms_strncmp(char *a ,char *b, char c);
 void ms_run_unset(char *s);
 void ms_toggle_signal(int get);
 void	ms_exit(char *msg, int stat);
+int	ms_free(char *s);
+int	ms_free_db_array(char **db);
 #endif
