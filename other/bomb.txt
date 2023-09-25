@@ -1,0 +1,2 @@
+env'den ilk elemani silince tüm liste uçuyor.
+
