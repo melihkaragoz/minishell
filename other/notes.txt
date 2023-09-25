@@ -1,0 +1,2 @@
+ctrl-c : interrupt, SINGINT, heredoc'ta tüm heredocları kapayıp ekrana bir şey basmasayacak. yeni prompt verecek.
+ctrl-d : heredocları tek tek sırayla kapatacak. heredocun yanındaki komut çalışacak.
