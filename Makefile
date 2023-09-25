@@ -1,18 +1,16 @@
-SRCS			=	src/minishell.c src/minish_utils.c src/minish_exec.c \
-					src/minish_set_nodes.c src/minish_token_utils.c src/minish_token_seperator.c \
-					src/minish_token.c src/minish_run.c
+SRCS			=	src/main/minishell.c src/main/minish_utils.c src/exec/minish_exec.c \
+					src/parse/minish_set_nodes.c src/parse/minish_token_utils.c src/parse/minish_token_seperator.c \
+					src/parse/minish_token.c src/exec/minish_run.c
 
 OBJS			=	$(SRCS:.c=.o)
 
 NAME			=	minishell
 
-LIBFT			=	libft/libft.a
+LIBFT			=	src/libft/libft.a
 
 CC				=	gcc
 
 CFLAGS			=	-Wall -Wextra -Werror -g
-
-LIBFT			=	libft/libft.a
 
 RM				=	rm -rf
 
@@ -26,15 +24,15 @@ $(NAME):		$(OBJS) $(LIBFT)
 				@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
-				@make bonus -C libft
+				@make bonus -C src/libft
 
 clean:
 				@$(RM) $(OBJS)
-				@make clean -C libft
+				@make clean -C src/libft
 
 fclean:			clean
 				@$(RM) $(NAME)
-				@make fclean -C libft
+				@make fclean -C src/libft
 
 re:				fclean $(NAME)
 
