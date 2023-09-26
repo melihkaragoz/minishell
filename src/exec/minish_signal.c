@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:12:42 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 02:10:37 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:58:43 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 void ms_toggle_signal(int get)
 {
 	if (get == 3)
-		return ;
+	{
+		write(1, "\033[2D", 3);
+		write(1, "  ", 2);
+		write(1, "\033[2D", 3);
+		return;
+	}
 	write(1, "\033[A", 3);
 	ioctl(0, TIOCSTI, "\n");
 	g_vars.rm = 1;
