@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 13:59:01 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:33:03 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <fcntl.h>
 
 typedef struct s_token
 {
