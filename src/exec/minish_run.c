@@ -104,12 +104,6 @@ void ms_set_execve_arg(void)
 	g_vars.exec->av_token[g_vars.exec->pipe_count] = NULL;
 	g_vars.exec->av = malloc(sizeof(char **) * (g_vars.exec->pipe_count + 1));
 	g_vars.exec->av[g_vars.exec->pipe_count] = NULL;
-	// unset deneme
-
-	// ms_run_unset("OLDPWD");
-
-	// deneme bitis
-
 	g_vars.i = 0;
 	while (tmp)
 	{
@@ -128,7 +122,7 @@ void ms_set_execve_arg(void)
 				g_vars.exec->av_token[sentence][i] = tmp2->type;
 				if (!(tmp2->type) && !(g_vars.exec->set_path))
 				{
-					if (*(tmp2->content) && ms_test_path(tmp2->content))
+					if (tmp2->content && ms_test_path(tmp2->content))
 					{
 						g_vars.exec->av[sentence][i] = ms_test_path(tmp2->content);
 						g_vars.exec->set_path = 1;
@@ -366,7 +360,6 @@ int ms_exec(int sentence)
 		builtin = true;
 		if (!ft_strncmp(g_vars.exec->av[sentence][0], "export", 7) && g_vars.exec->av[sentence][1] && !has_pipe)
 		{
-			printf("szd\n");
 			ms_run_export(g_vars.exec->av[sentence][1]);
 			return (1);
 		}

@@ -93,17 +93,17 @@ int ms_node_check_builtin(char *content)
 int ms_node_check_redirection(char *content)
 {
 	if (!ft_strncmp("<<", content, 2))
-		return (1);
+		return (3);
 	else if (!ft_strncmp(">>", content, 2))
-		return (1);
+		return (4);
 	else if (!ft_strncmp("||", content, 2))
-		return (1);
+		return (5);
 	else if (!ft_strncmp("&&", content, 2))
-		return (1);
+		return (6);
 	else if (!ft_strncmp("<", content, 1))
-		return (1);
+		return (7);
 	else if (!ft_strncmp(">", content, 1))
-		return (1);
+		return (8);
 	return (0);
 }
 
@@ -113,7 +113,7 @@ void ms_set_nodes(void)
 	{
 		g_vars.tmp_token->type = 0;								  // undefined
 		if (ms_node_check_redirection(g_vars.tmp_token->content)) // redirection
-			g_vars.tmp_token->type = 3;
+			g_vars.tmp_token->type = ms_node_check_redirection(g_vars.tmp_token->content);
 		else if (!ft_strncmp("|", g_vars.tmp_token->content, 1)) // pipe
 		{
 			g_vars.tmp_token->type = 2;
