@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 02:29:14 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 04:04:30 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,5 @@ void ms_toggle_signal(int get);
 void	ms_exit(char *msg, int stat);
 int	ms_free(char *s);
 int	ms_free_db_array(char **db);
+void ms_add_env_list(char *s);
 #endif

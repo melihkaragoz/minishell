@@ -14,6 +14,7 @@ void ms_set_envlist(char **env)
 		g_vars.env_tail = g_vars.env_list;
 		g_vars.env_list = g_vars.env_list->next;
 	}
+	g_vars.prompt= "\x1b[38;5;129mminishell$ \x1b[0m";
 }
 
 void ms_node_remove_char(t_token *tmp, int i) // birinci parametre olarak verilen stringden ikinci parametre indexindeki karakteri siler.

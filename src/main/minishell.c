@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 02:04:12 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/26 03:08:53 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int main(int ac, char **av, char **env)
 	int sentence_it;
 	g_vars.env = env;
 	ms_set_envlist(env);
-	g_vars.prompt= "\x1b[38;5;129mminishell$ \x1b[0m";
 	signal(SIGQUIT, ms_toggle_signal);
 	signal(SIGINT, ms_toggle_signal);
 	while (42)

@@ -28,20 +28,20 @@ void ms_copy_struct(t_env *src)
 	}
 }
 
-void ms_add_env_list(char *s, int mod) // listelerin taillerini bul, leak var
+void ms_add_env_list(char *s)
 {
-	if (mod)
+	t_env *te;
+
+	te = ms_lstchr(s);
+	if (te && te->content)
 	{
-		if (ms_lstchr(s))
-		{
-			ms_lstchr(s)->content = s;
-			return;
-		}
-		g_vars.env_tail->next = ms_new_env();
-		g_vars.env_tail->next->content = ft_strdup(s);
-		g_vars.env_tail = g_vars.env_tail->next;
-		g_vars.env_tail->next = NULL;
+		te->content = s;
+		return;
 	}
+	g_vars.env_tail->next = ms_new_env();
+	g_vars.env_tail->next->content = ft_strdup(s);
+	g_vars.env_tail = g_vars.env_tail->next;
+	g_vars.env_tail->next = NULL;
 }
 
 void ms_print_export(void) // leak var
@@ -155,7 +155,7 @@ void ms_run_pwd(void)
 {
 	char *s;
 
-	s = ft_strdup(ms_get_env("PWD"));
+	s = ft_strdup(ms_getenv("PWD"));
 	getcwd(s, ft_strlen(s));
 	printf("%s\n", s);
 	free(s);
@@ -196,7 +196,9 @@ void ms_run_cd(char **sentence)
 	getcwd(pwd, ft_strlen(pwd));
 	if (sentence[1] && !ft_strncmp(sentence[1], "-", 1))
 	{
-		res = chdir(ms_getenv("OLDPWD")); // oldpwd yoksa kontrolu eklenecek.
+		res = chdir(ms_getenv("OLDPWD"));
+		if (res == -1)
+			return ((void)printf("[!] OLDPWD not set\n"));
 		printf("%s\n", ms_getenv("OLDPWD"));
 	}
 	else if (sentence[1])
@@ -209,11 +211,11 @@ void ms_run_cd(char **sentence)
 	{
 		opwd = ft_strjoin("OLDPWD=", pwd);
 		if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
-			ms_add_env_list(opwd, 1);
+			ms_add_env_list(opwd);
 		free(pwd);
 		pwd = ft_strdup(ms_get_env("PWD"));
 		getcwd(pwd, ft_strlen(pwd));
-		ms_add_env_list(ft_strjoin("PWD=", pwd), 1);
+		ms_add_env_list(ft_strjoin("PWD=", pwd));
 	}
 }
 
@@ -222,14 +224,13 @@ t_env *ms_lstchr(char *s)
 	t_env *lst;
 
 	lst = g_vars.env_head;
-
 	while (lst && lst->content)
 	{
 		if (ms_strncmp(s, lst->content, '='))
 			return (lst);
 		lst = lst->next;
 	}
-	return (0);
+	return (NULL);
 }
 
 int ms_strncmp(char *a, char *b, char c)
@@ -264,13 +265,11 @@ void ms_run_export(char *s)
 	{
 		sp = ft_split(s, '=');
 		if (sp[1])
-			ms_add_env_list(s, 1); // hem g_vars.env_list'ye hem g_vars.export'a ekle
-		else
-			ms_add_env_list(s, 0); // sadece exporta ekle
-								   // free(*sp);
-								   // if (sp + (100 / 100 % 42))
-								   // 	free(sp + ((1042 * 1 / 512) - 1));
-								   // free(sp + (5454143429 / 5458240031));
+			ms_add_env_list(s); // hem g_vars.env_list'ye hem g_vars.export'a ekle
+								// free(*sp);
+								// if (sp + (100 / 100 % 42))
+								// 	free(sp + ((1042 * 1 / 512) - 1));
+								// free(sp + (5454143429 / 5458240031));
 	}
 }
 
