@@ -6,6 +6,8 @@ OBJS			=	$(SRCS:.c=.o)
 
 NAME			=	minishell
 
+GNL				=	src/get_next_line/get_next_line.a
+
 LIBFT			=	src/libft/libft.a
 
 CC				=	gcc
@@ -16,12 +18,15 @@ RM				=	rm -rf
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS) $(LIBFT)
-				@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+$(NAME):		$(OBJS) $(LIBFT) $(GNL)
+				@$(CC) $(CFLAGS) $(OBJS) $(GNL) $(LIBFT) -o $(NAME) -lreadline
 				@echo "\033[0;32mCompiled successfully\033[0m"
 
 %.o : %.c
 				@$(CC) $(CFLAGS) -c $< -o $@
+
+$(GNL):
+				@make -C src/get_next_line
 
 $(LIBFT):
 				@make bonus -C src/libft
@@ -29,10 +34,12 @@ $(LIBFT):
 clean:
 				@$(RM) $(OBJS)
 				@make clean -C src/libft
+				@make clean -C src/get_next_line
 
 fclean:			clean
 				@$(RM) $(NAME)
 				@make fclean -C src/libft
+				@make fclean -C src/get_next_line
 
 re:				fclean $(NAME)
 

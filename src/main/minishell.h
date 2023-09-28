@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 14:33:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/28 20:53:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MINISHELL_H
 
 #include "../libft/libft.h"
+#include "../get_next_line/get_next_line.h"
 #include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,8 +61,15 @@ typedef struct s_tools
 	bool double_redirection;
 } t_tools;
 
+typedef struct s_return_red
+{
+	int index;
+	int type;
+} t_return_red;
+
 struct s_vars
 {
+	t_return_red *retred;
 	t_env	*env_list;
 	t_env	*env_head;
 	t_env	*env_tail;
@@ -93,6 +101,10 @@ typedef struct s_line
 	char *line;
 } t_line;
 
+
+ms_remove_redrets(int index);
+ms_redirect_check(int type, int index);
+t_return_red *ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);
 void ms_set_nodes(void);
 int ms_strlen(char *s);
