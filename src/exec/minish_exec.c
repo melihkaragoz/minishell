@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/25 18:06:49 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/29 04:50:03 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,32 @@ void ms_check_env(t_token *org_token)
 	}
 	if (!dl_sign)
 		return;
+}
+
+int	ms_check_executable(void)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i <= g_vars.exec->pipe_count)
+	{
+		j = 0;
+		while (g_vars.exec->av[i][j])
+			j++;
+		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
+		{
+			printf("bash: syntax error near unexpected token \'||\'\n");
+			return (0);
+		}
+		else if (j == 0)
+		{
+			printf("bash: syntax error near unexpected token \'|\'\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 void ms_put_env(t_token *token, int *i)

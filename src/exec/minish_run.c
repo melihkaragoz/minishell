@@ -105,6 +105,7 @@ void ms_set_execve_arg(void)
 	g_vars.exec->av = malloc(sizeof(char **) * (g_vars.exec->pipe_count + 1));
 	g_vars.exec->av[g_vars.exec->pipe_count] = NULL;
 	g_vars.i = 0;
+	g_vars.exec->arg_num = 0;
 	while (tmp)
 	{
 		if (tmp->type == 2 || !(tmp->content) || tmp->type == 3) // herhangi bir biten cümle'yi farket
@@ -118,6 +119,7 @@ void ms_set_execve_arg(void)
 			i = -1;
 			while (++i < g_vars.i)
 			{
+				g_vars.exec->arg_num++;
 				g_vars.exec->av[sentence][i] = ft_strdup(tmp2->content);
 				g_vars.exec->av_token[sentence][i] = tmp2->type;
 				if (!(tmp2->type) && !(g_vars.exec->set_path))
@@ -307,16 +309,16 @@ void ms_print_oldpwd(void)
 		printf("%s\n", ms_getenv("OLDPWD"));
 }
 
-void	ms_run_pi(void)
+void ms_run_pi(void)
 {
 	int i;
 	int fd;
 	char *str;
-	
+
 	i = 0;
 	fd = open("../π.txt", O_RDONLY);
 	if (fd < 1)
-		return ;
+		return;
 	str = get_next_line(fd);
 	while (str)
 	{
@@ -374,16 +376,14 @@ int ms_exec(int sentence)
 	}
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
-
-
-	g_vars.retred = ms_isred_sentence(sentence);	// redirection control
-	if (g_vars.retred->type >= 3)
+	g_vars.retred = ms_isred_sentence(sentence); // redirection control
+	if (g_vars.retred && g_vars.retred->type >= 3)
 	{
-		if (ms_redirect_parse(g_vars.exec.av[sentence]), g_vars.retred->index)
+		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred->index))
 			return (1);
-		ms_redirect_manage(g_vars.retred->type, g_vars.retred->index);
-		ms_remove_redrets(g_vars.retred->index);
-		free(g_vars.retred);
+		ms_redirect_manage(sentence, g_vars.retred->type, g_vars.retred->index);
+		ms_remove_redrets(sentence, g_vars.retred->index);
+		// free(&(g_vars.retred));
 	}
 
 	if (g_vars.exec->av_token[sentence][0] == 1) // burdan built-in'e gidiyor

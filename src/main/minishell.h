@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/28 20:53:25 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/29 04:49:48 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_exec
 	char ***av;
 	int **av_token;
 	int pipe_count;
+	int	arg_num;
 } t_exec;
 
 
@@ -102,8 +103,6 @@ typedef struct s_line
 } t_line;
 
 
-ms_remove_redrets(int index);
-ms_redirect_check(int type, int index);
 t_return_red *ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);
 void ms_set_nodes(void);
@@ -146,4 +145,8 @@ void	ms_exit(char *msg, int stat);
 int	ms_free(char *s);
 int	ms_free_db_array(char **db);
 void ms_add_env_list(char *s);
+void ms_redirect_manage(int sentence, int type, int index);
+void ms_remove_redrets(int sentence, int index);
+int	ms_check_executable(void);
+int ms_redirect_parse(char **sentence, int index);
 #endif
