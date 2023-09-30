@@ -15,7 +15,7 @@ t_return_red *ms_isred_sentence(int sentence)
 		{
 			returnred->index = i;
 			returnred->type = g_vars.exec->av_token[sentence][i];
-			printf("rd: %s, rd type: %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i]);
+			// printf("rd: %s, rd type: %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i]);
 			return (returnred);
 		}
 		// return (g_vars.exec->av_token[sentence][i]);
@@ -47,7 +47,6 @@ void ms_set_outfile(char **pt, int index, int mod)
 {
 	int fd;
 
-	printf("mod: %d\n", mod);
 	if (!mod)
 		fd = open(pt[index + 1], O_RDWR | O_CREAT | O_TRUNC, 0777);
 	else

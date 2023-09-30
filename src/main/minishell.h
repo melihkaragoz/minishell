@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/29 04:49:48 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/30 19:50:33 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,5 @@ void ms_redirect_manage(int sentence, int type, int index);
 void ms_remove_redrets(int sentence, int index);
 int	ms_check_executable(void);
 int ms_redirect_parse(char **sentence, int index);
+void ms_prepare_tokens(void);
 #endif
