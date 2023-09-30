@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/30 19:50:33 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/30 21:10:15 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,11 @@ void	ms_exit(char *msg, int stat);
 int	ms_free(char *s);
 int	ms_free_db_array(char **db);
 void ms_add_env_list(char *s);
-void ms_redirect_manage(int sentence, int type, int index);
+int ms_redirect_manage(int sentence, int type, int index);
 void ms_remove_redrets(int sentence, int index);
 int	ms_check_executable(void);
 int ms_redirect_parse(char **sentence, int index);
 void ms_prepare_tokens(void);
+int ms_set_infile(char **pt, int index);
+int ms_set_outfile(char **pt, int index, int mod);
 #endif

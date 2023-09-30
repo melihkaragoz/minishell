@@ -132,7 +132,7 @@ void ms_set_execve_arg(void)
 	g_vars.exec->arg_num = 0;
 	while (tmp)
 	{
-		if (tmp->type == 2 || !(tmp->content) || tmp->type == 3) // herhangi bir biten cümle'yi farket
+		if (tmp->type == 2 || !(tmp->content)) // herhangi bir biten cümle'yi farket
 		{
 			g_vars.exec->set_path = 0;
 			sentence++;
@@ -406,7 +406,8 @@ int ms_exec(int sentence)
 	{
 		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred->index))
 			return (1);
-		ms_redirect_manage(sentence, g_vars.retred->type, g_vars.retred->index);
+		if (ms_redirect_manage(sentence, g_vars.retred->type, g_vars.retred->index))
+			return (0);
 		ms_remove_redrets(sentence, g_vars.retred->index);
 		// free(&(g_vars.retred));
 	}

@@ -39,11 +39,20 @@ int ms_redirect_parse(char **sentence, int index)
 	return (0);
 }
 
-// void ms_set_infile()
-// {
-// }
+int ms_set_infile(char **pt, int index)
+{
+	int fd;
+	if (access(pt[index + 1], 0))
+		return (printf("minishell: %s: No such file or directory\n", pt[index + 1]) && 1);
+	fd = open(pt[index + 1], O_RDONLY, 0777);
+	if (fd == -1)
+		return (printf("[!] dosya hatası.\n") && 1);
+	dup2(fd, 0);
+	close(fd);
+	return (0);
+}
 
-void ms_set_outfile(char **pt, int index, int mod)
+int ms_set_outfile(char **pt, int index, int mod)
 {
 	int fd;
 
@@ -52,9 +61,10 @@ void ms_set_outfile(char **pt, int index, int mod)
 	else
 		fd = open(pt[index + 1], O_RDWR | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
-		return ((void)printf("[!] dosya hatası.\n"));
+		return (printf("[!] dosya hatası.\n") && 1);
 	dup2(fd, 1);
 	close(fd);
+	return (0);
 }
 
 // void ms_set_heredoc() {}
@@ -65,14 +75,24 @@ void ms_remove_redrets(int sentence, int index)
 	g_vars.exec->av[sentence][index] = 0;
 }
 
-void ms_redirect_manage(int sentence, int type, int index)
+int ms_redirect_manage(int sentence, int type, int index)
 {
-	// if (type == 3) // <
-	// 	ms_set_infile();
+	if (type == 3) // <
+	{
+		if (ms_set_infile(g_vars.exec->av[sentence], index))
+			return (1);
+	}
 	if (type == 4) // >
-		ms_set_outfile(g_vars.exec->av[sentence], index, 0);
+	{
+		if (ms_set_outfile(g_vars.exec->av[sentence], index, 0))
+			return (1);
+	}
 	else if (type == 6) // >>
-		ms_set_outfile(g_vars.exec->av[sentence], index, 1);
+	{
+		if (ms_set_outfile(g_vars.exec->av[sentence], index, 1))
+			return (1);
+	}
 	// else if (type == 5) // <<
 	// 	ms_set_heredoc();
+	return (0);
 }
