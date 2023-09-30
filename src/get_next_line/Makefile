@@ -1,23 +1,23 @@
-NAME=get_next_line.a
+NAME	= get_next_line.a
 
-SRCS=get_next_line.c
+SRCS	= get_next_line.c
 
-OBJS=$(SRCS:.c=.o)
+OBJS	= $(SRCS:.c=.o)
 
-CC=gcc
-RM=rm -rf
-CFLAGS= -Wall -Wextra -Werror
+CC		= @gcc
+RM		= rm -rf
+CFLAGS	= -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $(OBJS)
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/29 04:50:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:33:44 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void ms_put_env(t_token *token, int *i)
 	char *t_tmp;
 	char *t_first;
 	char *t_last;
+	char *val;
 
 	adr = &(token->content[*i]);
 	*i = 1;
@@ -98,8 +99,9 @@ void ms_put_env(t_token *token, int *i)
 	// printf("[!] value is: %s\n", getenv(tmp));
 	// printf("[!] first part of content: %s\n", t_first);
 	// printf("[!] last part of content: %s\n", t_last);
-	if (getenv(tmp))
-		t_tmp = ft_strjoin(t_first, getenv(tmp));
+	val = ms_getenv(tmp);
+	if (val)
+		t_tmp = ft_strjoin(t_first, val);
 	else
 		t_tmp = ft_strjoin(t_first, "");
 	t_tmp = ft_strjoin(t_tmp, t_last);
@@ -107,8 +109,9 @@ void ms_put_env(t_token *token, int *i)
 	token->content = t_tmp;
 	free(t_first);
 	free(t_last);
-	if (getenv(tmp))
-		*i += ft_strlen(getenv(tmp)) - ft_strlen(tmp);
+	if (val)
+		*i += ft_strlen(val) - ft_strlen(tmp);
+	free(val);
 	free(tmp);
 }
 
