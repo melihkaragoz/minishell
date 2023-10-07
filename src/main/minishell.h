@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/07 19:22:48 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/08 02:13:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ struct s_vars
 	t_token *tokens;
 	t_heredoc	*heredoc_head;
 	t_heredoc	*heredoc_it;
+	int	exit_status;
 	int stdo;
 	int stdi;
 	int i;
@@ -163,4 +164,6 @@ int ms_set_infile(char **pt, int index);
 int ms_set_outfile(char **pt, int index, int mod);
 void ms_set_heredoc(char **pt, int index);
 void ms_signal_helper(int get);
+void ms_put_status(t_token *token, int *i);
+void ms_put_program_name(t_token *token, int *i);
 #endif

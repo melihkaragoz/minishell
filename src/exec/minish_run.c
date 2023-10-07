@@ -454,6 +454,7 @@ int ms_exec(int sentence)
 		}
 	}
 	waitpid(child, &status, 0);
+	g_vars.exit_status = status;
 	if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 	{
 		printf("[!!] dup calismadi\n");

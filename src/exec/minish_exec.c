@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/07 18:41:17 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/08 02:21:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,17 @@ void ms_check_env(t_token *org_token)
 	i = -1;
 	quote = 0;
 	dl_sign = 0;
+	g_vars.exit_status = 0;
 	while ((token->content) && token->content[++i])
 	{
-		if ((quote == 2 || quote == 0) && token->content[i] == '$' && (ft_isalnum(token->content[i + 1]) || token->content[i + 1] == '$') && ++dl_sign)
+		if ((quote == 2 || quote == 0) && token->content[i] == '$' && (ft_isalnum(token->content[i + 1]) || token->content[i + 1] == '$' || token->content[i + 1] == '?') && ++dl_sign)
 		{
 			if (token->content[i + 1] == '$')
 				ms_put_dollar(token, &i);
+			else if (token->content[i + 1] == '?')
+				ms_put_status(token, &i);
+			else if (token->content[i + 1] == '0')
+				ms_put_program_name(token, &i);
 			else
 				ms_put_env(token, &i);
 			dl_sign = 0;
@@ -53,7 +58,7 @@ void ms_check_env(t_token *org_token)
 		return;
 }
 
-int	ms_check_executable(void)
+int ms_check_executable(void)
 {
 	int i;
 	int j;
@@ -65,15 +70,9 @@ int	ms_check_executable(void)
 		while (g_vars.exec->av[i][j])
 			j++;
 		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
-		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
-			return (0);
-		}
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
 		else if (j == 0)
-		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
-			return (0);
-		}
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
 		i++;
 	}
 	return (1);
@@ -110,33 +109,56 @@ void ms_put_env(t_token *token, int *i)
 	free(t_first);
 	free(t_last);
 	if (val)
-		*i += ft_strlen(val) - ft_strlen(tmp);
+		*i += ft_strlen(val) - ft_strlen(tmp) - 2;
 	free(val);
 	free(tmp);
 }
 
 void ms_put_dollar(t_token *token, int *i)
 {
-	int pid;
+	char	*pid;
+	char *tmp;
+	char *t_first;
+	char *t_last;
 
-	pid = getpid();
-	free(token->content);
-	token->content = ft_strdup(ft_itoa(pid));
-	*i += ft_strlen(token->content) - 2;
+	pid = ft_itoa(getpid());
+	t_first = ft_substr(token->content, 0, *i);
+	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
+	tmp = ft_strjoin(t_first, pid);
+	free(t_first);
+	free(pid);
+	token->content = ft_strjoin(tmp, t_last);
+	free(tmp);
+	free(t_last);
 }
 
-// int ms_exec(void)
-// {
-// 	int ev = -1;
-// 	int pid;
-// 	char *prm[] = {"", NULL};
+void ms_put_status(t_token *token, int *i)
+{
+	char *tmp;
+	char *t_first;
+	char *t_last;
+	char *ms_itoa;
 
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		execve(g_vars.v_path, prm, g_vars.paths);
-// 		exit(127);
-// 	}
-// 	waitpid(pid, NULL, 0);
-// 	return (ev);
-// }
+	ms_itoa = ft_itoa(g_vars.exit_status);
+	t_first = ft_substr(token->content, 0, *i);
+	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
+	(tmp = ft_strjoin(t_first, ms_itoa)) && (token->content = ft_strjoin(tmp, t_last));
+	free(t_first);
+	free(ms_itoa);
+	free(tmp);
+	free(t_last);
+}
+
+void ms_put_program_name(t_token *token, int *i)
+{
+	char *tmp;
+	char *t_first;
+	char *t_last;
+
+	t_first = ft_substr(token->content, 0, *i);
+	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
+	(tmp = ft_strjoin(t_first, "minishell")) && (token->content = ft_strjoin(tmp, t_last));
+	free(t_first);
+	free(tmp);
+	free(t_last);
+}
