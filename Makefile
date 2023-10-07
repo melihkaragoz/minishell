@@ -21,7 +21,7 @@ all:			$(NAME)
 $(NAME):		$(OBJS) $(LIBFT) $(GNL)
 				@$(CC) $(CFLAGS) $(OBJS) $(GNL) $(LIBFT) -o $(NAME) -lreadline
 				@echo "\033[0;32mCompiled successfully\033[0m"
-				@echo "\033[0;32m./other dizinindeki ./notes.txt'yi okumayi unutma.\n\nTask 1 [assigned]\nTask 2 [processing]\nTask 3 [assigned]\n\033[0m"
+				@echo "\033[0;32m./other dizinindeki ./notes.txt'yi okumayi unutma.\n\nTask 1 [assigned]\nTask 2 [done]\nTask 3 [assigned]\n\033[0m"
 
 %.o : %.c
 				@$(CC) $(CFLAGS) -c $< -o $@

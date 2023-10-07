@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 02:21:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 02:28:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,6 @@ void ms_check_env(t_token *org_token)
 	}
 	if (!dl_sign)
 		return;
-}
-
-int ms_check_executable(void)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i <= g_vars.exec->pipe_count)
-	{
-		j = 0;
-		while (g_vars.exec->av[i][j])
-			j++;
-		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
-			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
-		else if (j == 0)
-			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
-		i++;
-	}
-	return (1);
 }
 
 void ms_put_env(t_token *token, int *i)

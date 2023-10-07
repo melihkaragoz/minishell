@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 02:13:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 02:31:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,6 @@ typedef struct s_tools
 	bool double_redirection;
 } t_tools;
 
-typedef struct s_heredoc
-{
-	char	*content;
-	struct s_heredoc	*next;
-} t_heredoc;
-
 typedef struct s_return_red
 {
 	int index;
@@ -88,8 +82,6 @@ struct s_vars
 	t_token *f_token;
 	t_token *head;
 	t_token *tokens;
-	t_heredoc	*heredoc_head;
-	t_heredoc	*heredoc_it;
 	int	exit_status;
 	int stdo;
 	int stdi;
