@@ -28,12 +28,12 @@ int ms_redirect_parse(char **sentence, int index)
 	int i;
 
 	if (!sentence[index + 1])
-		return (printf("bash: syntax error near unexpected token `newline'\n") && 1);
+		return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
 	i = 0;
 	while ((sentence[index + 1][i]))
 	{
-		if (!ft_isalnum(sentence[index + 1][i]))
-			return (printf("bash: syntax error near unexpected token \'%c\'", sentence[index + 1][i]) && 1);
+		if (!ft_isalnum(sentence[index + 1][i])) // errrorrrr
+			return (printf("minishell: syntax error near unexpected token \'%c\'\n", sentence[index + 1][i]) && 1);
 		i++;
 	}
 	return (0);
@@ -67,7 +67,18 @@ int ms_set_outfile(char **pt, int index, int mod)
 	return (0);
 }
 
-// void ms_set_heredoc() {}
+// void ms_set_heredoc(char **pt, int index)
+// {
+// 	// t_heredoc	*hd_start;
+// 	// char	*line;
+// 	// int	fd;
+
+// 	// // do syntax check
+// 	// fd = open(pt[index + 1], O_RDWR | O_CREAT, 0777);
+// 	// line = readline(">> ");
+// 	// while()
+// 	exit(30);
+// }
 void ms_remove_redrets(int sentence, int index)
 {
 	free(g_vars.exec->av[sentence][index]);
@@ -93,6 +104,6 @@ int ms_redirect_manage(int sentence, int type, int index)
 			return (1);
 	}
 	// else if (type == 5) // <<
-	// 	ms_set_heredoc();
+		// ms_set_heredoc(g_vars.exec->av[sentence], index);
 	return (0);
 }

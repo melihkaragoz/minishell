@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/30 20:49:40 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:54:11 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,19 @@ void ms_free_tokens(void)
 	while (g_vars.paths[++(g_vars.i)])
 		free(g_vars.paths[g_vars.i]);
 }
+
+// void	ms_free_heredoc(t_heredoc *hd)
+// {
+// 	t_heredoc	*start;
+
+// 	start = hd;
+// 	while (start)
+// 	{
+// 		free(start->content);
+// 		start = start->next;
+// 		start ->=
+// 	}
+// }
 
 int ms_free_db_array(char **db)
 {

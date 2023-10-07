@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/30 21:02:22 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/07 18:41:17 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	ms_check_executable(void)
 			j++;
 		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
 		{
-			printf("bash: syntax error near unexpectedqqq token \'||\'\n");
+			printf("minishell: syntax error near unexpected token `newline'\n");
 			return (0);
 		}
 		else if (j == 0)
 		{
-			printf("bash: syntax error near unexpectedwww token \'|\'\n");
+			printf("minishell: syntax error near unexpected token `newline'\n");
 			return (0);
 		}
 		i++;

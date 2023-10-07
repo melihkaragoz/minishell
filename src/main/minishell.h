@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/30 21:10:15 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:22:48 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ typedef struct s_tools
 	bool double_redirection;
 } t_tools;
 
+typedef struct s_heredoc
+{
+	char	*content;
+	struct s_heredoc	*next;
+} t_heredoc;
+
 typedef struct s_return_red
 {
 	int index;
@@ -77,15 +83,17 @@ struct s_vars
 	t_env	*export_list;
 	t_env	*export_head;
 	t_env	*export_tail;
-	int stdo;
-	int stdi;
-	int i;
-	int j;
 	t_exec *exec;
 	t_token *tmp_token;
 	t_token *f_token;
 	t_token *head;
 	t_token *tokens;
+	t_heredoc	*heredoc_head;
+	t_heredoc	*heredoc_it;
+	int stdo;
+	int stdi;
+	int i;
+	int j;
 	char *line;
 	char **paths;
 	char *v_path;
@@ -93,6 +101,7 @@ struct s_vars
 	t_tools *p_tools;
 	int	rm;
 	char *prompt;
+	int		quit_flag;
 } g_vars;
 
 typedef struct s_line
@@ -152,4 +161,6 @@ int ms_redirect_parse(char **sentence, int index);
 void ms_prepare_tokens(void);
 int ms_set_infile(char **pt, int index);
 int ms_set_outfile(char **pt, int index, int mod);
+void ms_set_heredoc(char **pt, int index);
+void ms_signal_helper(int get);
 #endif
