@@ -1,2 +1,40 @@
 ctrl-c : interrupt, SINGINT, heredoc'ta tüm heredocları kapayıp ekrana bir şey basmasayacak. yeni prompt verecek.
 ctrl-d : heredocları tek tek sırayla kapatacak. heredocun yanındaki komut çalışacak.
+ctrl-c : interrupt, SINGINT, heredoc'ta tüm heredocları kapayıp ekrana bir şey basmasayacak. yeni prompt verecek.
+ctrl-d : heredocları tek tek sırayla kapatacak. heredocun yanındaki komut çalışacak.
+
+-----------------------------------------------
+Task [1]
+
+infile ve outfile icin iki farkli komut dizilimi var. her turlu operatorden sonra dosya adi geliyor. ona gore uygun olan silme islemi uygulanacak.
+ilk dizilim (a) icin freeleyip pointer (+2) kaydiricaz. ikinci (b) dizilim icin tum argumanlari freeleyip ilk elemanin (<,>) yerine NULL koyulacak.
+
+(a)$ < Makefile cat
+(b)$ cat < Makefile
+
+[BERKE] (assigned) /processing /done
+
+-----------------------------------------------
+Task [2]
+
+env variable cozumleme kisminda $0 ve $? handle'lanacak. $0 "minishell" yazidirirken $? en son calisan programin exit status degerini yazdiracak.
+
+echo $? $0
+
+[MELIH] (assigned) /processing /done
+
+-----------------------------------------------
+Task [3]
+
+komut ile ayni isimde bir dosya var ise "exec format error" veya
+"permission error" hatasi veriyor. sebebi "access" ile kontrol ettiginde
+dosya varoldugu icin "1" donduruyor ve execve bunu komut sanip
+calistiriyor.
+ornek case:
+
+$ touch ls
+$ ls
+
+[MELIH] (assigned) /processing /done
+
+------------------------------------------------------------------------
