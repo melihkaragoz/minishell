@@ -429,10 +429,15 @@ int ms_exec(int sentence)
 	}
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
-	g_vars.retred = ms_isred_sentence(sentence); // redirection control
-	if (g_vars.retred && g_vars.retred->type >= 3 && g_vars.retred->type <= 8)
+	while ()
 	{
-		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred->index))
+		/* code */
+	}
+	
+	g_vars.retred = ms_isred_sentence(sentence); // redirection control
+	if (*g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
+	{
+		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred)) // burda kaldimmmmmm HEYEYEYEHEEHYEHYEHYEHEYHEYEHYEHEYEY HY *1**2*12**12**12
 			return (1);
 		if (ms_redirect_manage(sentence, g_vars.retred->type, g_vars.retred->index))
 			return (0);

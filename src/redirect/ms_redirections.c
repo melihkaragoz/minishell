@@ -1,26 +1,39 @@
 #include "../main/minishell.h"
 
-t_return_red *ms_isred_sentence(int sentence)
+t_return_red **ms_isred_sentence(int sentence)
 {
 	int i;
-	t_return_red *returnred;
+	int j;
+	int a;
+	t_return_red **returnred;
 
-	returnred = malloc(sizeof(t_return_red *));
-	returnred->type = 0;
 	i = -1;
-	while (++i < g_vars.exec->arg_num && g_vars.exec->av[sentence][i])
+	a = 0;
+	while (g_vars.exec->av[sentence][++i])
+		if (g_vars.exec->av[sentence][i] && (g_vars.exec->av_token[sentence][i] >= 3 || g_vars.exec->av_token[sentence][i] <= 8))
+			a++;
+	if (a == 0)
+		return (0);
+	else
 	{
-		// printf("%s, %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i]);
-		if (g_vars.exec->av_token[sentence][i] >= 3)
+		returnred = malloc(sizeof(t_return_red *) * (a + 1));
+		returnned[a] = NULL;
+		i = -1;
+		j = 0;
+		while (g_vars.exec->av[sentence][++i])
 		{
-			returnred->index = i;
-			returnred->type = g_vars.exec->av_token[sentence][i];
-			// printf("rd: %s, rd type: %d, word_count: %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i], i);
-			return (returnred);
+			if (a == 0)
+				return (returnred);
+			if (g_vars.exec->av_token[sentence][i] >= 3)
+			{
+				returnred[j]->index = i;
+				returnred[j]->type = g_vars.exec->av_token[sentence][i];
+				a--;
+				j++;
+			}
 		}
-		// return (g_vars.exec->av_token[sentence][i]);
+		return (returnred);
 	}
-	return (0);
 }
 
 int ms_redirect_parse(char **sentence, int index)
@@ -104,6 +117,6 @@ int ms_redirect_manage(int sentence, int type, int index)
 			return (1);
 	}
 	// else if (type == 5) // <<
-		// ms_set_heredoc(g_vars.exec->av[sentence], index);
+	// ms_set_heredoc(g_vars.exec->av[sentence], index);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 14:24:19 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 17:10:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_return_red
 
 struct s_vars
 {
-	t_return_red *retred;
+	t_return_red **retred;
 	t_env	*env_list;
 	t_env	*env_head;
 	t_env	*env_tail;
@@ -106,7 +106,7 @@ typedef struct s_line
 } t_line;
 
 
-t_return_red *ms_isred_sentence(int sentence);
+t_return_red **ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);
 void ms_set_nodes(void);
 int ms_strlen(char *s);
