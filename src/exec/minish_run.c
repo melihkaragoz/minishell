@@ -353,6 +353,26 @@ void ms_run_pi(void)
 	}
 }
 
+int ms_check_executable(void)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i <= g_vars.exec->pipe_count)
+	{
+		j = 0;
+		while (g_vars.exec->av[i][j])
+			j++;
+		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
+		else if (j == 0)
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
+		i++;
+	}
+	return (1);
+}
+
 void ms_exec_builtin(char **sentence)
 {
 	// ft_putstr_fd("BUILTIN\n", g_vars.stdo);
