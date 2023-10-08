@@ -237,6 +237,8 @@ void ms_run_cd(char **sentence)
 		getcwd(pwd, ft_strlen(pwd));
 		ms_add_env_list(ft_strjoin("PWD=", pwd));
 	}
+	else
+		perror("minishell ");
 }
 
 t_env *ms_lstchr(char *s)

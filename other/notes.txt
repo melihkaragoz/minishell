@@ -19,7 +19,7 @@ env variable cozumleme kisminda $0 ve $? handle'lanacak. $0 "minishell" yazidiri
 
 echo $? $0
 
-[MELIH] (processing) /processing /done
+[MELIH] (done) /processing /done
 
 -----------------------------------------------
 Task [3]
