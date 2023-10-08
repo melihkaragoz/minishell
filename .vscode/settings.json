@@ -1,10 +1,13 @@
 {
   "files.associations": {
+    "*.excalidraw": "json",
+    "*.excalidrawlib": "json",
     "readline.h": "c",
     "stdlib.h": "c",
     "minishell.h": "c",
     "libft.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "chrono": "c"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp_Runner.msvcBatchPath": "",

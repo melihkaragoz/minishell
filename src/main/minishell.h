@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 17:10:00 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/09 02:26:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_exec
 	char ***av;
 	int **av_token;
 	int pipe_count;
+	int red_count;
 	int	arg_num;
 } t_exec;
 
@@ -148,10 +149,10 @@ void	ms_exit(char *msg, int stat);
 int	ms_free(char *s);
 int	ms_free_db_array(char **db);
 void ms_add_env_list(char *s);
-int ms_redirect_manage(int sentence, int type, int index);
+int ms_redirect_manage(int sentence);
 void ms_remove_redrets(int sentence, int index);
 int	ms_check_executable(void);
-int ms_redirect_parse(char **sentence, int index);
+int ms_redirect_parse(char **sentence);
 void ms_prepare_tokens(void);
 int ms_set_infile(char **pt, int index);
 int ms_set_outfile(char **pt, int index, int mod);

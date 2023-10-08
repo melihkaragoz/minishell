@@ -12,6 +12,7 @@ t_return_red **ms_isred_sentence(int sentence)
 	while (g_vars.exec->av[sentence][++i])
 		if (g_vars.exec->av[sentence][i] && (g_vars.exec->av_token[sentence][i] >= 3 || g_vars.exec->av_token[sentence][i] <= 8))
 			a++;
+	g_vars.exec->red_count = a;
 	if (a == 0)
 		return (0);
 	else
@@ -36,18 +37,20 @@ t_return_red **ms_isred_sentence(int sentence)
 	}
 }
 
-int ms_redirect_parse(char **sentence, int index)
+int ms_redirect_parse(char **sentence)
 {
 	int i;
+	int j;
 
-	if (!sentence[index + 1])
-		return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
-	i = 0;
-	while ((sentence[index + 1][i]))
+	i = -1;
+	while (g_vars.retred[++i])
 	{
-		if (!ft_isalnum(sentence[index + 1][i]))
-			return (printf("minishell: syntax error near unexpected token \'%c\'\n", sentence[index + 1][i]) && 1);
-		i++;
+		if (!sentence[g_vars.retred[i]->index + 1])
+			return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
+		j = -1;
+		while ((sentence[g_vars.retred[i]->index + 1][++j]))
+			if (!ft_isalnum(sentence[g_vars.retred[i]->index + 1][j]))
+				return (printf("minishell: syntax error near unexpected token \'%c\'\n", sentence[g_vars.retred[i]->index + 1][j]) && 1);
 	}
 	return (0);
 }
@@ -101,21 +104,28 @@ void ms_remove_redrets(int sentence, int index)
 
 int ms_redirect_manage(int sentence, int type, int index)
 {
-	if (type == 3) // <
+	int i;
+
+	i = -1;
+	while (g_vars.retred[++i])
 	{
-		if (ms_set_infile(g_vars.exec->av[sentence], index))
-			return (1);
+		if (g_vars.retred[i]->type == 3) // <
+		{
+			if (ms_set_infile(g_vars.exec->av[sentence], g_vars.retred[i]->index))
+				return (1);
+		}
+		if (g_vars.retred[i]->type == 4) // >
+		{
+			if (ms_set_outfile(g_vars.exec->av[sentence], g_vars.retred[i]->index, 0))
+				return (1);
+		}
+		else if (g_vars.retred[i]->type == 6) // >>
+		{
+			if (ms_set_outfile(g_vars.exec->av[sentence], g_vars.retred[i]->index, 1))
+				return (1);
+		}
 	}
-	if (type == 4) // >
-	{
-		if (ms_set_outfile(g_vars.exec->av[sentence], index, 0))
-			return (1);
-	}
-	else if (type == 6) // >>
-	{
-		if (ms_set_outfile(g_vars.exec->av[sentence], index, 1))
-			return (1);
-	}
+	
 	// else if (type == 5) // <<
 	// ms_set_heredoc(g_vars.exec->av[sentence], index);
 	return (0);

@@ -429,19 +429,15 @@ int ms_exec(int sentence)
 	}
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
-	while ()
-	{
-		/* code */
-	}
 	
 	g_vars.retred = ms_isred_sentence(sentence); // redirection control
 	if (*g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
 	{
-		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred)) // burda kaldimmmmmm HEYEYEYEHEEHYEHYEHYEHEYHEYEHYEHEYEY HY *1**2*12**12**12
+		if (ms_redirect_parse(g_vars.exec->av[sentence]))													// denenmedi taslak yazıldı
 			return (1);
-		if (ms_redirect_manage(sentence, g_vars.retred->type, g_vars.retred->index))
+		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
 			return (0);
-		ms_remove_redrets(sentence, g_vars.retred->index);
+		ms_remove_redrets(sentence, g_vars.retred->index);													// eksik
 		// free(&(g_vars.retred));
 	}
 
