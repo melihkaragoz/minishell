@@ -15,7 +15,7 @@ t_return_red *ms_isred_sentence(int sentence)
 		{
 			returnred->index = i;
 			returnred->type = g_vars.exec->av_token[sentence][i];
-			printf("rd: %s, rd type: %d, word_count: %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i], i);
+			// printf("rd: %s, rd type: %d, word_count: %d\n", g_vars.exec->av[sentence][i], g_vars.exec->av_token[sentence][i], i);
 			return (returnred);
 		}
 		// return (g_vars.exec->av_token[sentence][i]);

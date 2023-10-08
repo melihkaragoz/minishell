@@ -77,7 +77,7 @@ char *ms_getenv(char *s) // bagli listeden cekiyor
 	char **sp;
 	char *val;
 	int j;
-	int	k;
+	int k;
 
 	t = g_vars.env_head;
 	val = calloc(1, 1);
@@ -89,7 +89,7 @@ char *ms_getenv(char *s) // bagli listeden cekiyor
 			k = ft_strchr(t->content, '=') - t->content;
 			val = malloc(sizeof(char) * ft_strlen(ft_strchr(t->content, '=')));
 			j = -1;
-			while(t->content[++k])
+			while (t->content[++k])
 				val[++j] = t->content[k];
 			val[++j] = 0;
 			return (val);
@@ -303,8 +303,16 @@ void ms_run_unset(char *s)
 		{
 			if (!ft_strncmp(s, split, ft_strlen(split)))
 			{
-				prev->next = g_vars.env_list->next;
-				free(g_vars.env_list);
+				if (g_vars.env_list == g_vars.env_head)
+				{
+					free(g_vars.env_list);
+					g_vars.env_head = g_vars.env_head->next;
+				}
+				else
+				{
+					prev->next = g_vars.env_list->next;
+					free(g_vars.env_list);
+				}
 				ms_update_env_tail();
 				return;
 			}
