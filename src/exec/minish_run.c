@@ -365,9 +365,9 @@ int ms_check_executable(void)
 		while (g_vars.exec->av[i][j])
 			j++;
 		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
-			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
+			return (0 && printf("minishell: syntax error near unexpected tASDASDoken `newline'\n"));
 		else if (j == 0)
-			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
+			return (0 && printf("minishell: syntax error near unexpected tBBBBBBoken `newline'\n"));
 		i++;
 	}
 	return (1);
@@ -422,7 +422,7 @@ int ms_exec(int sentence)
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
 	g_vars.retred = ms_isred_sentence(sentence); // redirection control
-	if (g_vars.retred && g_vars.retred->type >= 3)
+	if (g_vars.retred && g_vars.retred->type >= 3 && g_vars.retred->type <= 8)
 	{
 		if (ms_redirect_parse(g_vars.exec->av[sentence], g_vars.retred->index))
 			return (1);
@@ -457,7 +457,6 @@ int ms_exec(int sentence)
 	child = fork();
 	if (!child)
 	{
-		// ft_putstr_fd("in child\n", g_vars.stdo);
 		if (!redirection && has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 			exit(31);
 		if (builtin == true) // burdan built-in'e gidiyor
@@ -467,6 +466,7 @@ int ms_exec(int sentence)
 		}
 		else
 		{
+			// ft_putstr_fd(*g_vars.exec->av[sentence], g_vars.stdo);
 			execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 			const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 			perror(errmsg);
