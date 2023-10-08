@@ -310,6 +310,11 @@ void ms_run_unset(char *s)
 					free(g_vars.env_list);
 					g_vars.env_head = g_vars.env_head->next;
 				}
+				else if (g_vars.env_list == g_vars.env_tail)
+				{
+					prev->next = NULL;
+					free(g_vars.env_list);
+				}
 				else
 				{
 					prev->next = g_vars.env_list->next;
@@ -326,14 +331,9 @@ void ms_run_unset(char *s)
 
 void ms_update_env_tail(void)
 {
-	// printf("before tail: %s\n", g_vars.env_tail->content);
 	g_vars.env_tail = g_vars.env_head;
-	while (g_vars.env_tail->next->content)
-	{
-		// printf("current tail: %s\n", g_vars.env_tail->content);
+	while (g_vars.env_tail->next && g_vars.env_tail->next->content)
 		g_vars.env_tail = g_vars.env_tail->next;
-	}
-	// printf("after tail: %s\n", g_vars.env_tail->content);
 }
 
 void ms_print_oldpwd(void)
@@ -415,14 +415,12 @@ int ms_exec(int sentence)
 {
 	int has_pipe;
 	int pipe_fd[2];
-	int status; // child process return code
 	pid_t child;
 	bool builtin;
 	int redirection;
 
 	builtin = false;
 	redirection = 0;
-	status = 0;
 	has_pipe = 0;
 	if (g_vars.exec->pipe_count > 0)
 	{
@@ -474,21 +472,31 @@ int ms_exec(int sentence)
 			ms_exec_builtin(g_vars.exec->av[sentence]);
 			exit(1);
 		}
+		else if (g_vars.exec->av_token[sentence][0] == 0 && access(g_vars.exec->av[sentence][0], 0))
+		{
+			errno = 127;
+			printf("command not found\n");
+			g_vars.exit_status = WEXITSTATUS(errno);
+			exit(errno);
+		}
 		else
 		{
 			// ft_putstr_fd(*g_vars.exec->av[sentence], g_vars.stdo);
 			execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 			const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 			perror(errmsg);
+			// g_vars.exit_status = errno;
+			exit(errno);
 		}
 	}
-	waitpid(child, &status, 0);
-	// ft_putnbr_fd(status, g_vars.stdo);
-	g_vars.exit_status = status;
+	waitpid(child, &g_vars.exit_status, 0);
+	if (WIFEXITED(g_vars.exit_status))
+		g_vars.exit_status = WEXITSTATUS(g_vars.exit_status);
+	//  ft_putnbr_fd(g_vars.exit_status, g_vars.stdo);
 	if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 	{
 		printf("[!!] dup calismadi\n");
 		exit(31);
 	}
-	return WIFEXITED(status) && WEXITSTATUS(status);
+	return WIFEXITED(g_vars.exit_status) && WEXITSTATUS(g_vars.exit_status);
 }

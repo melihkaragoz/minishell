@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 02:31:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 14:24:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <fcntl.h>
+#include <errno.h>
 
 typedef struct s_token
 {

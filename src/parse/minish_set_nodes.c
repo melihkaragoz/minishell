@@ -64,19 +64,19 @@ int ms_node_check_builtin(char *content)
 {
 	if (!content)
 		return (0);
-	if (!ft_strncmp("echo", content, 4))
+	if (!ft_strncmp("echo", content, 5))
 		return (1);
-	else if (!ft_strncmp("pwd", content, 3))
+	else if (!ft_strncmp("pwd", content, 4))
 		return (1);
-	else if (!ft_strncmp("export", content, 6))
+	else if (!ft_strncmp("export", content, 7))
 		return (1);
-	else if (!ft_strncmp("unset", content, 5))
+	else if (!ft_strncmp("unset", content, 6))
 		return (1);
-	else if (!ft_strncmp("env", content, 3))
+	else if (!ft_strncmp("env", content, 4))
 		return (1);
-	else if (!ft_strncmp("exit", content, 4))
+	else if (!ft_strncmp("exit", content, 5))
 		ms_exit ("exit",0);
-	else if (!ft_strncmp("cd", content, 2))
+	else if (!ft_strncmp("cd", content, 3))
 		return (1);
 	else if (!ft_strncmp("π", content, 3))
 		return (1);

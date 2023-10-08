@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 02:28:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 14:17:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void ms_check_env(t_token *org_token)
 	i = -1;
 	quote = 0;
 	dl_sign = 0;
-	g_vars.exit_status = 0;
 	while ((token->content) && token->content[++i])
 	{
 		if ((quote == 2 || quote == 0) && token->content[i] == '$' && (ft_isalnum(token->content[i + 1]) || token->content[i + 1] == '$' || token->content[i + 1] == '?') && ++dl_sign)
@@ -122,7 +121,8 @@ void ms_put_status(t_token *token, int *i)
 	ms_itoa = ft_itoa(g_vars.exit_status);
 	t_first = ft_substr(token->content, 0, *i);
 	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
-	(tmp = ft_strjoin(t_first, ms_itoa)) && (token->content = ft_strjoin(tmp, t_last));
+	tmp = ft_strjoin(t_first, ms_itoa);
+	token->content = ft_strjoin(tmp, t_last);
 	free(t_first);
 	free(ms_itoa);
 	free(tmp);

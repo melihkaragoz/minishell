@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 09:51:29 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/08 14:17:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int main(int ac, char **av, char **env)
 	int sentence_it;
 	ms_set_path(env);
 	g_vars.env = env;
+	g_vars.exit_status = 0;
 	ms_set_envlist(env);
 	signal(SIGQUIT, ms_signal_helper);
 	signal(SIGINT, ms_toggle_signal);
