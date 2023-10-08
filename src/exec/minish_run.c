@@ -146,7 +146,7 @@ void ms_set_execve_arg(void)
 				g_vars.exec->arg_num++;
 				g_vars.exec->av[sentence][i] = ft_strdup(tmp2->content);
 				g_vars.exec->av_token[sentence][i] = tmp2->type;
-				if (!(tmp2->type) && !(g_vars.exec->set_path))
+				if (!(tmp2->type) && !(g_vars.exec->set_path) && i == 0)
 				{
 					if (tmp2->content && ms_test_path(tmp2->content))
 					{
@@ -470,10 +470,10 @@ int ms_exec(int sentence)
 			execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 			const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 			perror(errmsg);
-			exit(1);
 		}
 	}
 	waitpid(child, &status, 0);
+	// ft_putnbr_fd(status, g_vars.stdo);
 	g_vars.exit_status = status;
 	if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 	{
