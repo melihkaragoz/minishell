@@ -10,7 +10,7 @@ ilk dizilim (a) icin freeleyip pointer (+2) kaydiricaz. ikinci (b) dizilim icin 
 (a)$ < Makefile cat
 (b)$ cat < Makefile
 
-[BERKE] (assigned) /processing /done
+[BERKE] (processing) /processing /done
 
 -----------------------------------------------
 Task [2]
@@ -33,6 +33,6 @@ ornek case:
 $ touch ls
 $ ls
 
-[MELIH] (assigned) /processing /done
+[MELIH] (done) /processing /done
 
 ------------------------------------------------------------------------
