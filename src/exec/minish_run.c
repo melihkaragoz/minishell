@@ -431,14 +431,21 @@ int ms_exec(int sentence)
 		return (0);
 	
 	g_vars.retred = ms_isred_sentence(sentence); // redirection control
-	if (*g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
+	if (g_vars.retred && *g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
 	{
 		if (ms_redirect_parse(g_vars.exec->av[sentence]))													// denenmedi taslak yazıldı
 			return (1);
-		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
-			return (0);
-		ms_remove_redrets(sentence, g_vars.retred->index);													// eksik
+		// if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
+		// 	return (0);
+		printf("BEFORE\n");
+		ms_remove_redrets(sentence);																		// eksik
 		// free(&(g_vars.retred));
+		printf("AFTER\n");
+		for (int z = 0; g_vars.exec->av[sentence][z]; z++)
+		{
+			printf("%s, ", g_vars.exec->av[sentence][z]);
+		}
+		printf("\n");
 	}
 
 	if (g_vars.exec->av_token[sentence][0] == 1) // burdan built-in'e gidiyor
@@ -463,6 +470,8 @@ int ms_exec(int sentence)
 			return (1);
 		}
 	}
+
+
 	child = fork();
 	if (!child)
 	{

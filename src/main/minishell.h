@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/09 02:26:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/09 13:54:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ typedef struct s_exec
 	int **av_token;
 	int pipe_count;
 	int red_count;
-	int	arg_num;
+	int arg_num;
 } t_exec;
-
 
 typedef struct s_env
 {
-	char	*content;
-	struct s_env	*next;
+	char *content;
+	struct s_env *next;
 } t_env;
 
 typedef struct s_tools
@@ -73,18 +72,18 @@ typedef struct s_return_red
 struct s_vars
 {
 	t_return_red **retred;
-	t_env	*env_list;
-	t_env	*env_head;
-	t_env	*env_tail;
-	t_env	*export_list;
-	t_env	*export_head;
-	t_env	*export_tail;
+	t_env *env_list;
+	t_env *env_head;
+	t_env *env_tail;
+	t_env *export_list;
+	t_env *export_head;
+	t_env *export_tail;
 	t_exec *exec;
 	t_token *tmp_token;
 	t_token *f_token;
 	t_token *head;
 	t_token *tokens;
-	int	exit_status;
+	int exit_status;
 	int stdo;
 	int stdi;
 	int i;
@@ -94,9 +93,9 @@ struct s_vars
 	char *v_path;
 	char **env;
 	t_tools *p_tools;
-	int	rm;
+	int rm;
 	char *prompt;
-	int		quit_flag;
+	int quit_flag;
 } g_vars;
 
 typedef struct s_line
@@ -106,7 +105,7 @@ typedef struct s_line
 	char *line;
 } t_line;
 
-
+void ms_remove_redrets(int sentence);
 t_return_red **ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);
 void ms_set_nodes(void);
@@ -137,21 +136,20 @@ t_env *ms_new_env(void);
 void ms_set_envlist(char **env);
 void ms_run_export(char *s);
 void ms_put_dollar(t_token *token, int *i);
-void	ms_copy_struct(t_env *s);
+void ms_copy_struct(t_env *s);
 void ms_exec_builtin(char **sentence);
 void ms_print_export(void);
-t_env	*ms_lstchr(char *s);
-void	ms_update_env_tail(void);
-int	ms_strncmp(char *a ,char *b, char c);
+t_env *ms_lstchr(char *s);
+void ms_update_env_tail(void);
+int ms_strncmp(char *a, char *b, char c);
 void ms_run_unset(char *s);
 void ms_toggle_signal(int get);
-void	ms_exit(char *msg, int stat);
-int	ms_free(char *s);
-int	ms_free_db_array(char **db);
+void ms_exit(char *msg, int stat);
+int ms_free(char *s);
+int ms_free_db_array(char **db);
 void ms_add_env_list(char *s);
 int ms_redirect_manage(int sentence);
-void ms_remove_redrets(int sentence, int index);
-int	ms_check_executable(void);
+int ms_check_executable(void);
 int ms_redirect_parse(char **sentence);
 void ms_prepare_tokens(void);
 int ms_set_infile(char **pt, int index);
@@ -160,4 +158,6 @@ void ms_set_heredoc(char **pt, int index);
 void ms_signal_helper(int get);
 void ms_put_status(t_token *token, int *i);
 void ms_put_program_name(t_token *token, int *i);
+void ms_delete_and_replace(int sentence, int start, int end);
+int ms_is_redirect_index(int index);
 #endif

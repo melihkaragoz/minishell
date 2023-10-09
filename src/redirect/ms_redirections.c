@@ -10,7 +10,7 @@ t_return_red **ms_isred_sentence(int sentence)
 	i = -1;
 	a = 0;
 	while (g_vars.exec->av[sentence][++i])
-		if (g_vars.exec->av[sentence][i] && (g_vars.exec->av_token[sentence][i] >= 3 || g_vars.exec->av_token[sentence][i] <= 8))
+		if (g_vars.exec->av[sentence][i] && (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8))
 			a++;
 	g_vars.exec->red_count = a;
 	if (a == 0)
@@ -18,14 +18,17 @@ t_return_red **ms_isred_sentence(int sentence)
 	else
 	{
 		returnred = malloc(sizeof(t_return_red *) * (a + 1));
-		returnned[a] = NULL;
+		returnred[a] = NULL;
+		for (int j = 0; returnred[j]; j++)
+			returnred[j] = malloc(sizeof(t_return_red));
+		printf("a: %d\n", a);
 		i = -1;
 		j = 0;
 		while (g_vars.exec->av[sentence][++i])
 		{
 			if (a == 0)
 				return (returnred);
-			if (g_vars.exec->av_token[sentence][i] >= 3)
+			if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8)
 			{
 				returnred[j]->index = i;
 				returnred[j]->type = g_vars.exec->av_token[sentence][i];
@@ -95,14 +98,80 @@ int ms_set_outfile(char **pt, int index, int mod)
 // 	// while()
 // 	exit(30);
 // }
-void ms_remove_redrets(int sentence, int index)
+
+int ms_is_redirect_index(int index)
 {
-	free(g_vars.exec->av[sentence][index]);
-	free(g_vars.exec->av[sentence][index + 1]);
-	g_vars.exec->av[sentence][index] = 0;
+	int i;
+
+	i = 0;
+	while (g_vars.retred[i]->index)
+		if (g_vars.retred[i]->index == index)
+			return (1);
+	return (0);
 }
 
-int ms_redirect_manage(int sentence, int type, int index)
+void	ms_delete_and_replace(int sentence, int start, int end)
+{
+	char **str;
+	int i;
+
+	str = malloc(sizeof(char *) * (end - start + 1));
+	i = 0;
+	while (start < end)
+	{
+		str[i] = ft_strdup(g_vars.exec->av[sentence][start]);
+		i++;
+		start++;
+	}
+	i = 0;
+	while (g_vars.exec->av[sentence][i])
+	{
+		free(g_vars.exec->av[sentence][i]);
+		i++;
+	}
+	g_vars.exec->av[sentence] = str;
+}
+
+void ms_remove_redrets(int sentence)
+{
+	int	i;
+	int start;
+	bool detected_no_redirection;
+
+	detected_no_redirection = false;
+	i = 0;
+	while (g_vars.exec->av[sentence][i]) // kelimelerin döngüsü
+	{
+		printf("[145]: %s\n", g_vars.exec->av[sentence][i]);
+		if (!ms_is_redirect_index(i))						// redirection DEĞİL ise
+		{
+			printf("redirection in: %d\n", i);
+			if (detected_no_redirection == false)					// ilk gelişi ise
+			{
+				printf("ilk gelisi\n");
+				detected_no_redirection = true;
+				start = i;													// başlangıcı belirle
+			}
+		}
+		else												// redirection ise
+		{
+			if (detected_no_redirection == true)					// öncesinde redirection olmayan bir şey var ise
+			{
+				printf("redirect bitti in%d\n", i);
+				ms_delete_and_replace(sentence, start, i);						// start'dan i'ye kadar olan bölümü tut gerisini sil
+				return ;
+			}
+			i++;													// redirection yanında bir kelime daha almak zorunda olduğu için onu atlıyoruz
+		}
+		i++;
+	}
+	for (int a = 0; g_vars.exec->av[sentence][a]; a++)
+	{
+		ft_putstr_fd(g_vars.exec->av[sentence][a], g_vars.stdo);
+	}
+}
+
+int ms_redirect_manage(int sentence)
 {
 	int i;
 
