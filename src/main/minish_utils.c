@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/07 18:54:11 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:34:59 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *ms_test_path(char *cmd)
 	if (!path || !(*cmd))
 		return (0);
 	pt = ft_split(path, ':');
-	if (!access(cmd, 0))
+	if (!access(cmd, X_OK))
 		return (cmd);
 	while (pt[++i])
 	{
