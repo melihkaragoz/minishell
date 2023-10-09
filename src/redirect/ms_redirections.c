@@ -32,7 +32,6 @@ t_return_red **ms_isred_sentence(int sentence)
 				return (returnred);
 			if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8)
 			{
-				printf("j: %d, i: %d, av_token: %d\n", j, i, g_vars.exec->av_token[sentence][i]);
 				returnred[j]->index = i;
 				returnred[j]->type = g_vars.exec->av_token[sentence][i];
 				a--;
@@ -52,7 +51,6 @@ int ms_redirect_parse(char **sentence)
 	i = -1;
 	while (g_vars.retred[++i])
 	{
-		printf("\nindex: %d\n", g_vars.retred[i]->index);
 		if (!sentence[g_vars.retred[i]->index + 1])
 			return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
 		j = -1;
@@ -109,9 +107,12 @@ int ms_is_redirect_index(int index)
 	int i;
 
 	i = 0;
-	while (g_vars.retred[i]->index)
+	while (g_vars.retred[i])
+	{
 		if (g_vars.retred[i]->index == index)
 			return (1);
+		i++;
+	}
 	return (0);
 }
 
@@ -150,7 +151,7 @@ void ms_remove_redrets(int sentence)
 		printf("[145]: %s\n", g_vars.exec->av[sentence][i]);
 		if (!ms_is_redirect_index(i)) // redirection DEĞİL ise
 		{
-			printf("redirection in: %d\n", i);
+			printf("no redirection in: %d\n", i);
 			if (detected_no_redirection == false) // ilk gelişi ise
 			{
 				printf("ilk gelisi\n");
@@ -170,10 +171,12 @@ void ms_remove_redrets(int sentence)
 		}
 		i++;
 	}
+	printf("SENTENCE KELİME AREA\n");
 	for (int a = 0; g_vars.exec->av[sentence][a]; a++)
 	{
 		ft_putstr_fd(g_vars.exec->av[sentence][a], g_vars.stdo);
 	}
+	printf("SENTENCE KELİME AREA FINISH ---------------\n");
 }
 
 int ms_redirect_manage(int sentence)

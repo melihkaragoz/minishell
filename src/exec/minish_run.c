@@ -433,8 +433,8 @@ int ms_exec(int sentence)
 	{
 		if (ms_redirect_parse(g_vars.exec->av[sentence]))													// denenmedi taslak yazıldı
 			return (1);
-		// if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
-		// 	return (0);
+		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
+			return (0);
 		printf("BEFORE\n");
 		ms_remove_redrets(sentence);																		// eksik
 		// free(&(g_vars.retred));

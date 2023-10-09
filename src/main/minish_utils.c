@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/09 22:34:59 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:20:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
