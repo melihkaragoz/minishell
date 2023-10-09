@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:54:08 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 14:17:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/09 19:37:19 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ void ms_put_env(t_token *token, int *i)
 	tmp = ft_substr(adr, 1, *i - 1);
 	t_first = ft_substr(token->content, 0, adr - (token->content));
 	t_last = ft_substr(token->content, (adr + *i) - (token->content), ft_strlen(adr + *i));
-	// printf("[!] token is: %s\n", tmp);
-	// printf("[!] value is: %s\n", getenv(tmp));
-	// printf("[!] first part of content: %s\n", t_first);
-	// printf("[!] last part of content: %s\n", t_last);
 	val = ms_getenv(tmp);
 	if (val)
 		t_tmp = ft_strjoin(t_first, val);

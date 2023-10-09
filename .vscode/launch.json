@@ -3,15 +3,11 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [],
-      "stopAtEntry": true,
-      "externalConsole": false,
-      "cwd": "/Users/anargul/Desktop/42/minishell/src/exec",
-      "program": "/Users/anargul/Desktop/42/minishell/src/exec/build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb"
+      "cwd": "/Users/mkaragoz/Desktop/melih/42/minishell/src/exec",
+      "program": "/Users/mkaragoz/Desktop/melih/42/minishell/src/exec/build/Debug/outDebug"
     }
   ]
 }

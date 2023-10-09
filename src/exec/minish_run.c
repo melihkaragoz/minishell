@@ -346,11 +346,9 @@ void ms_print_oldpwd(void)
 
 void ms_run_pi(void)
 {
-	int i;
 	int fd;
 	char *str;
 
-	i = 0;
 	fd = open("../π.txt", O_RDONLY);
 	if (fd < 1)
 		return;
@@ -429,7 +427,7 @@ int ms_exec(int sentence)
 	}
 	if (has_pipe && pipe(pipe_fd) == -1)
 		return (0);
-	
+
 	g_vars.retred = ms_isred_sentence(sentence); // redirection control
 	if (g_vars.retred && *g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
 	{

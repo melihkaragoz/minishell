@@ -18,24 +18,28 @@ t_return_red **ms_isred_sentence(int sentence)
 	else
 	{
 		returnred = malloc(sizeof(t_return_red *) * (a + 1));
-		returnred[a] = NULL;
-		for (int j = 0; returnred[j]; j++)
-			returnred[j] = malloc(sizeof(t_return_red));
+		for (int j = 0; j < a; j++)
+		{
+			printf("+");
+			returnred[j] = malloc(sizeof(t_return_red *));
+		}
 		printf("a: %d\n", a);
 		i = -1;
 		j = 0;
 		while (g_vars.exec->av[sentence][++i])
 		{
-			if (a == 0)
+			if (!a)
 				return (returnred);
 			if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8)
 			{
+				printf("j: %d, i: %d, av_token: %d\n", j, i, g_vars.exec->av_token[sentence][i]);
 				returnred[j]->index = i;
 				returnred[j]->type = g_vars.exec->av_token[sentence][i];
 				a--;
 				j++;
 			}
 		}
+		returnred[g_vars.exec->red_count] = 0;
 		return (returnred);
 	}
 }
@@ -48,6 +52,7 @@ int ms_redirect_parse(char **sentence)
 	i = -1;
 	while (g_vars.retred[++i])
 	{
+		printf("\nindex: %d\n", g_vars.retred[i]->index);
 		if (!sentence[g_vars.retred[i]->index + 1])
 			return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
 		j = -1;
@@ -110,7 +115,7 @@ int ms_is_redirect_index(int index)
 	return (0);
 }
 
-void	ms_delete_and_replace(int sentence, int start, int end)
+void ms_delete_and_replace(int sentence, int start, int end)
 {
 	char **str;
 	int i;
@@ -134,7 +139,7 @@ void	ms_delete_and_replace(int sentence, int start, int end)
 
 void ms_remove_redrets(int sentence)
 {
-	int	i;
+	int i;
 	int start;
 	bool detected_no_redirection;
 
@@ -143,25 +148,25 @@ void ms_remove_redrets(int sentence)
 	while (g_vars.exec->av[sentence][i]) // kelimelerin döngüsü
 	{
 		printf("[145]: %s\n", g_vars.exec->av[sentence][i]);
-		if (!ms_is_redirect_index(i))						// redirection DEĞİL ise
+		if (!ms_is_redirect_index(i)) // redirection DEĞİL ise
 		{
 			printf("redirection in: %d\n", i);
-			if (detected_no_redirection == false)					// ilk gelişi ise
+			if (detected_no_redirection == false) // ilk gelişi ise
 			{
 				printf("ilk gelisi\n");
 				detected_no_redirection = true;
-				start = i;													// başlangıcı belirle
+				start = i; // başlangıcı belirle
 			}
 		}
-		else												// redirection ise
+		else // redirection ise
 		{
-			if (detected_no_redirection == true)					// öncesinde redirection olmayan bir şey var ise
+			if (detected_no_redirection == true) // öncesinde redirection olmayan bir şey var ise
 			{
 				printf("redirect bitti in%d\n", i);
-				ms_delete_and_replace(sentence, start, i);						// start'dan i'ye kadar olan bölümü tut gerisini sil
-				return ;
+				ms_delete_and_replace(sentence, start, i); // start'dan i'ye kadar olan bölümü tut gerisini sil
+				return;
 			}
-			i++;													// redirection yanında bir kelime daha almak zorunda olduğu için onu atlıyoruz
+			i++; // redirection yanında bir kelime daha almak zorunda olduğu için onu atlıyoruz
 		}
 		i++;
 	}
@@ -194,7 +199,7 @@ int ms_redirect_manage(int sentence)
 				return (1);
 		}
 	}
-	
+
 	// else if (type == 5) // <<
 	// ms_set_heredoc(g_vars.exec->av[sentence], index);
 	return (0);
