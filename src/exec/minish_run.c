@@ -435,16 +435,10 @@ int ms_exec(int sentence)
 			return (1);
 		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
 			return (0);
-		printf("BEFORE\n");
 		ms_remove_redrets(sentence);																		// eksik
 		if (g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
 			g_vars.exec->av[sentence][0] = ms_test_path(g_vars.exec->av[sentence][0]);
 		// free(&(g_vars.retred));
-		printf("AFTER\n");
-		for (int z = 0; g_vars.exec->av[sentence][z]; z++)
-		{
-			ft_putstr_fd(g_vars.exec->av[sentence][z], g_vars.stdo);
-		}
 	}
 
 	if (g_vars.exec->av_token[sentence][0] == 1) // burdan built-in'e gidiyor

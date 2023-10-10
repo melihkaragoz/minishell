@@ -15,32 +15,27 @@ t_return_red **ms_isred_sentence(int sentence)
 	g_vars.exec->red_count = a;
 	if (a == 0)
 		return (0);
-	else
+	g_vars.fd_array = malloc(sizeof(int) * a);						// yeni ekledik sorun çıkabilr
+	g_vars.fd_iterator = 0;
+	returnred = malloc(sizeof(t_return_red *) * (a + 1));
+	for (int j = 0; j < a; j++)								// for var
+		returnred[j] = malloc(sizeof(t_return_red *));
+	i = -1;
+	j = 0;
+	while (g_vars.exec->av[sentence][++i])
 	{
-		returnred = malloc(sizeof(t_return_red *) * (a + 1));
-		for (int j = 0; j < a; j++)
+		if (!a)
+			return (returnred);
+		if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8)
 		{
-			printf("+");
-			returnred[j] = malloc(sizeof(t_return_red *));
+			returnred[j]->index = i;
+			returnred[j]->type = g_vars.exec->av_token[sentence][i];
+			a--;
+			j++;
 		}
-		printf("a: %d\n", a);
-		i = -1;
-		j = 0;
-		while (g_vars.exec->av[sentence][++i])
-		{
-			if (!a)
-				return (returnred);
-			if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8)
-			{
-				returnred[j]->index = i;
-				returnred[j]->type = g_vars.exec->av_token[sentence][i];
-				a--;
-				j++;
-			}
-		}
-		returnred[g_vars.exec->red_count] = 0;
-		return (returnred);
 	}
+	returnred[g_vars.exec->red_count] = 0;
+	return (returnred);
 }
 
 int ms_redirect_parse(char **sentence)
@@ -65,7 +60,10 @@ int ms_set_infile(char **pt, int index)
 {
 	int fd;
 	if (access(pt[index + 1], 0))
+	{
+		dup2(g_vars.stdo, 1);
 		return (printf("minishell: %s: No such file or directory\n", pt[index + 1]) && 1);
+	}
 	fd = open(pt[index + 1], O_RDONLY, 0777);
 	if (fd == -1)
 		return (printf("[!] dosya hatası.\n") && 1);
@@ -83,7 +81,10 @@ int ms_set_outfile(char **pt, int index, int mod)
 	else
 		fd = open(pt[index + 1], O_RDWR | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
-		return (printf("[!] dosya hatası.\n") && 1);
+	{
+		return (printf("[!] dosya hatasi.\n") && 1);
+	}
+	g_vars.fd_array[g_vars.fd_iterator++] = fd;
 	dup2(fd, 1);
 	close(fd);
 	return (0);
@@ -149,13 +150,10 @@ void ms_remove_redrets(int sentence)
 	i = 0;
 	while (g_vars.exec->av[sentence][i]) // kelimelerin döngüsü
 	{
-		printf("[145]: %s\n", g_vars.exec->av[sentence][i]);
 		if (!ms_is_redirect_index(i)) // redirection DEĞİL ise
 		{
-			printf("no redirection in: %d\n", i);
 			if (detected_no_redirection == false) // ilk gelişi ise
 			{
-				printf("ilk gelisi\n");
 				detected_no_redirection = true;
 				start = i; // başlangıcı belirle
 			}
@@ -164,14 +162,7 @@ void ms_remove_redrets(int sentence)
 		{
 			if (detected_no_redirection == true) // öncesinde redirection olmayan bir şey var ise
 			{
-				printf("redirect bitti in%d\n", i);
 				ms_delete_and_replace(sentence, start, i); // start'dan i'ye kadar olan bölümü tut gerisini sil
-				ft_putstr_fd("SENTENCE KELİME AREA\n", g_vars.stdo);
-				for (int a = 0; g_vars.exec->av[sentence][a]; a++)
-				{
-					ft_putstr_fd(g_vars.exec->av[sentence][a], g_vars.stdo);
-				}
-				ft_putstr_fd("\nSENTENCE KELİME AREA FINISH ---------------\n", g_vars.stdo);
 				return;
 			}
 			i++; // redirection yanında bir kelime daha almak zorunda olduğu için onu atlıyoruz
@@ -190,21 +181,22 @@ int ms_redirect_manage(int sentence)
 		if (g_vars.retred[i]->type == 3) // <
 		{
 			if (ms_set_infile(g_vars.exec->av[sentence], g_vars.retred[i]->index))
-				return (1);
+				break ;//return (1);
 		}
 		if (g_vars.retred[i]->type == 4) // >
 		{
 			if (ms_set_outfile(g_vars.exec->av[sentence], g_vars.retred[i]->index, 0))
-				return (1);
+				break ;//return (1);
 		}
 		else if (g_vars.retred[i]->type == 6) // >>
 		{
 			if (ms_set_outfile(g_vars.exec->av[sentence], g_vars.retred[i]->index, 1))
-				return (1);
+				break ;//return (1);
 		}
-	}
+		// else if (g_vars.retred[i]->type == 5)
+		// {
 
-	// else if (type == 5) // <<
-	// ms_set_heredoc(g_vars.exec->av[sentence], index);
+		// }
+	}
 	return (0);
 }
