@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/10 23:42:00 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/11 02:17:09 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ typedef struct s_return_red
 	int type;
 } t_return_red;
 
+typedef struct s_heredoc_kw
+{
+	char	*keyword;
+	char	**str;
+	struct s_heredoc_kw *next;
+} t_heredoc_kw;
+
+
 struct s_vars
 {
 	t_return_red **retred;
@@ -83,6 +91,9 @@ struct s_vars
 	t_token *f_token;
 	t_token *head;
 	t_token *tokens;
+	t_heredoc_kw *heredoc_head;
+	t_heredoc_kw *heredoc;
+	int	heredoc_iterator;
 	int exit_status;
 	int stdo;
 	int stdi;
@@ -96,8 +107,6 @@ struct s_vars
 	int rm;
 	char *prompt;
 	int quit_flag;
-	int *fd_array;
-	int fd_iterator;
 } g_vars;
 
 typedef struct s_line
@@ -156,10 +165,11 @@ int ms_redirect_parse(char **sentence);
 void ms_prepare_tokens(void);
 int ms_set_infile(char **pt, int index);
 int ms_set_outfile(char **pt, int index, int mod);
-void ms_set_heredoc(char **pt, int index);
+int ms_set_heredoc(char **pt, int index);
 void ms_signal_helper(int get);
 void ms_put_status(t_token *token, int *i);
 void ms_put_program_name(t_token *token, int *i);
 void ms_delete_and_replace(int sentence, int start, int end);
 int ms_is_redirect_index(int index);
+t_heredoc_kw *ms_add_heredoc(void);
 #endif

@@ -44,6 +44,16 @@ void ms_add_env_list(char *s)
 	g_vars.env_tail->next = NULL;
 }
 
+t_heredoc_kw *ms_add_heredoc(void)
+{
+	t_heredoc_kw *hd;
+
+	hd = malloc(sizeof(t_heredoc_kw));
+	hd->keyword = NULL;
+	hd->next = NULL;
+	return (hd);
+}
+
 void ms_print_export(void) // leak var
 {
 	t_env *t;
