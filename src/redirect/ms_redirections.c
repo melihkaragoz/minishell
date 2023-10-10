@@ -121,7 +121,8 @@ void ms_delete_and_replace(int sentence, int start, int end)
 	char **str;
 	int i;
 
-	str = malloc(sizeof(char *) * (end - start + 1));
+	str = malloc(sizeof(char *) * (end - start + 2));
+	str[end - start + 1] = NULL;
 	i = 0;
 	while (start < end)
 	{
@@ -165,18 +166,18 @@ void ms_remove_redrets(int sentence)
 			{
 				printf("redirect bitti in%d\n", i);
 				ms_delete_and_replace(sentence, start, i); // start'dan i'ye kadar olan bölümü tut gerisini sil
+				ft_putstr_fd("SENTENCE KELİME AREA\n", g_vars.stdo);
+				for (int a = 0; g_vars.exec->av[sentence][a]; a++)
+				{
+					ft_putstr_fd(g_vars.exec->av[sentence][a], g_vars.stdo);
+				}
+				ft_putstr_fd("\nSENTENCE KELİME AREA FINISH ---------------\n", g_vars.stdo);
 				return;
 			}
 			i++; // redirection yanında bir kelime daha almak zorunda olduğu için onu atlıyoruz
 		}
 		i++;
 	}
-	printf("SENTENCE KELİME AREA\n");
-	for (int a = 0; g_vars.exec->av[sentence][a]; a++)
-	{
-		ft_putstr_fd(g_vars.exec->av[sentence][a], g_vars.stdo);
-	}
-	printf("SENTENCE KELİME AREA FINISH ---------------\n");
 }
 
 int ms_redirect_manage(int sentence)

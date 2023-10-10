@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/mkaragoz/Desktop/melih/42/minishell/src/exec",
-      "program": "/Users/mkaragoz/Desktop/melih/42/minishell/src/exec/build/Debug/outDebug"
+      "cwd": "/Users/clas0512/Desktop/repooooog/src/exec",
+      "program": "/Users/clas0512/Desktop/repooooog/src/exec/build/Debug/outDebug"
     }
   ]
 }

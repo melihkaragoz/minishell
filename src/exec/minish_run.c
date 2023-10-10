@@ -373,9 +373,9 @@ int ms_check_executable(void)
 		while (g_vars.exec->av[i][j])
 			j++;
 		if (j == 1 && g_vars.exec->av_token[i][j - 1] == 5)
-			return (0 && printf("minishell: syntax error near unexpected tASDASDoken `newline'\n"));
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
 		else if (j == 0)
-			return (0 && printf("minishell: syntax error near unexpected tBBBBBBoken `newline'\n"));
+			return (0 && printf("minishell: syntax error near unexpected token `newline'\n"));
 		i++;
 	}
 	return (1);
@@ -437,13 +437,14 @@ int ms_exec(int sentence)
 			return (0);
 		printf("BEFORE\n");
 		ms_remove_redrets(sentence);																		// eksik
+		if (g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
+			g_vars.exec->av[sentence][0] = ms_test_path(g_vars.exec->av[sentence][0]);
 		// free(&(g_vars.retred));
 		printf("AFTER\n");
 		for (int z = 0; g_vars.exec->av[sentence][z]; z++)
 		{
-			printf("%s, ", g_vars.exec->av[sentence][z]);
+			ft_putstr_fd(g_vars.exec->av[sentence][z], g_vars.stdo);
 		}
-		printf("\n");
 	}
 
 	if (g_vars.exec->av_token[sentence][0] == 1) // burdan built-in'e gidiyor

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redirect.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:12:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/09/26 16:06:16 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:29:52 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
