@@ -64,7 +64,7 @@ int ms_set_infile(char **pt, int index)
 	}
 	fd = open(pt[index + 1], O_RDONLY, 0777);
 	if (fd == -1)
-		return (printf("[!] dosya hatası.\n") && 1);
+		return (printf("[!] dosya hatasi.\n") && 1);
 	dup2(fd, 0);
 	close(fd);
 	return (0);
@@ -99,32 +99,42 @@ int ms_set_heredoc(char **pt, int index)
 int ms_run_heredoc(void)
 {
 	char *line;
+	// int i;
+	// int pipe_fd[2];
 
+	// if (pipe(pipe_fd) == -1)
+	// 	ft_putstr_fd("PIPE ERROR!\n", g_vars.stdo);
+	// i = fork();
+	// if (1)
+	// {
+	g_vars.heredoc = g_vars.heredoc_head;
 	while (1)
 	{
-		line = readline(">> ");
-		if (g_vars.heredoc->next)
+		line = readline("> ");
+		if (g_vars.heredoc->next->keyword)
 		{
-			if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line)))
+			if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
 				g_vars.heredoc = g_vars.heredoc->next;
 			free(line);
 			continue;
 		}
-		else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line)) && !g_vars.heredoc->next)
-			return (0);
-		g_vars.heredoc->str[g_vars.heredoc_iterator++] = ft_strdup(line);
-		// heredoc->str'yi char **'dan linked list yapisina cevir
-		// cunku ne kadar line gelecegi belli degil ve geldikce
-		// pesine eklemek gerekecek.
-		// yeni str linked listi icin bir ms_new_heredoc_str fonksiyonu yazilacak.
-		// header'da heredoc structinin icine bir *heredoc_str bir de *heredoc_str_head koyulacak.
+		else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
+			return (0); // herecock bitti
+		g_vars.heredoc_str->str = ft_strdup(line);
+		g_vars.heredoc_str->next = ms_add_heredoc_str();
+		g_vars.heredoc_str = g_vars.heredoc_str->next;
 		free(line);
 	}
-
-	int i = -1;
-	while (g_vars.heredoc->str[++i])
-		printf("%s\n", g_vars.heredoc->str[i]);
-
+	// exit(31);
+	// }
+	// waitpid(i, &g_vars.exit_status, 0);
+	// i = -1;
+	// while (g_vars.heredoc->str[++i])
+	// 	ft_putstr_fd(g_vars.heredoc->str[i], pipe_fd[1]);		// pipe_fd
+	// printf("%s\n", g_vars.heredoc->str[i]);
+	// dup2(pipe_fd[0], 0);
+	// close(pipe_fd[1]);
+	// close(pipe_fd[0]);
 	return (0);
 }
 
@@ -175,12 +185,17 @@ void ms_remove_redrets(int sentence)
 	i = 0;
 	while (g_vars.exec->av[sentence][i]) // kelimelerin döngüsü
 	{
-		if (!ms_is_redirect_index(i)) // redirection DEĞİL ise
+		if (!ms_is_redirect_index(i)) // redirection DEĞİL ise                  < Makefile
 		{
 			if (detected_no_redirection == false) // ilk gelişi ise
 			{
 				detected_no_redirection = true;
 				start = i; // başlangıcı belirle
+				if (!g_vars.exec->av[sentence][i + 1])
+				{
+					ms_delete_and_replace(sentence, start, start + 1); // start'dan i'ye kadar olan bölümü tut gerisini sil
+					return;
+				}
 			}
 		}
 		else // redirection ise
@@ -198,14 +213,17 @@ void ms_remove_redrets(int sentence)
 
 int ms_redirect_manage(int sentence)
 {
-	t_heredoc_kw *heredoc;
 	int i;
+	bool hrdc;
 
 	i = -1;
-	heredoc = ms_add_heredoc();
+	hrdc = false;
+	g_vars.heredoc_str = ms_add_heredoc_str();
+	g_vars.heredoc_str_head = g_vars.heredoc_str;
 	g_vars.heredoc_iterator = 0;
-	g_vars.heredoc_head = heredoc;
-	g_vars.heredoc = heredoc;
+	g_vars.heredoc = ms_add_heredoc();
+	;
+	g_vars.heredoc_head = g_vars.heredoc;
 	while (g_vars.retred[++i])
 	{
 		if (g_vars.retred[i]->type == 3) // <
@@ -225,16 +243,19 @@ int ms_redirect_manage(int sentence)
 		}
 		else if (g_vars.retred[i]->type == 5)
 		{
+			hrdc = true;
 			if (ms_set_heredoc(g_vars.exec->av[sentence], g_vars.retred[i]->index))
 				break; // return (1);
 		}
 	}
-	ms_run_heredoc();
-	t_heredoc_kw *test_hd = g_vars.heredoc_head;
-	while (test_hd->keyword)
+	if (hrdc == true)
+		ms_run_heredoc();
+
+	g_vars.heredoc_str = g_vars.heredoc_str_head;
+	while (g_vars.heredoc_str->str)
 	{
-		printf("kwd: %s\n", test_hd->keyword);
-		test_hd = test_hd->next;
+		printf("%s\n", g_vars.heredoc_str->str); // bunu pipe'a yaz sonra obur uctan okuyalim veya cat'e falan gonder
+		g_vars.heredoc_str = g_vars.heredoc_str->next;
 	}
 	return (0);
 }

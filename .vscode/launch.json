@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/clas0512/Desktop/repooooog/src/exec",
-      "program": "/Users/clas0512/Desktop/repooooog/src/exec/build/Debug/outDebug"
+      "cwd": ".",
+      "program": "build/Debug/outDebug"
     }
   ]
 }

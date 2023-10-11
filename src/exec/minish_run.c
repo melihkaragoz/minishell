@@ -54,6 +54,16 @@ t_heredoc_kw *ms_add_heredoc(void)
 	return (hd);
 }
 
+t_heredoc_str *ms_add_heredoc_str(void)
+{
+	t_heredoc_str *hd;
+
+	hd = malloc(sizeof(t_heredoc_str));
+	hd->str = NULL;
+	hd->next = NULL;
+	return (hd);
+}
+
 void ms_print_export(void) // leak var
 {
 	t_env *t;

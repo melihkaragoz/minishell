@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/11 02:17:09 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/11 22:05:07 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ typedef struct s_heredoc_kw
 	struct s_heredoc_kw *next;
 } t_heredoc_kw;
 
+typedef struct s_heredoc_str
+{
+	char	*str;
+	struct s_heredoc_str *next;
+} t_heredoc_str;
 
 struct s_vars
 {
@@ -93,6 +98,8 @@ struct s_vars
 	t_token *tokens;
 	t_heredoc_kw *heredoc_head;
 	t_heredoc_kw *heredoc;
+	t_heredoc_str *heredoc_str_head;
+	t_heredoc_str *heredoc_str;
 	int	heredoc_iterator;
 	int exit_status;
 	int stdo;
@@ -172,4 +179,5 @@ void ms_put_program_name(t_token *token, int *i);
 void ms_delete_and_replace(int sentence, int start, int end);
 int ms_is_redirect_index(int index);
 t_heredoc_kw *ms_add_heredoc(void);
+t_heredoc_str *ms_add_heredoc_str(void);
 #endif
