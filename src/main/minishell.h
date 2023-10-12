@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/11 22:05:07 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/12 14:35:47 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,4 +180,11 @@ void ms_delete_and_replace(int sentence, int start, int end);
 int ms_is_redirect_index(int index);
 t_heredoc_kw *ms_add_heredoc(void);
 t_heredoc_str *ms_add_heredoc_str(void);
+void ms_run_cd(char **sentence);
+int ms_run_heredoc(void);
+void ms_print_oldpwd(void);
+void ms_run_pi(void);
+void ms_run_echo(char **sentence);
+void ms_run_pwd(void);
+char *ms_get_env(char *s);
 #endif

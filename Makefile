@@ -1,6 +1,9 @@
-SRCS			=	src/main/minishell.c src/main/minish_utils.c src/exec/minish_exec.c \
+SRCS			=	src/main/minishell.c src/utils/minish_utils.c src/exec/minish_exec.c \
 					src/parse/minish_set_nodes.c src/parse/minish_token_utils.c src/parse/minish_token_seperator.c \
-					src/parse/minish_token.c src/exec/minish_run.c src/exec/minish_signal.c src/redirect/ms_redirections.c
+					src/parse/minish_token.c src/exec/minish_run.c src/exec/minish_signal.c src/redirect/ms_redirections.c \
+					src/utils/minish_set_utils.c src/redirect/minish_redirect_utils.c src/exec/minish_builtin_utils.c \
+					src/exec/minish_builtin.c src/exec/minish_run_utils.c src/exec/minish_exec_builtin.c \
+					src/exec/minish_next_exec_builtin.c src/exec/minish_puts.c
 
 OBJS			=	$(SRCS:.c=.o)
 

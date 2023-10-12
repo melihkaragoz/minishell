@@ -1,21 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minish_set_nodes.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 13:41:24 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/12 13:41:25 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../main/minishell.h"
-
-void ms_set_envlist(char **env)
-{
-	int i;
-
-	i = -1;
-	g_vars.env_list = ms_new_env();
-	g_vars.env_head = g_vars.env_list;
-	while (env[++i])
-	{
-		g_vars.env_list->content = env[i];
-		g_vars.env_list->next = ms_new_env();
-		g_vars.env_tail = g_vars.env_list;
-		g_vars.env_list = g_vars.env_list->next;
-	}
-	g_vars.prompt= "\x1b[38;5;129mminishell$ \x1b[0m";
-}
 
 void ms_node_remove_char(t_token *tmp, int i) // birinci parametre olarak verilen stringden ikinci parametre indexindeki karakteri siler.
 {
@@ -82,13 +77,6 @@ int ms_node_check_builtin(char *content)
 		return (1);
 	return (0);
 }
-
-/* cd with only a relative or absolute path
-◦pwd with no options
-◦export with no options
-◦unset with no options
-◦env with no options or arguments
-◦exit */
 
 int ms_node_check_redirection(char *content)
 {

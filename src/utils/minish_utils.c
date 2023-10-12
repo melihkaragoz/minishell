@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minish_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/09 23:20:07 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/12 13:38:44 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../main/minishell.h"
 
 int ms_print_env(char **env)
 {
@@ -107,19 +107,3 @@ void ms_free_tokens(void)
 // 		start ->=
 // 	}
 // }
-
-int ms_free_db_array(char **db)
-{
-	int i;
-
-	i = -1;
-	while (db[++i])
-		free(db[i]);
-	return (1);
-}
-
-int ms_free(char *s)
-{
-	free(s);
-	return (1);
-}
