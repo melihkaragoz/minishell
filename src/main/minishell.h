@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 14:35:47 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:10:50 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ struct s_vars
 	t_heredoc_str *heredoc_str_head;
 	t_heredoc_str *heredoc_str;
 	int	heredoc_iterator;
+	bool heredoc_active;
+	int pipe_fd[2];
+	int ff;
 	int exit_status;
 	int stdo;
 	int stdi;

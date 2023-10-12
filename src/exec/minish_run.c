@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_run.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 14:32:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:26:25 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int ms_exec(int sentence)
 		return (0);
 
 	g_vars.retred = ms_isred_sentence(sentence); // redirection control
-	if (g_vars.retred && *g_vars.retred) //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
+	if (g_vars.retred && *g_vars.retred)		 //  && g_vars.retred->type >= 3 && g_vars.retred->type <= 8 (ekstra silindi)
 	{
-		if (ms_redirect_parse(g_vars.exec->av[sentence]))													// denenmedi taslak yazıldı
+		if (ms_redirect_parse(g_vars.exec->av[sentence])) // denenmedi taslak yazıldı
 			return (1);
-		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
+		if (ms_redirect_manage(sentence)) // denenmedi taslak yazıldı
 			return (0);
-		ms_remove_redrets(sentence);																		// eksik
+		ms_remove_redrets(sentence); // eksik
 		if (!ms_node_check_builtin(g_vars.exec->av[sentence][0]) && g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
 			g_vars.exec->av[sentence][0] = ms_test_path(g_vars.exec->av[sentence][0]);
 	}
@@ -143,6 +143,12 @@ int ms_exec(int sentence)
 		else
 		{
 			// ft_putstr_fd(*g_vars.exec->av[sentence], g_vars.stdo);
+			if (g_vars.heredoc_active)
+			{
+				dup2(g_vars.pipe_fd[0], 0); // bu cat'in inputunu pipe yapıyor
+				close(g_vars.pipe_fd[1]);
+				close(g_vars.pipe_fd[0]);
+			}
 			execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 			const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 			perror(errmsg);

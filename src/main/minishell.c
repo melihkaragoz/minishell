@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/08 17:04:01 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/12 20:21:11 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int main(int ac, char **av, char **env)
 	ms_set_path(env);
 	g_vars.env = env;
 	g_vars.exit_status = 0;
+	g_vars.ff = 0;
 	ms_set_envlist(env);
 	signal(SIGQUIT, ms_signal_helper);
 	signal(SIGINT, ms_toggle_signal);
 	while (42)
 	{
+		g_vars.heredoc_active = false; // jskdjaskldjaklsfklasfasf
 		g_vars.rm = 0;
 		g_vars.line = readline(g_vars.prompt);
 		if (!(g_vars.line) && printf("\a"))

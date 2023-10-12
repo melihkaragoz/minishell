@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:37 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:41:05 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:14:56 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ int ms_redirect_manage(int sentence)
 	g_vars.heredoc_str_head = g_vars.heredoc_str;
 	g_vars.heredoc_iterator = 0;
 	g_vars.heredoc = ms_add_heredoc();
-	;
 	g_vars.heredoc_head = g_vars.heredoc;
 	while (g_vars.retred[++i])
 	{
@@ -159,7 +158,10 @@ int ms_redirect_manage(int sentence)
 		}
 	}
 	if (hrdc == true)
-		ms_run_heredoc();
+		{
+			ft_putstr_fd("\t\t[INFO]heredoc girecek\n", g_vars.stdo);
+			ms_run_heredoc();
+		}
 
 	g_vars.heredoc_str = g_vars.heredoc_str_head;
 	// while (g_vars.heredoc_str->str)

@@ -3,55 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   minish_redirect_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:35 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:41:10 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:26:54 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main/minishell.h"
 
-
 int ms_run_heredoc(void)
 {
 	char *line;
-	// int i;
-	// int pipe_fd[2];
+	int i;
 
-	// if (pipe(pipe_fd) == -1)
-	// 	ft_putstr_fd("PIPE ERROR!\n", g_vars.stdo);
-	// i = fork();
-	// if (1)
-	// {
-	g_vars.heredoc = g_vars.heredoc_head;
-	while (1)
+	printf("\t\t[INFO]herecocccc\n");
+	if (pipe(g_vars.pipe_fd) == -1)
+		ft_putstr_fd("PIPE ERROR!\n", g_vars.stdo);
+	i = fork();
+	if (!i)
 	{
-		line = readline("> ");
-		if (g_vars.heredoc->next->keyword)
+		g_vars.heredoc = g_vars.heredoc_head;
+		while (1)
 		{
-			if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
-				g_vars.heredoc = g_vars.heredoc->next;
+			line = readline("> ");
+			if (g_vars.heredoc->next->keyword)
+			{
+				if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
+					g_vars.heredoc = g_vars.heredoc->next;
+				free(line);
+				continue;
+			}
+			else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
+				return (0); // herecock bitti
+			g_vars.heredoc_str->str = ft_strdup(line);
+			g_vars.heredoc_str->next = ms_add_heredoc_str();
+			g_vars.heredoc_str = g_vars.heredoc_str->next;
 			free(line);
-			continue;
 		}
-		else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
-			return (0); // herecock bitti
-		g_vars.heredoc_str->str = ft_strdup(line);
-		g_vars.heredoc_str->next = ms_add_heredoc_str();
-		g_vars.heredoc_str = g_vars.heredoc_str->next;
-		free(line);
+		int ff = open("ff.txt", O_RDWR | O_CREAT | O_TRUNC, 0777);
+		g_vars.ff = ff;
+		dup2(g_vars.pipe_fd[1], 1);
+		close(g_vars.pipe_fd[1]);
+		close(g_vars.pipe_fd[0]);
+		i = -1;
+		while (g_vars.heredoc->str[++i])
+			printf("%s\n", g_vars.heredoc->str[i]);
+		g_vars.heredoc_active = 1;
+		exit(0);
 	}
-	// exit(31);
-	// }
-	// waitpid(i, &g_vars.exit_status, 0);
-	// i = -1;
-	// while (g_vars.heredoc->str[++i])
-	// 	ft_putstr_fd(g_vars.heredoc->str[i], pipe_fd[1]);		// pipe_fd
-	// printf("%s\n", g_vars.heredoc->str[i]);
-	// dup2(pipe_fd[0], 0);
-	// close(pipe_fd[1]);
-	// close(pipe_fd[0]);
+	waitpid(i, &g_vars.exit_status, 0);
 	return (0);
 }
 
@@ -114,5 +115,3 @@ int ms_set_heredoc(char **pt, int index)
 
 	return (0);
 }
-
-
