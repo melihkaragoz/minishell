@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:47:56 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 14:37:23 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:38:31 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void ms_print_export(void) // leak var
 				printf("=\n");
 		}
 		printf("\"\n");
+		free(t);
 		t = t->next;
-		// ms_free_db_array(s);
+		ms_free_db_array(s);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:56:21 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:57:48 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:37:42 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void ms_check_env(t_token *org_token)
 	dl_sign = 0;
 	while ((token->content) && token->content[++i])
 	{
-		if ((quote == 2 || quote == 0) && token->content[i] == '$' && (ft_isalnum(token->content[i + 1]) || token->content[i + 1] == '$' || token->content[i + 1] == '?') && ++dl_sign)
+		if ((quote == 2 || quote == 0) && token->content[i] == '$' \
+			&& (ft_isalnum(token->content[i + 1]) \
+			|| token->content[i + 1] == '$' \
+			|| token->content[i + 1] == '?') && ++dl_sign)
 		{
 			if (token->content[i + 1] == '$')
 				ms_put_dollar(token, &i);
