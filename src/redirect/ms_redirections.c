@@ -252,10 +252,10 @@ int ms_redirect_manage(int sentence)
 		ms_run_heredoc();
 
 	g_vars.heredoc_str = g_vars.heredoc_str_head;
-	while (g_vars.heredoc_str->str)
-	{
-		printf("%s\n", g_vars.heredoc_str->str); // bunu pipe'a yaz sonra obur uctan okuyalim veya cat'e falan gonder
-		g_vars.heredoc_str = g_vars.heredoc_str->next;
-	}
+	// while (g_vars.heredoc_str->str)
+	// {
+	// 	printf("%s\n", g_vars.heredoc_str->str); // bunu pipe'a yaz sonra obur uctan okuyalim veya cat'e falan gonder
+	// 	g_vars.heredoc_str = g_vars.heredoc_str->next;
+	// }
 	return (0);
 }

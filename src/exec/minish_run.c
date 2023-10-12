@@ -456,8 +456,12 @@ int ms_exec(int sentence)
 		if (ms_redirect_manage(sentence))																	// denenmedi taslak yazıldı
 			return (0);
 		ms_remove_redrets(sentence);																		// eksik
-		if (g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
+		if (!ms_node_check_builtin(g_vars.exec->av[sentence][0]) && g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
 			g_vars.exec->av[sentence][0] = ms_test_path(g_vars.exec->av[sentence][0]);
+		// for (int i = 0; g_vars.exec->av[sentence][i]; i++){												----------------------------
+		// 	ft_putstr_fd(g_vars.exec->av[sentence][i], g_vars.stdo);										redirectionlar silindikten sonra cümle kontrolü
+		// 	ft_putstr_fd("\n", g_vars.stdo);}																----------------------------
+		
 		// free(&(g_vars.retred));
 	}
 
