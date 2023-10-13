@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/13 21:37:45 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 00:36:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ struct s_vars
 	int	heredoc_iterator;
 	bool heredoc_active;
 	int pipe_fd[2];
+	int pipe_i;
+	int pipe_o;
 	int ff;
 	int exit_status;
 	int stdo;
@@ -127,7 +129,7 @@ typedef struct s_line
 } t_line;
 
 
-void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence);
+void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence, int *pipe_fd);
 int ms_exec_rdr_builtin(bool has_pipe, bool builtin, int sentence);
 void ms_remove_redrets(int sentence);
 t_return_red **ms_isred_sentence(int sentence);

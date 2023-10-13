@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/13 22:31:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 00:40:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ void ms_set_execve_arg(void)
 	}
 }
 
-void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence)
+void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence, int *pipe_fd)
 {
-	int pipe_fd[2];
 	if (!redirection && has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 		exit(31);
 	if (builtin == true) // burdan built-in'e gidiyor
@@ -89,17 +88,28 @@ void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentenc
 	}
 	else
 	{
-		// ft_putstr_fd(*g_vars.exec->av[sentence], g_vars.stdo);
-		if (g_vars.heredoc_active)
+		if (g_vars.heredoc_active == true)
 		{
-			dup2(pipe_fd[0], 0); // bu cat'in inputunu pipe yapıyor
+			int old_output = dup(1);
+			dup2(g_vars.stdo, 1);
+			close(g_vars.stdo);
+			ms_run_heredoc();
+			dup2(pipe_fd[1], g_vars.stdo);
 			close(pipe_fd[1]);
 			close(pipe_fd[0]);
+			int i = -1;
+			while (g_vars.heredoc->str[++i])
+				printf("%s\n", g_vars.heredoc->str[i]);
+			dup2(old_output, 1);
+			close(old_output);
+			dup2(pipe_fd[0], 0); // bu cat'in inputunu pipe yapıyor
+			close(pipe_fd[1]);
+			close(pipe_fd[0]);	
 		}
+		// dup2(g_vars.pipe_i, 0);
 		execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
 		const char *errmsg = ft_strjoin("bash: ", *g_vars.exec->av[sentence]);
 		perror(errmsg);
-		// g_vars.exit_status = errno;
 		exit(errno);
 	}
 }
@@ -133,7 +143,7 @@ int ms_exec(int sentence)
 	pid_t child;
 	bool builtin;
 	int redirection;
-	int *pipe_fd = g_vars.pipe_fd;
+	int pipe_fd[2];
 
 	builtin = false;
 	redirection = 0;
@@ -168,7 +178,7 @@ int ms_exec(int sentence)
 
 	child = fork();
 	if (!child)
-		ms_exec_rdr_child(has_pipe, redirection, builtin, sentence);
+		ms_exec_rdr_child(has_pipe, redirection, builtin, sentence, pipe_fd);
 
 // ---------------------------------------------------------------------------------------------
 	waitpid(child, &g_vars.exit_status, 0);

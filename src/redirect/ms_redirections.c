@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:37 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/13 23:01:18 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 00:19:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,13 @@ int ms_redirect_manage(int sentence)
 		else if (g_vars.retred[i]->type == 5)
 		{
 			hrdc = true;
+			g_vars.heredoc_active = 1;
 			if (ms_set_heredoc(g_vars.exec->av[sentence], g_vars.retred[i]->index))
 				break; // return (1);
 		}
 	}
-	if (hrdc == true)
-		ms_run_heredoc();
+	// if (hrdc == true)
+	// 	ms_run_heredoc();
 
 	g_vars.heredoc_str = g_vars.heredoc_str_head;
 	// while (g_vars.heredoc_str->str)
