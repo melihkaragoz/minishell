@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_redirect_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:35 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:26:54 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/13 22:59:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ int ms_run_heredoc(void)
 {
 	char *line;
 	int i;
+	int *pipe_fd = g_vars.pipe_fd;
 
 	printf("\t\t[INFO]herecocccc\n");
 	if (pipe(g_vars.pipe_fd) == -1)
 		ft_putstr_fd("PIPE ERROR!\n", g_vars.stdo);
+
+	// child area
 	i = fork();
 	if (!i)
 	{
@@ -27,28 +30,36 @@ int ms_run_heredoc(void)
 		while (1)
 		{
 			line = readline("> ");
-			if (g_vars.heredoc->next->keyword)
+
+			ft_putstr_fd("[INFO] -> LINE IS : .", g_vars.stdo);
+			ft_putstr_fd(line, g_vars.stdo);
+			ft_putstr_fd(".\n", g_vars.stdo);
+
+			if (g_vars.heredoc->next->keyword) // if it is not last key
 			{
 				if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
 					g_vars.heredoc = g_vars.heredoc->next;
-				free(line);
+				// free(line);
 				continue;
 			}
 			else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
-				return (0); // herecock bitti
+				break; // herecock bitti
 			g_vars.heredoc_str->str = ft_strdup(line);
 			g_vars.heredoc_str->next = ms_add_heredoc_str();
 			g_vars.heredoc_str = g_vars.heredoc_str->next;
-			free(line);
+			// free(line);
 		}
 		int ff = open("ff.txt", O_RDWR | O_CREAT | O_TRUNC, 0777);
 		g_vars.ff = ff;
-		dup2(g_vars.pipe_fd[1], 1);
-		close(g_vars.pipe_fd[1]);
-		close(g_vars.pipe_fd[0]);
+		dup2(pipe_fd[1], 1);
+		close(pipe_fd[1]);
+		close(pipe_fd[0]);
 		i = -1;
 		while (g_vars.heredoc->str[++i])
-			printf("%s\n", g_vars.heredoc->str[i]);
+		{
+			ft_putstr_fd(g_vars.heredoc->str[i], g_vars.stdo);
+			ft_putstr_fd("\n", g_vars.stdo);
+		}
 		g_vars.heredoc_active = 1;
 		exit(0);
 	}
@@ -64,6 +75,7 @@ int ms_redirect_parse(char **sentence)
 	i = -1;
 	while (g_vars.retred[++i])
 	{
+		printf("key: %s, value: %s\n", sentence[g_vars.retred[i]->index], sentence[g_vars.retred[i]->index + 1]);
 		if (!(sentence[g_vars.retred[i]->index + 1]))
 			return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
 		j = -1;

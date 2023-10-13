@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:10:50 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/13 21:37:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ typedef struct s_line
 	char *line;
 } t_line;
 
+
+void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence);
+int ms_exec_rdr_builtin(bool has_pipe, bool builtin, int sentence);
 void ms_remove_redrets(int sentence);
 t_return_red **ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);

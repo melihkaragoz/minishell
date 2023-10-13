@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anargul <anargul@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:37 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:14:56 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/13 23:01:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ t_return_red **ms_isred_sentence(int sentence)
 	while (g_vars.exec->av[sentence][++i])
 	{
 		if (!a)
+		{
+			returnred[g_vars.exec->red_count] = NULL;
 			return (returnred);
+		}
 		if (g_vars.exec->av_token[sentence][i] >= 3 && g_vars.exec->av_token[sentence][i] <= 8 && a--) // [melih] a-- yi buraya aldim
 		{
 			returnred[j]->index = i;
@@ -44,7 +47,6 @@ t_return_red **ms_isred_sentence(int sentence)
 			j++;
 		}
 	}
-	returnred[g_vars.exec->red_count] = 0;
 	return (returnred);
 }
 
@@ -158,10 +160,7 @@ int ms_redirect_manage(int sentence)
 		}
 	}
 	if (hrdc == true)
-		{
-			ft_putstr_fd("\t\t[INFO]heredoc girecek\n", g_vars.stdo);
-			ms_run_heredoc();
-		}
+		ms_run_heredoc();
 
 	g_vars.heredoc_str = g_vars.heredoc_str_head;
 	// while (g_vars.heredoc_str->str)
