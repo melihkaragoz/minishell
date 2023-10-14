@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_set_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:36:31 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:38:47 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:50:49 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,4 @@ void ms_set_envlist(char **env)
 	g_vars.prompt= "\x1b[38;5;129mminishell$ \x1b[0m";
 }
 
-int ms_free_db_array(char **db)
-{
-	int i;
 
-	i = -1;
-	while (db[++i])
-		free(db[i]);
-	return (1);
-}
-
-int ms_free(char *s)
-{
-	free(s);
-	return (1);
-}

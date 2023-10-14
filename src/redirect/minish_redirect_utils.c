@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_redirect_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:35 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 00:38:04 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int ms_run_heredoc(void)
 			{
 				if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
 					g_vars.heredoc = g_vars.heredoc->next;
-				// free(line);
+				// //free(line);
 				continue;
 			}
 			else if (!ft_strncmp(line, g_vars.heredoc->keyword, ft_strlen(line) + 1))
@@ -41,7 +41,7 @@ int ms_run_heredoc(void)
 			g_vars.heredoc_str->str = ft_strdup(line);
 			g_vars.heredoc_str->next = ms_add_heredoc_str();
 			g_vars.heredoc_str = g_vars.heredoc_str->next;
-			// free(line);
+			// //free(line);
 		}
 		
 	

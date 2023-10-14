@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_next_exec_builtin.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:54:06 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:55:12 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ms_run_pwd(void)
 	s = ft_strdup(ms_getenv("PWD"));
 	getcwd(s, ft_strlen(s));
 	printf("%s\n", s);
-	free(s);
+	//free(s);
 }
 
 void ms_run_echo(char **sentence)
@@ -73,7 +73,7 @@ void ms_run_cd(char **sentence)
 		opwd = ft_strjoin("OLDPWD=", pwd);
 		if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
 			ms_add_env_list(opwd);
-		free(pwd);
+		//free(pwd);
 		pwd = ft_strdup(ms_get_env("PWD"));
 		getcwd(pwd, ft_strlen(pwd));
 		ms_add_env_list(ft_strjoin("PWD=", pwd));
@@ -98,18 +98,18 @@ void ms_run_unset(char *s)
 			{
 				if (g_vars.env_list == g_vars.env_head)
 				{
-					free(g_vars.env_list);
+					//free(g_vars.env_list);
 					g_vars.env_head = g_vars.env_head->next;
 				}
 				else if (g_vars.env_list == g_vars.env_tail)
 				{
 					prev->next = NULL;
-					free(g_vars.env_list);
+					//free(g_vars.env_list);
 				}
 				else
 				{
 					prev->next = g_vars.env_list->next;
-					free(g_vars.env_list);
+					//free(g_vars.env_list);
 				}
 				ms_update_env_tail();
 				return;

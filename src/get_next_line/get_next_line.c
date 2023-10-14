@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:37:21 by mkaragoz          #+#    #+#             */
-/*   Updated: 2022/11/11 10:01:55 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char	*get_next_line(int fd)
 	char		*tmp_str;
 
 	endl = 1;
-	str = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	str = ft_malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!str || fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(str);
+		//free(str);
 		return (0);
 	}
 	tmp_str = str;

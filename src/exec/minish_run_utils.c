@@ -3,24 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minish_run_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:43 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:45:27 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:50:57 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main/minishell.h"
 
-void ms_free_string_array(char **str)
-{
-	int i;
-
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
-}
 
 void ms_copy_struct(t_env *src)
 {
@@ -60,7 +51,7 @@ t_heredoc_kw *ms_add_heredoc(void)
 {
 	t_heredoc_kw *hd;
 
-	hd = malloc(sizeof(t_heredoc_kw));
+	hd =ft_malloc(sizeof(t_heredoc_kw));
 	hd->keyword = NULL;
 	hd->next = NULL;
 	return (hd);
@@ -70,7 +61,7 @@ t_heredoc_str *ms_add_heredoc_str(void)
 {
 	t_heredoc_str *hd;
 
-	hd = malloc(sizeof(t_heredoc_str));
+	hd =ft_malloc(sizeof(t_heredoc_str));
 	hd->str = NULL;
 	hd->next = NULL;
 	return (hd);

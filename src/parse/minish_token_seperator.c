@@ -22,12 +22,12 @@ void	ms_add_quotes_to_last()
 	char *tmp;
 
 	tmp = ft_strdup(g_vars.line);
-	free(g_vars.line);
+	//free(g_vars.line);
 	if (g_vars.p_tools->quote_mode == 34)
 		g_vars.line = ft_strjoin(tmp, "\"");
 	else
 		g_vars.line = ft_strjoin(tmp, "\'");
-	free(tmp);
+	//free(tmp);
 	ms_set_arg_false(5);
 }
 

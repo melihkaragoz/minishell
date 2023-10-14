@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 00:36:56 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 10:51:32 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef struct s_token
 	int type;
 	struct s_token *next;
 } t_token;
+
+typedef struct s_gc
+{
+	void *content;
+	struct s_gc *next;
+} t_gc;
 
 // typedef struct s_exec
 // {
@@ -71,14 +77,14 @@ typedef struct s_return_red
 
 typedef struct s_heredoc_kw
 {
-	char	*keyword;
-	char	**str;
+	char *keyword;
+	char **str;
 	struct s_heredoc_kw *next;
 } t_heredoc_kw;
 
 typedef struct s_heredoc_str
 {
-	char	*str;
+	char *str;
 	struct s_heredoc_str *next;
 } t_heredoc_str;
 
@@ -100,12 +106,17 @@ struct s_vars
 	t_heredoc_kw *heredoc;
 	t_heredoc_str *heredoc_str_head;
 	t_heredoc_str *heredoc_str;
-	int	heredoc_iterator;
+	t_gc *gc_head;
+	t_gc *gc_iterator;
+	int heredoc_iterator;
 	bool heredoc_active;
+	int pipe_1;
+	int pipe_0;
+	char *heredoc_buff;
 	int pipe_fd[2];
 	int pipe_i;
 	int pipe_o;
-	int ff;
+	int outfile_fd;
 	int exit_status;
 	int stdo;
 	int stdi;
@@ -127,7 +138,6 @@ typedef struct s_line
 	char **params;
 	char *line;
 } t_line;
-
 
 void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence, int *pipe_fd);
 int ms_exec_rdr_builtin(bool has_pipe, bool builtin, int sentence);
@@ -171,8 +181,6 @@ int ms_strncmp(char *a, char *b, char c);
 void ms_run_unset(char *s);
 void ms_toggle_signal(int get);
 void ms_exit(char *msg, int stat);
-int ms_free(char *s);
-int ms_free_db_array(char **db);
 void ms_add_env_list(char *s);
 int ms_redirect_manage(int sentence);
 int ms_check_executable(void);
@@ -195,4 +203,8 @@ void ms_run_pi(void);
 void ms_run_echo(char **sentence);
 void ms_run_pwd(void);
 char *ms_get_env(char *s);
+void add_gc_element(void *el);
+t_gc *new_gc();
+void ms_detective_leak(void);
+void *ft_malloc(size_t num);
 #endif

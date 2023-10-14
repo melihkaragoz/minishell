@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_puts.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:56:21 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 18:37:42 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ void ms_put_env(t_token *token, int *i)
 	else
 		t_tmp = ft_strjoin(t_first, "");
 	t_tmp = ft_strjoin(t_tmp, t_last);
-	free(token->content);
+	//free(token->content);
 	token->content = t_tmp;
-	free(t_first);
-	free(t_last);
+	//free(t_first);
+	//free(t_last);
 	if (val)
 		*i += ft_strlen(val) - ft_strlen(tmp) - 2;
-	free(val);
-	free(tmp);
+	//free(val);
+	//free(tmp);
 }
 
 
@@ -104,11 +104,11 @@ void ms_put_dollar(t_token *token, int *i)
 	t_first = ft_substr(token->content, 0, *i);
 	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
 	tmp = ft_strjoin(t_first, pid);
-	free(t_first);
-	free(pid);
+	//free(t_first);
+	//free(pid);
 	token->content = ft_strjoin(tmp, t_last);
-	free(tmp);
-	free(t_last);
+	//free(tmp);
+	//free(t_last);
 }
 
 void ms_put_status(t_token *token, int *i)
@@ -123,10 +123,10 @@ void ms_put_status(t_token *token, int *i)
 	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
 	tmp = ft_strjoin(t_first, ms_itoa);
 	token->content = ft_strjoin(tmp, t_last);
-	free(t_first);
-	free(ms_itoa);
-	free(tmp);
-	free(t_last);
+	//free(t_first);
+	//free(ms_itoa);
+	//free(tmp);
+	//free(t_last);
 }
 
 void ms_put_program_name(t_token *token, int *i)
@@ -138,7 +138,7 @@ void ms_put_program_name(t_token *token, int *i)
 	t_first = ft_substr(token->content, 0, *i);
 	t_last = ft_substr(token->content, *i + 2, ft_strlen(token->content) - (*i));
 	(tmp = ft_strjoin(t_first, "minishell")) && (token->content = ft_strjoin(tmp, t_last));
-	free(t_first);
-	free(tmp);
-	free(t_last);
+	//free(t_first);
+	//free(tmp);
+	//free(t_last);
 }

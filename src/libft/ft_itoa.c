@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 15:29:47 by mkaragoz          #+#    #+#             */
-/*   Updated: 2022/10/25 02:06:42 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:29:53 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_itoa(int n)
 	int		size;
 
 	size = digit_finder(n);
-	result = malloc(sizeof(char) * size + 1);
+	result =ft_malloc(sizeof(char) * size + 1);
 	if (!result)
 		return (0);
 	result[size--] = '\0';

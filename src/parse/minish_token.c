@@ -14,6 +14,7 @@ void ms_make_nodes(void)
 		while (g_vars.line[g_vars.i] && (!ms_end_of_word() || g_vars.p_tools->arg_mode)) // ozel karakterleri gec
 			(g_vars.i)++;
 		new_content = ft_substr(g_vars.line, f, g_vars.i - f); // node'un oluştuğu bölüm
+		add_gc_element((void *)new_content);
 		g_vars.p_tools->arg_mode = true;
 		if (*new_content)
 		{
@@ -42,5 +43,5 @@ void ms_set_tokens(void)
 	ms_init();
 	ms_make_nodes();
 	// ms_print_tokens();
-	// free(g_vars.line);
+	// //free(g_vars.line);
 }

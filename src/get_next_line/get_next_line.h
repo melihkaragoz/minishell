@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 02:14:42 by mkaragoz          #+#    #+#             */
-/*   Updated: 2022/11/11 00:07:57 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:35:55 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include "../main/minishell.h"
+
+
 char	*get_next_line(int fd);
+void *ft_malloc(size_t num);
 #endif

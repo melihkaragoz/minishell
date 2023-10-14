@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_run.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 00:40:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:18:38 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void ms_set_execve_arg(void)
 	sentence = -1;
 	tmp = g_vars.head;
 	tmp2 = g_vars.head;
-	g_vars.exec->av_token = malloc(sizeof(int *) * (g_vars.exec->pipe_count + 1));
+	g_vars.exec->av_token = ft_malloc(sizeof(int *) * (g_vars.exec->pipe_count + 1));
 	g_vars.exec->av_token[g_vars.exec->pipe_count] = NULL;
-	g_vars.exec->av = malloc(sizeof(char **) * (g_vars.exec->pipe_count + 1));
+	g_vars.exec->av = ft_malloc(sizeof(char **) * (g_vars.exec->pipe_count + 1));
 	g_vars.exec->av[g_vars.exec->pipe_count] = NULL;
 	g_vars.i = 0;
 	g_vars.exec->arg_num = 0;
@@ -35,9 +35,9 @@ void ms_set_execve_arg(void)
 		{
 			g_vars.exec->set_path = 0;
 			sentence++;
-			g_vars.exec->av_token[sentence] = malloc(sizeof(int) * (g_vars.i + 1));
+			g_vars.exec->av_token[sentence] =ft_malloc(sizeof(int) * (g_vars.i + 1));
 			g_vars.exec->av_token[sentence][g_vars.i] = 0;
-			g_vars.exec->av[sentence] = malloc(sizeof(char *) * (g_vars.i + 1));
+			g_vars.exec->av[sentence] =ft_malloc(sizeof(char *) * (g_vars.i + 1));
 			g_vars.exec->av[sentence][g_vars.i] = NULL;
 			i = -1;
 			while (++i < g_vars.i)

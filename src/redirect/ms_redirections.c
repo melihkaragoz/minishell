@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:37 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 00:19:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_return_red **ms_isred_sentence(int sentence)
 	g_vars.exec->red_count = a;
 	if (a == 0)
 		return (0);
-	returnred = malloc(sizeof(t_return_red *) * (a + 1));
+	returnred =ft_malloc(sizeof(t_return_red *) * (a + 1));
 	while (++j < a) // for var [melih] while'a cevirdim
-		returnred[j] = malloc(sizeof(t_return_red *));
+		returnred[j] =ft_malloc(sizeof(t_return_red *));
 	i = -1;
 	j = 0;
 	while (g_vars.exec->av[sentence][++i])
@@ -69,7 +69,7 @@ void ms_delete_and_replace(int sentence, int start, int end)
 	char **str;
 	int i;
 
-	str = malloc(sizeof(char *) * (end - start + 2));
+	str =ft_malloc(sizeof(char *) * (end - start + 2));
 	str[end - start + 1] = NULL;
 	i = 0;
 	while (start < end)
@@ -81,7 +81,7 @@ void ms_delete_and_replace(int sentence, int start, int end)
 	i = 0;
 	while (g_vars.exec->av[sentence][i])
 	{
-		free(g_vars.exec->av[sentence][i]);
+		//free(g_vars.exec->av[sentence][i]);
 		i++;
 	}
 	g_vars.exec->av[sentence] = str;

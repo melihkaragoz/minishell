@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:38:44 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:18:51 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char *ms_test_path(char *cmd)
 	char **pt;
 
 	i = -1;
+	ms_detective_leak();
 	path = ms_getenv("PATH");
 	if (!path || !(*cmd))
 		return (0);
@@ -61,13 +62,14 @@ char *ms_test_path(char *cmd)
 	{
 		new = ft_strjoin(pt[i], "/");
 		test_path = ft_strjoin(new, cmd);
-		if (!access(test_path, 0) && ms_free_db_array(pt) && ms_free(new) && ms_free(path))
+		if (!access(test_path, 0)){
 			return (test_path);
-		ms_free(new);
-		ms_free(test_path);
+		}
+		//ms_//free(new);
+		//ms_//free(test_path);
 	}
-	ms_free_db_array(pt);
-	ms_free(path);
+	//ms_free_db_array(pt);
+	//ms_//free(path);
 	return (NULL);
 }
 
@@ -85,15 +87,15 @@ void ms_prepare_tokens(void)
 	ms_set_execve_arg(); // g_vars.exec->av oluşturulur.
 }
 
-void ms_free_tokens(void)
-{
-	free(g_vars.tokens);
-	free(g_vars.f_token);
-	free(g_vars.line);
-	g_vars.i = 0;
-	while (g_vars.paths[++(g_vars.i)])
-		free(g_vars.paths[g_vars.i]);
-}
+// void ms_free_tokens(void)
+// {
+// 	//free(g_vars.tokens);
+// 	//free(g_vars.f_token);
+// 	//free(g_vars.line);
+// 	g_vars.i = 0;
+// 	while (g_vars.paths[++(g_vars.i)])
+// 		//free(g_vars.paths[g_vars.i]);
+// }
 
 // void	ms_free_heredoc(t_heredoc *hd)
 // {
@@ -102,7 +104,7 @@ void ms_free_tokens(void)
 // 	start = hd;
 // 	while (start)
 // 	{
-// 		free(start->content);
+// 		//free(start->content);
 // 		start = start->next;
 // 		start ->=
 // 	}

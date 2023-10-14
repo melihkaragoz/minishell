@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_set_nodes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:41:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:41:25 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void ms_node_remove_char(t_token *tmp, int i) // birinci parametre olarak verile
 		len = ft_strlen(tmp->content);
 		tmp_str = ft_substr(tmp->content, 0, i);
 		tmp_str_extra = ft_substr(tmp->content, i + 1, len - i);
-		free(tmp->content);
+		//free(tmp->content);
 		tmp->content = ft_strjoin(tmp_str, tmp_str_extra);
-		free(tmp_str);
-		free(tmp_str_extra);
+		//free(tmp_str);
+		//free(tmp_str_extra);
 	}
 }
 

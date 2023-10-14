@@ -4,7 +4,7 @@ t_token *ms_new_token(void)
 {
 	t_token *n_token;
 
-	n_token = malloc(sizeof(t_token));
+	n_token =ft_malloc(sizeof(t_token));
 	n_token->content = NULL;
 	n_token->next = NULL;
 	return (n_token);
@@ -14,7 +14,7 @@ t_env *ms_new_env(void)
 {
 	t_env *n_env;
 
-	n_env = malloc(sizeof(t_env));
+	n_env =ft_malloc(sizeof(t_env));
 	n_env->content = NULL;
 	n_env->next = NULL;
 	return (n_env);
@@ -55,12 +55,12 @@ void ms_init(void)
 {
 	g_vars.stdo = dup(1);
 	g_vars.stdi = dup(0);;
-	g_vars.exec = malloc(sizeof(t_exec));
+	g_vars.exec =ft_malloc(sizeof(t_exec));
 	g_vars.exec->pipe_count = 0;
 	g_vars.tokens = ms_new_token();
 	g_vars.f_token = g_vars.tokens;
 	g_vars.head = g_vars.tokens;
-	g_vars.p_tools = malloc(sizeof(t_tools));
+	g_vars.p_tools =ft_malloc(sizeof(t_tools));
 	g_vars.p_tools->quote_mode = 0;
 	g_vars.p_tools->arg_mode = true;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 15:16:50 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/07/07 22:34:52 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:11:29 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*stringer(const char *src, char c)
 	char	*ret;
 	int		i;
 
-	ret = malloc(sizeof(char) * word_len(src, c) + 1);
+	ret =ft_malloc(sizeof(char) * word_len(src, c) + 1);
 	i = 0;
 	while (*src && *src != c)
 	{
@@ -78,7 +78,7 @@ char	**ft_split(const char *s, char c)
 	if (!s)
 		return (NULL);
 	size = word_counter(s, c);
-	result = malloc(sizeof(char *) * (size + 1));
+	result = ft_malloc(sizeof(char *) * (size + 1));
 	if (!result)
 		return (0);
 	i = 0;

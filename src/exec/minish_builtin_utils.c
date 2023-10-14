@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_builtin_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:47:56 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 18:38:31 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:14:34 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ char *ms_getenv(char *s) // bagli listeden cekiyor
 	int k;
 
 	t = g_vars.env_head;
-	val = calloc(1, 1);
+	val = ft_malloc(1);
 	while (t && t->content)
 	{
 		sp = ft_split(t->content, '=');
 		if ((ft_strlen(sp[0]) == ft_strlen(s)) && !ft_strncmp(s, sp[0], ft_strlen(s)))
 		{
 			k = ft_strchr(t->content, '=') - t->content;
-			val = malloc(sizeof(char) * ft_strlen(ft_strchr(t->content, '=')));
+			val = ft_malloc(sizeof(char) * ft_strlen(ft_strchr(t->content, '=')));
 			j = -1;
 			while (t->content[++k])
 				val[++j] = t->content[k];
@@ -76,8 +76,8 @@ void ms_print_export(void) // leak var
 				printf("=\n");
 		}
 		printf("\"\n");
-		free(t);
+		//free(t);
 		t = t->next;
-		ms_free_db_array(s);
+		// ms_free_db_array(s);
 	}
 }
