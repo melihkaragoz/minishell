@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:43:10 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/12 13:56:15 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:44:10 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ t_env *ms_lstchr(char *s)
 	t_env *lst;
 
 	lst = g_vars.env_head;
+	add_gc_element(lst);
 	while (lst && lst->content)
 	{
 		if (ms_strncmp(s, lst->content, '='))
 			return (lst);
 		lst = lst->next;
+		add_gc_element(lst);
 	}
 	return (NULL);
 }

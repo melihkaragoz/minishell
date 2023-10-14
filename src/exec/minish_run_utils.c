@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:43 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 10:50:57 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 16:33:31 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void ms_add_env_list(char *s)
 	te = ms_lstchr(s);
 	if (te && te->content)
 	{
+		add_gc_element(te->content);
 		te->content = s;
 		return;
 	}
 	g_vars.env_tail->next = ms_new_env();
 	g_vars.env_tail->next->content = ft_strdup(s);
+	add_gc_element(g_vars.env_tail);
 	g_vars.env_tail = g_vars.env_tail->next;
 	g_vars.env_tail->next = NULL;
 }
@@ -53,7 +55,7 @@ t_heredoc_kw *ms_add_heredoc(void)
 
 	hd =ft_malloc(sizeof(t_heredoc_kw));
 	hd->keyword = NULL;
-	hd->next = NULL;
+	hd->next = NULL; 
 	return (hd);
 }
 

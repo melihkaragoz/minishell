@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:24 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 11:33:52 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 18:02:10 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int main(int ac, char **av, char **env)
 		dup2(g_vars.stdi, 0);
 		g_vars.outfile_fd = 1;
 		free(g_vars.line);
-		ms_detective_leak();
 	}
 	return (0);
 }

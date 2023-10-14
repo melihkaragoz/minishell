@@ -14,7 +14,7 @@ t_env *ms_new_env(void)
 {
 	t_env *n_env;
 
-	n_env =ft_malloc(sizeof(t_env));
+	n_env = ft_malloc(sizeof(t_env));
 	n_env->content = NULL;
 	n_env->next = NULL;
 	return (n_env);

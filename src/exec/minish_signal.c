@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minish_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 20:12:42 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/07 19:22:09 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/14 18:02:31 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,17 @@ void ms_exit(char *msg, int stat)
 {
 	if (msg && *msg)
 		printf("%s\n", msg);
+		free(g_vars.line);
+	// ms_detective_leak();
 	if (stat == 1) // ctrl-d gelme durumu
 	{
+		g_vars.gc_iterator = g_vars.gc_head;
+		free(g_vars.gc_iterator->content);
+		// for (; g_vars.gc_iterator->content; g_vars.gc_iterator = g_vars.gc_iterator->next)
+		// {
+		// 	if ((char *)g_vars.gc_iterator->content)
+		// 		free(g_vars.gc_iterator->content);
+		// }
 		printf("\033[A\n%sexit\n", g_vars.prompt);
 		exit(0);
 	}

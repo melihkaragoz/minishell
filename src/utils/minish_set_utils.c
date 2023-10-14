@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:36:31 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 10:50:49 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:39:27 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,5 @@ void ms_set_envlist(char **env)
 		g_vars.env_tail = g_vars.env_list;
 		g_vars.env_list = g_vars.env_list->next;
 	}
-	g_vars.prompt= "\x1b[38;5;129mminishell$ \x1b[0m";
+	g_vars.prompt = "\x1b[38;5;129mminishell$ \x1b[0m";
 }
-
-

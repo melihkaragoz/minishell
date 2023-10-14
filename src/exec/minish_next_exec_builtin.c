@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:54:06 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 17:50:30 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ms_run_pwd(void)
 	s = ft_strdup(ms_getenv("PWD"));
 	getcwd(s, ft_strlen(s));
 	printf("%s\n", s);
-	//free(s);
+	// free(s);
 }
 
 void ms_run_echo(char **sentence)
@@ -48,38 +48,51 @@ void ms_run_echo(char **sentence)
 
 void ms_run_cd(char **sentence)
 {
-	char *pwd;
-	char *opwd;
 	int res;
+	char *oldpwd;
+	char *curr_pwd;
+	char *tmp;
 
-	res = 0;
-	pwd = ft_strdup(ms_get_env("PWD"));
-	getcwd(pwd, ft_strlen(pwd));
-	if (sentence[1] && !ft_strncmp(sentence[1], "-", 1))
+	res = -1;
+	oldpwd = ms_getenv("OLDPWD");
+	curr_pwd = ft_malloc(ft_strlen(ms_getenv("PWD")) + 200);
+	getcwd(curr_pwd, ft_strlen(ms_getenv("PWD")) + 200);
+	add_gc_element(curr_pwd);
+	if (sentence[1] && !ft_strncmp(sentence[1], "-", ft_strlen(sentence[1]) + 1))
 	{
-		res = chdir(ms_getenv("OLDPWD"));
-		if (res == -1)
-			return ((void)printf("[!] OLDPWD not set\n"));
-		printf("%s\n", ms_getenv("OLDPWD"));
+		if (oldpwd)
+		{
+			if (!(res = chdir(oldpwd))) // basarili
+			{
+				printf("%s\n", oldpwd);
+				tmp = ft_strdup(curr_pwd);
+				oldpwd = ft_strdup(tmp);
+			}
+		}
+		else
+			printf("minishell: OLDPWD not set");
 	}
 	else if (sentence[1])
-		res = chdir(sentence[1]);
-	else if (!sentence[1])
-		chdir(ms_getenv("HOME"));
-	else
-		return;
-	if (res != -1)
 	{
-		opwd = ft_strjoin("OLDPWD=", pwd);
-		if (!((ft_strlen(opwd) == ft_strlen(pwd)) && !ft_strncmp(opwd, pwd, ft_strlen(opwd))))
-			ms_add_env_list(opwd);
-		//free(pwd);
-		pwd = ft_strdup(ms_get_env("PWD"));
-		getcwd(pwd, ft_strlen(pwd));
-		ms_add_env_list(ft_strjoin("PWD=", pwd));
+		if (!(res = chdir(sentence[1])))
+			oldpwd = ft_strdup(curr_pwd);
+		else
+			perror("minishell : ");
+	}
+	else if (!sentence[1])
+	{
+		if (!(res = chdir(ms_getenv("HOME"))))
+			oldpwd = ft_strdup(curr_pwd);
+		else
+			perror("minishell : ");
 	}
 	else
-		perror("minishell ");
+		perror("minishell : ");
+	
+	getcwd(curr_pwd, ft_strlen(ms_getenv("PWD")) + 200);
+	add_gc_element(curr_pwd);
+	ms_add_env_list(ft_strjoin("PWD=", curr_pwd));
+	ms_add_env_list(ft_strjoin("OLDPWD=", oldpwd));
 }
 
 void ms_run_unset(char *s)
@@ -97,20 +110,11 @@ void ms_run_unset(char *s)
 			if (!ft_strncmp(s, split, ft_strlen(split)))
 			{
 				if (g_vars.env_list == g_vars.env_head)
-				{
-					//free(g_vars.env_list);
 					g_vars.env_head = g_vars.env_head->next;
-				}
 				else if (g_vars.env_list == g_vars.env_tail)
-				{
 					prev->next = NULL;
-					//free(g_vars.env_list);
-				}
 				else
-				{
 					prev->next = g_vars.env_list->next;
-					//free(g_vars.env_list);
-				}
 				ms_update_env_tail();
 				return;
 			}

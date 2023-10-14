@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 11:29:46 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:38:22 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,7 @@ char *ms_test_path(char *cmd)
 		if (!access(test_path, 0)){
 			return (test_path);
 		}
-		//ms_//free(new);
-		//ms_//free(test_path);
 	}
-	//ms_free_db_array(pt);
-	//ms_//free(path);
 	return (NULL);
 }
 
@@ -82,29 +78,6 @@ void ms_prepare_tokens(void)
 		ms_check_env(g_vars.f_token);
 		g_vars.f_token = g_vars.f_token->next;
 	}
-	ms_set_nodes();		 // parse part 2
-	ms_set_execve_arg(); // g_vars.exec->av oluşturulur.
+	ms_set_nodes();
+	ms_set_execve_arg();
 }
-
-// void ms_free_tokens(void)
-// {
-// 	//free(g_vars.tokens);
-// 	//free(g_vars.f_token);
-// 	//free(g_vars.line);
-// 	g_vars.i = 0;
-// 	while (g_vars.paths[++(g_vars.i)])
-// 		//free(g_vars.paths[g_vars.i]);
-// }
-
-// void	ms_free_heredoc(t_heredoc *hd)
-// {
-// 	t_heredoc	*start;
-
-// 	start = hd;
-// 	while (start)
-// 	{
-// 		//free(start->content);
-// 		start = start->next;
-// 		start ->=
-// 	}
-// }
