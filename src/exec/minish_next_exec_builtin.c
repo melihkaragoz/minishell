@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:54:06 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 17:50:30 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 18:16:00 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ void ms_run_pwd(void)
 	// free(s);
 }
 
+int ms_check_echo_n(char *keyword)
+{
+	int i;
+
+	i = 0;
+	while (keyword[++i])
+		if (keyword[i] != 'n')
+			return (0);
+	return (1);
+}
+
 void ms_run_echo(char **sentence)
 {
 	bool n;
@@ -31,7 +42,7 @@ void ms_run_echo(char **sentence)
 	n = false;
 	while (sentence[i])
 	{
-		if (i == 1 && !ft_strncmp("-n", sentence[i], 2))
+		if (i == 1 && !ft_strncmp("-n", sentence[i], 2) && ms_check_echo_n(sentence[i]))
 		{
 			n = true;
 			i++;

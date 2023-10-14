@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 15:12:28 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:09:45 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,18 @@ void ms_exec_rdr_child(bool has_pipe, int redirection, int sentence, int *pipe_f
 	{
 		if (g_vars.heredoc_active == true)
 		{
-			int old_output = dup(1);
-			dup2(g_vars.stdo, 1);
-			close(g_vars.stdo);
 			ms_run_heredoc();
-			dup2(pipe_fd[1], g_vars.stdo);
-			close(pipe_fd[1]);
-			close(pipe_fd[0]);
-			int i = -1;
-			while (g_vars.heredoc->str[++i])
-				printf("%s\n", g_vars.heredoc->str[i]);
-			dup2(old_output, 1);
-			close(old_output);
+			g_vars.heredoc_str = g_vars.heredoc_str_head;
+			while (g_vars.heredoc_str->str)
+			{
+				ft_putstr_fd(g_vars.heredoc_str->str, pipe_fd[1]);
+				ft_putstr_fd("\n", pipe_fd[1]);
+				g_vars.heredoc_str = g_vars.heredoc_str->next;
+			}			
+				
 			dup2(pipe_fd[0], 0); // bu cat'in inputunu pipe yapıyor
 			close(pipe_fd[1]);
-			close(pipe_fd[0]);	
+			close(pipe_fd[0]);
 		}
 		// dup2(g_vars.pipe_i, 0);
 		execve(*g_vars.exec->av[sentence], g_vars.exec->av[sentence], g_vars.env);
@@ -166,6 +163,7 @@ int ms_exec(int sentence)
 		ms_remove_redrets(sentence); // eksik
 		if (!ms_node_check_builtin(g_vars.exec->av[sentence][0]) && g_vars.exec->av[sentence][0] && ms_test_path(g_vars.exec->av[sentence][0]))
 			g_vars.exec->av[sentence][0] = ms_test_path(g_vars.exec->av[sentence][0]);
+		redirection = 1;
 	}
 	
 // ---------------------------------------------------------------------------------------------	
@@ -176,19 +174,23 @@ int ms_exec(int sentence)
 
 // ---------------------------------------------------------------------------------------------
 
+	// for (size_t i = 0; g_vars.exec->av[sentence][i]; i++)
+	// {
+	// 	ft_putstr_fd(g_vars.exec->av[sentence][i], g_vars.stdo);
+	// 	ft_putstr_fd("\n", g_vars.stdo);
+	// }
+	// ft_putstr_fd("\n", g_vars.stdo);
+	if (g_vars.heredoc_active == true && pipe(pipe_fd) == -1)
+		exit (29);
 	child = fork();
 	if (!child)
 		ms_exec_rdr_child(has_pipe, redirection, sentence, pipe_fd);
-
 // ---------------------------------------------------------------------------------------------
-	waitpid(child, &g_vars.exit_status, 0);
-	if (WIFEXITED(g_vars.exit_status))
-		g_vars.exit_status = WEXITSTATUS(g_vars.exit_status);
 	//  ft_putnbr_fd(g_vars.exit_status, g_vars.stdo);
 	if (has_pipe && (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 	{
 		printf("[!!] dup calismadi\n");
 		exit(31);
 	}
-	return WIFEXITED(g_vars.exit_status) && WEXITSTATUS(g_vars.exit_status);
+	return 0;
 }

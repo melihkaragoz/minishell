@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:39:35 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 10:49:37 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 18:52:09 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int ms_run_heredoc(void)
 	// i = fork();
 	// if (!i)
 	// {
+
+		
 		g_vars.heredoc = g_vars.heredoc_head;
 		while (1)
 		{
@@ -41,13 +43,14 @@ int ms_run_heredoc(void)
 			g_vars.heredoc_str->str = ft_strdup(line);
 			g_vars.heredoc_str->next = ms_add_heredoc_str();
 			g_vars.heredoc_str = g_vars.heredoc_str->next;
+			
 			// //free(line);
 		}
 		
 	
 		// exit(0);
 	//}
-	waitpid(i, &g_vars.exit_status, 0);
+
 	return (0);
 }
 
@@ -59,7 +62,6 @@ int ms_redirect_parse(char **sentence)
 	i = -1;
 	while (g_vars.retred[++i])
 	{
-		printf("key: %s, value: %s\n", sentence[g_vars.retred[i]->index], sentence[g_vars.retred[i]->index + 1]);
 		if (!(sentence[g_vars.retred[i]->index + 1]))
 			return (printf("minishell: syntax error near unexpected token `newline'\n") && 1);
 		j = -1;
