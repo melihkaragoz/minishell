@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:02:54 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 10:51:32 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 11:27:24 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ struct s_vars
 	char *heredoc_buff;
 	int pipe_fd[2];
 	int pipe_i;
+	bool builtin;
 	int pipe_o;
 	int outfile_fd;
 	int exit_status;
@@ -139,8 +140,8 @@ typedef struct s_line
 	char *line;
 } t_line;
 
-void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence, int *pipe_fd);
-int ms_exec_rdr_builtin(bool has_pipe, bool builtin, int sentence);
+void ms_exec_rdr_child(bool has_pipe, int redirection, int sentence, int *pipe_fd);
+int ms_exec_rdr_builtin(bool has_pipe, int sentence);
 void ms_remove_redrets(int sentence);
 t_return_red **ms_isred_sentence(int sentence);
 void ms_set_execve_arg(void);

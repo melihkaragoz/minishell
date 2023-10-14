@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:10:46 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 11:18:51 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 11:29:46 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char *ms_test_path(char *cmd)
 	char **pt;
 
 	i = -1;
-	ms_detective_leak();
 	path = ms_getenv("PATH");
 	if (!path || !(*cmd))
 		return (0);

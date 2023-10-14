@@ -6,7 +6,7 @@
 /*   By: anargul <anargul@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:44:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/14 11:18:38 by anargul          ###   ########.fr       */
+/*   Updated: 2023/10/14 11:32:33 by anargul          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void ms_set_execve_arg(void)
 		{
 			g_vars.exec->set_path = 0;
 			sentence++;
-			g_vars.exec->av_token[sentence] =ft_malloc(sizeof(int) * (g_vars.i + 1));
+			g_vars.exec->av_token[sentence] = ft_malloc(sizeof(int) * (g_vars.i + 1));
 			g_vars.exec->av_token[sentence][g_vars.i] = 0;
-			g_vars.exec->av[sentence] =ft_malloc(sizeof(char *) * (g_vars.i + 1));
+			g_vars.exec->av[sentence] = ft_malloc(sizeof(char *) * (g_vars.i + 1));
 			g_vars.exec->av[sentence][g_vars.i] = NULL;
 			i = -1;
 			while (++i < g_vars.i)
@@ -49,6 +49,7 @@ void ms_set_execve_arg(void)
 				{
 					if (tmp2->content && ms_test_path(tmp2->content))
 					{
+						free(g_vars.exec->av[sentence][i]);
 						g_vars.exec->av[sentence][i] = ms_test_path(tmp2->content);
 						g_vars.exec->set_path = 1;
 					}
@@ -70,11 +71,11 @@ void ms_set_execve_arg(void)
 	}
 }
 
-void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentence, int *pipe_fd)
+void ms_exec_rdr_child(bool has_pipe, int redirection, int sentence, int *pipe_fd)
 {
 	if (!redirection && has_pipe && (dup2(pipe_fd[1], 1) == -1 || close(pipe_fd[0]) == -1 || close(pipe_fd[1]) == -1))
 		exit(31);
-	if (builtin == true) // burdan built-in'e gidiyor
+	if (g_vars.builtin == true) // burdan built-in'e gidiyor
 	{
 		ms_exec_builtin(g_vars.exec->av[sentence]);
 		exit(1);
@@ -114,9 +115,9 @@ void ms_exec_rdr_child(bool has_pipe, int redirection, bool builtin, int sentenc
 	}
 }
 
-int ms_exec_rdr_builtin(bool has_pipe, bool builtin, int sentence)
+int ms_exec_rdr_builtin(bool has_pipe, int sentence)
 {
-	builtin = true;
+	g_vars.builtin = true;
 	if (!ft_strncmp(g_vars.exec->av[sentence][0], "export", 7) && g_vars.exec->av[sentence][1] && !has_pipe)
 	{
 		ms_run_export(g_vars.exec->av[sentence][1]);
@@ -141,11 +142,10 @@ int ms_exec(int sentence)
 {
 	int has_pipe;
 	pid_t child;
-	bool builtin;
 	int redirection;
 	int pipe_fd[2];
 
-	builtin = false;
+	g_vars.builtin = false;
 	redirection = 0;
 	has_pipe = 0;
 	if (g_vars.exec->pipe_count > 0)
@@ -171,18 +171,17 @@ int ms_exec(int sentence)
 // ---------------------------------------------------------------------------------------------	
 
 	if (g_vars.exec->av_token[sentence][0] == 1) // burdan built-in'e gidiyor
-		if (ms_exec_rdr_builtin(has_pipe, builtin, sentence))
+		if (ms_exec_rdr_builtin(has_pipe, sentence))
 			return (1);
 
 // ---------------------------------------------------------------------------------------------
 
 	child = fork();
 	if (!child)
-		ms_exec_rdr_child(has_pipe, redirection, builtin, sentence, pipe_fd);
+		ms_exec_rdr_child(has_pipe, redirection, sentence, pipe_fd);
 
 // ---------------------------------------------------------------------------------------------
 	waitpid(child, &g_vars.exit_status, 0);
-
 	if (WIFEXITED(g_vars.exit_status))
 		g_vars.exit_status = WEXITSTATUS(g_vars.exit_status);
 	//  ft_putnbr_fd(g_vars.exit_status, g_vars.stdo);
